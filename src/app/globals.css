@@ -37,7 +37,13 @@
   --radius-sm: calc(var(--radius) - 4px);
 
   /* --- Font Families --- */
-  --font-family-sans: var(--font-ibm-plex-arabic, 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif);
+  --font-family-sans: var(
+    --font-ibm-plex-arabic,
+    'IBM Plex Sans Arabic',
+    ui-sans-serif,
+    system-ui,
+    sans-serif
+  );
   --font-family-arabic: var(--font-ibm-plex-arabic, 'IBM Plex Sans Arabic', sans-serif);
 
   /* --- Animations --- */
@@ -240,4 +246,63 @@ body.hovering .cursor-outline {
 ::selection {
   background-color: hsla(var(--primary, 262 83% 58%) / 0.2);
   color: #4c1d95;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+    opacity: 0.5;
+  }
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-float {
+  animation: float 5s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 15s linear infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float 8s ease-in-out infinite;
 }

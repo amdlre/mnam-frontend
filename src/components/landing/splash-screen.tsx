@@ -1,36 +1,23 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface SplashScreenProps {
   onComplete: () => void;
   duration?: number;
 }
 
-const SplashScreen = ({ onComplete, duration = 3000 }: SplashScreenProps) => {
+const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, duration = 3000 }) => {
   const [progress, setProgress] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // Generate deterministic particle positions to avoid hydration mismatch
-  const particles = useMemo(
-    () =>
-      Array.from({ length: 20 }, (_, i) => ({
-        left: ((i * 37 + 13) % 100),
-        top: ((i * 53 + 7) % 100),
-        delay: (i * 0.25) % 5,
-        duration: 5 + (i % 5),
-      })),
-    [],
-  );
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
+    // تحديث شريط التقدم
     const progressInterval = setInterval(() => {
-      setProgress((prev) => {
+      setProgress(prev => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           return 100;
@@ -39,10 +26,12 @@ const SplashScreen = ({ onComplete, duration = 3000 }: SplashScreenProps) => {
       });
     }, duration / 50);
 
+    // بدء الخروج التدريجي
     const fadeTimer = setTimeout(() => {
       setFadeOut(true);
     }, duration - 500);
 
+    // اكتمال التحميل
     const completeTimer = setTimeout(() => {
       onComplete();
     }, duration);
@@ -56,7 +45,8 @@ const SplashScreen = ({ onComplete, duration = 3000 }: SplashScreenProps) => {
 
   return (
     <div
-      className={`fixed inset-0 z-[999] flex flex-col items-center justify-center transition-all duration-500 ${fadeOut ? 'scale-110 opacity-0' : 'scale-100 opacity-100'}`}
+      className={`fixed inset-0 z-[999] flex flex-col items-center justify-center transition-all duration-500 ${fadeOut ? 'opacity-0 scale-110' : 'opacity-100 scale-100'
+        }`}
     >
       {/* Gradient Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-violet-900 via-purple-800 to-indigo-900">
@@ -65,79 +55,94 @@ const SplashScreen = ({ onComplete, duration = 3000 }: SplashScreenProps) => {
 
       {/* Animated Glow Circles */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/4 top-1/4 h-[400px] w-[400px] animate-pulse rounded-full bg-violet-500/30 blur-[100px]"></div>
-        <div className="absolute bottom-1/4 right-1/4 h-[500px] w-[500px] animate-pulse rounded-full bg-purple-600/20 blur-[120px] [animation-delay:0.5s]"></div>
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 animate-pulse rounded-full bg-indigo-500/15 blur-[150px] [animation-delay:1s]"></div>
+        <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-violet-500/30 rounded-full blur-[100px] animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] animate-pulse [animation-delay:0.5s]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/15 rounded-full blur-[150px] animate-pulse [animation-delay:1s]"></div>
       </div>
 
-      {/* Floating Particles */}
+      {/* الجزيئات المتحركة */}
       {mounted && (
         <div className="absolute inset-0 overflow-hidden">
-          {particles.map((p, i) => (
+          {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="animate-landing-float absolute h-2 w-2 rounded-full bg-white/20"
+              className="absolute w-2 h-2 bg-white/20 rounded-full animate-float"
               style={{
-                left: `${p.left}%`,
-                top: `${p.top}%`,
-                animationDelay: `${p.delay}s`,
-                animationDuration: `${p.duration}s`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${5 + Math.random() * 5}s`,
               }}
-            ></div>
+            />
           ))}
         </div>
       )}
 
-      {/* Main Content */}
+      {/* المحتوى الرئيسي */}
       <div className="relative z-10 flex flex-col items-center">
-        {/* Logo with glow */}
-        <div className="relative mb-8">
-          <div className="absolute inset-0 h-40 w-40 animate-pulse rounded-full bg-white/20 blur-3xl"></div>
-          <div className="relative flex h-32 w-32 items-center justify-center md:h-40 md:w-40">
-            <div className="animate-landing-spin-slow absolute inset-0 rounded-full border-2 border-white/20"></div>
-            <div className="animate-landing-spin-reverse absolute inset-2 rounded-full border-2 border-white/10"></div>
-            <div className="absolute inset-4 animate-pulse rounded-full border border-white/5"></div>
-            <div className="relative h-20 w-20 animate-float-slow md:h-24 md:w-24">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/mnam-logo.png" alt="Mnam" className="h-full w-full object-contain drop-shadow-2xl" />
+
+        {/* الشعار مع تأثير التوهج */}
+        <div className="relative mb-8 animate-in zoom-in duration-700">
+          {/* التوهج خلف الشعار */}
+          <div className="absolute inset-0 w-40 h-40 bg-white/20 rounded-full blur-3xl animate-pulse"></div>
+
+          {/* حاوية الشعار */}
+          <div className="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center">
+            {/* حلقات متحركة حول الشعار */}
+            <div className="absolute inset-0 border-2 border-white/20 rounded-full animate-spin-slow"></div>
+            <div className="absolute inset-2 border-2 border-white/10 rounded-full animate-spin-reverse"></div>
+            <div className="absolute inset-4 border border-white/5 rounded-full animate-pulse"></div>
+
+            {/* الشعار */}
+            <div className="relative w-20 h-20 md:w-24 md:h-24 animate-float-slow">
+              <img
+                src="/mnam-logo.png"
+                alt="منام"
+                className="w-full h-full object-contain drop-shadow-2xl"
+              />
             </div>
           </div>
         </div>
 
-        {/* Company Name */}
-        <h1 className="mb-3 text-4xl font-black tracking-tight text-white md:text-6xl"></h1>
+        {/* اسم الشركة */}
+        <h1 className="text-4xl md:text-6xl font-black text-white mb-3 tracking-tight animate-in slide-in-from-bottom duration-700 delay-200">
 
-        {/* Tagline */}
-        <p className="mb-12 text-base font-light text-white/70 md:text-lg">
+        </h1>
+
+        {/* الشعار النصي */}
+        <p className="text-white/70 text-base md:text-lg font-light mb-12 animate-in slide-in-from-bottom duration-700 delay-300">
           الريادة في إدارة السكن الفندقية
         </p>
 
-        {/* Progress Bar */}
-        <div className="w-48 md:w-64">
-          <div className="h-1 overflow-hidden rounded-full bg-white/10 backdrop-blur-sm">
+        {/* شريط التقدم */}
+        <div className="w-48 md:w-64 animate-in fade-in duration-700 delay-500">
+          <div className="h-1 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
             <div
-              className="relative h-full rounded-full bg-gradient-to-r from-white via-violet-200 to-white transition-all duration-100 ease-out"
+              className="h-full bg-gradient-to-r from-white via-violet-200 to-white rounded-full transition-all duration-100 ease-out relative"
               style={{ width: `${progress}%` }}
             >
-              <div className="animate-landing-shimmer absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"></div>
+              {/* تأثير اللمعان على شريط التقدم */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer"></div>
             </div>
           </div>
-          <div className="mt-3 flex justify-between text-xs font-medium text-white/50">
+
+          {/* نسبة التحميل */}
+          <div className="flex justify-between mt-3 text-white/50 text-xs font-medium">
             <span>جاري التحميل...</span>
             <span>{progress}%</span>
           </div>
         </div>
 
-        {/* Bouncing Dots */}
-        <div className="mt-8 flex gap-2">
-          <div className="h-2 w-2 animate-bounce rounded-full bg-white/50"></div>
-          <div className="h-2 w-2 animate-bounce rounded-full bg-white/50 [animation-delay:0.1s]"></div>
-          <div className="h-2 w-2 animate-bounce rounded-full bg-white/50 [animation-delay:0.2s]"></div>
+        {/* النقاط المتحركة */}
+        <div className="flex gap-2 mt-8 animate-in fade-in duration-700 delay-700">
+          <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce"></div>
+          <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce [animation-delay:0.1s]"></div>
+          <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce [animation-delay:0.2s]"></div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="absolute bottom-8 text-xs font-medium text-white/30">
+      {/* حقوق النشر في الأسفل */}
+      <div className="absolute bottom-8 text-white/30 text-xs font-medium animate-in fade-in duration-700 delay-1000">
         &copy; {new Date().getFullYear()} شركة منام لإدارة الوحدات السكنية
       </div>
     </div>
