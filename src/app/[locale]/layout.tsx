@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import { Cairo, Inter } from 'next/font/google';
+import { IBM_Plex_Sans_Arabic } from 'next/font/google';
 
 import { Toaster } from '@amdlre/design-system';
 
@@ -11,15 +11,10 @@ import { Providers } from '@/providers';
 import { generateSiteMetadata } from '@/lib/seo/metadata';
 import '../globals.css';
 
-const cairo = Cairo({
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
   subsets: ['arabic', 'latin'],
-  variable: '--font-cairo',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
+  weight: ['100', '200', '300', '400', '500', '600', '700'],
+  variable: '--font-ibm-plex-arabic',
   display: 'swap',
 });
 
@@ -42,11 +37,10 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   const messages = await getMessages();
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
-  const fontClass = locale === 'ar' ? cairo.variable : inter.variable;
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      <body className={`${fontClass} font-sans antialiased`}>
+      <body className={`${ibmPlexSansArabic.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>
             {children}
