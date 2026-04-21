@@ -1,26 +1,30 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 const ForGuests = () => {
+  const t = useTranslations('landing.forGuests');
+
   const features = [
-    { title: 'نظافة 5 نجوم', desc: 'تعقيم شامل بعد كل ضيف ومواد نظافة عالية الجودة.' },
-    { title: 'دخول ذكي', desc: 'وصول فوري للوحدة عبر كود خاص بدون انتظار.' },
-    { title: 'مواقع مميزة', desc: 'وحداتنا مختارة بعناية في أرقى أحياء الرياض وجدة.' },
+    { title: t('feature1Title'), desc: t('feature1Desc') },
+    { title: t('feature2Title'), desc: t('feature2Desc') },
+    { title: t('feature3Title'), desc: t('feature3Desc') },
   ];
 
   const unitImages = [
     {
       url: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&q=80&w=600',
-      alt: 'صالة معيشة مودرن',
+      alt: t('imgAlt1'),
       span: 'row-span-2',
     },
     {
       url: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&q=80&w=600',
-      alt: 'حمام فاخر',
+      alt: t('imgAlt2'),
       span: 'row-span-1',
     },
     {
       url: 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?auto=format&fit=crop&q=80&w=600',
-      alt: 'غرفة نوم ماستر',
+      alt: t('imgAlt3'),
       span: 'row-span-1',
     },
   ];
@@ -35,14 +39,13 @@ const ForGuests = () => {
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
           {/* Text Content */}
           <div className="w-full lg:w-5/12">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-widest text-primary">للضيوف والزوار</span>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-widest text-primary">{t('badge')}</span>
             <h2 className="mb-6 text-3xl font-black leading-tight text-foreground md:text-4xl lg:text-5xl">
-              لا ترضى بأقل من <br />
-              <span className="text-primary">الراحة المطلقة.</span>
+              {t('titleLine1')} <br />
+              <span className="text-primary">{t('titleLine2')}</span>
             </h2>
             <p className="mb-10 text-base leading-relaxed text-muted-foreground md:text-lg">
-              سواء كانت زيارتك للعمل أو الترفيه، وحداتنا مصممة لتعطيك إحساس البيت مع رفاهية الفندق. انترنت سريع، قهوة مختصة،
-              وراحة بال.
+              {t('description')}
             </p>
 
             <div className="mb-10 space-y-6">
@@ -65,7 +68,7 @@ const ForGuests = () => {
               onClick={handleBrowseUnits}
               className="group flex w-full items-center justify-center gap-2 rounded-xl bg-foreground px-8 py-4 font-bold text-white shadow-xl shadow-border transition-all hover:bg-foreground/90 sm:w-auto"
             >
-              <span>تصفح الوحدات المتاحة</span>
+              <span>{t('browseUnits')}</span>
               <svg
                 className="h-5 w-5 transition-transform group-hover:-translate-x-1 rtl:rotate-180"
                 fill="none"

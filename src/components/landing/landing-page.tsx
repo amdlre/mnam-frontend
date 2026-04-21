@@ -69,7 +69,7 @@ const LandingPage = () => {
 
   return (
     <>
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} duration={3500} />}
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} duration={1000} />}
       <Cursor />
       <div className="relative min-h-screen font-sans">
         <Header isScrolled={isScrolled} activeSection={activeSection} />

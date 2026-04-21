@@ -1,24 +1,28 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 interface HowItWorksProps {
   onOpenTerms: () => void;
 }
 
 const HowItWorks = ({ onOpenTerms }: HowItWorksProps) => {
+  const t = useTranslations('landing.howItWorks');
+
   const steps = [
     {
-      title: 'تواصل معنا',
-      desc: 'بياناتك بسيطة، أرسلها لنا وخلال 24 ساعة نكون عندك للمعاينة والتقييم.',
+      title: t('step1Title'),
+      desc: t('step1Desc'),
       icon: '1',
     },
     {
-      title: 'نجهز عقارك',
-      desc: 'فريق التصميم والصيانة يقلب الوحدة 180 درجة لتناسب المعايير الفندقية العالمية.',
+      title: t('step2Title'),
+      desc: t('step2Desc'),
       icon: '2',
     },
     {
-      title: 'استلم أرباحك',
-      desc: 'نبدأ التأجير فوراً، وأنت تتابع الأرباح تنزل في حسابك نهاية كل شهر وأنت مرتاح.',
+      title: t('step3Title'),
+      desc: t('step3Desc'),
       icon: '3',
     },
   ];
@@ -27,10 +31,10 @@ const HowItWorks = ({ onOpenTerms }: HowItWorksProps) => {
     <div className="relative overflow-hidden bg-card py-32" id="how">
       <div className="container relative z-10 mx-auto px-6">
         <div className="reveal mx-auto mb-24 max-w-2xl text-center">
-          <span className="mb-3 block text-xs font-bold uppercase tracking-widest text-primary">العملية باختصار</span>
-          <h2 className="mb-6 text-4xl font-black text-foreground md:text-5xl">سهلناها عليك</h2>
+          <span className="mb-3 block text-xs font-bold uppercase tracking-widest text-primary">{t('badge')}</span>
+          <h2 className="mb-6 text-4xl font-black text-foreground md:text-5xl">{t('title')}</h2>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            نظامنا مصمم عشان يشيل عنك الهم، مو يزيده. ثلاث خطوات تفصلك عن الراحة.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -71,7 +75,7 @@ const HowItWorks = ({ onOpenTerms }: HowItWorksProps) => {
             onClick={onOpenTerms}
             className="text-sm font-bold text-muted-foreground underline decoration-2 underline-offset-8 outline-none transition-colors hover:text-primary hover:decoration-primary"
           >
-            قراءة شروط الانضمام بالتفصيل
+            {t('readTerms')}
           </button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface AnimatedCounterProps {
   end: string;
@@ -75,11 +76,13 @@ const AnimatedCounter = ({ end, suffix = '', duration = 2000 }: AnimatedCounterP
 };
 
 const TrustStats = () => {
+  const t = useTranslations('landing.trustStats');
+
   const stats = [
-    { value: '+4M', label: 'أرباح موزعة', sub: 'على شركاء النجاح' },
-    { value: '4.8', label: 'تقييم عام', sub: 'من 5 نجوم' },
-    { value: '+15K', label: 'ليلة محجوزة', sub: 'في العام الماضي' },
-    { value: '+250', label: 'وحدة عقارية', sub: 'تحت إدارتنا' },
+    { value: t('stat1Value'), label: t('stat1Label'), sub: t('stat1Sub') },
+    { value: t('stat2Value'), label: t('stat2Label'), sub: t('stat2Sub') },
+    { value: t('stat3Value'), label: t('stat3Label'), sub: t('stat3Sub') },
+    { value: t('stat4Value'), label: t('stat4Label'), sub: t('stat4Sub') },
   ];
 
   const partners = [
@@ -125,10 +128,10 @@ const TrustStats = () => {
         <div className="reveal delay-300 text-center">
           <p className="mb-16 text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">
             <span className="animate-pulse bg-gradient-to-l from-amber-500 via-yellow-500 to-amber-600 bg-clip-text text-sm font-black text-transparent">
-              شركاء النجاح
+              {t('partnersTitle')}
             </span>
             <span className="mx-2">&bull;</span>
-            والمنصات المعتمدة
+            {t('partnersSeparator')}
           </p>
 
           <div className="mask-linear-fade relative w-full overflow-hidden">

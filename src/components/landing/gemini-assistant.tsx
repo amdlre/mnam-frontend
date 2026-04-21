@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI } from '@google/genai';
+import { useTranslations, useLocale } from 'next-intl';
 
 const KNOWLEDGE_BASE = `
   معلومات شركة "منام" (Manam):
@@ -27,18 +28,20 @@ const KNOWLEDGE_BASE = `
   `;
 
 const GeminiAssistant = () => {
+  const t = useTranslations('landing.assistant');
+  const locale = useLocale();
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; text: string }[]>([
     {
       role: 'assistant',
-      text: 'يا هلا! حياك في منام 👋\nأنا هنا عشان أجاوبك على أي شي يخص إدارة عقارك أو حجز إقامتك معنا.',
+      text: t('welcome'),
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const suggestions = ['كيف أضيف عقاري عندكم؟', 'كم نسبتكم من الأرباح؟', 'أبي أحجز شقة في الرياض', 'هل تأثثون الشقة؟'];
+  const suggestions = [t('suggestion1'), t('suggestion2'), t('suggestion3'), t('suggestion4')];
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -56,6 +59,10 @@ const GeminiAssistant = () => {
 
     try {
       const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY || '' });
+      const langInstruction = locale === 'en'
+        ? 'Respond in English. Use a professional and friendly tone.'
+        : 'تتحدث باللهجة السعودية البيضاء المحترفة والودودة.';
+
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: textToSend,
@@ -65,7 +72,7 @@ const GeminiAssistant = () => {
 
             تعليمات الشخصية:
             - اسمك "مساعد منام".
-            - تتحدث باللهجة السعودية البيضاء المحترفة والودودة.
+            - ${langInstruction}
             - إجاباتك مختصرة جداً ومباشرة (لا تكتب مقالات طويلة).
             - هدفك الأساسي: إقناع الملاك بتسجيل عقاراتهم، وتوجيه الضيوف لمنصات الحجز.
 
@@ -82,10 +89,10 @@ const GeminiAssistant = () => {
 
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', text: response.text || 'معليش، ما فهمت عليك زين. ممكن تعيد الصياغة؟' },
+        { role: 'assistant', text: response.text || t('errorFallback') },
       ]);
     } catch {
-      setMessages((prev) => [...prev, { role: 'assistant', text: 'الخدمة عليها ضغط حالياً، بس فريقنا موجود عالواتساب!' }]);
+      setMessages((prev) => [...prev, { role: 'assistant', text: t('serviceDown') }]);
     } finally {
       setIsLoading(false);
     }
@@ -97,13 +104,13 @@ const GeminiAssistant = () => {
           ? 'inset-0 bg-black/60 backdrop-blur-sm md:inset-auto md:bottom-6 md:left-6 md:bg-transparent md:backdrop-blur-none'
           : 'bottom-6 left-6'
         }`}
-      dir="rtl"
+      dir={locale === 'ar' ? 'rtl' : 'ltr'}
     >
       {/* Mobile Backdrop */}
       {isOpen && <div className="absolute inset-0 md:hidden" onClick={() => setIsOpen(false)}></div>}
 
       {isOpen ? (
-        <div className="absolute bottom-0 flex h-[90vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-border/50 bg-white text-right shadow-2xl md:relative md:h-[550px] md:w-[400px] md:rounded-[1.5rem]">
+        <div className="absolute bottom-0 flex h-[90vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-border/50 bg-white shadow-2xl md:relative md:h-[550px] md:w-[400px] md:rounded-[1.5rem] ltr:text-left rtl:text-right">
           {/* Header */}
           <div className="relative flex flex-shrink-0 items-center justify-between overflow-hidden bg-gradient-to-r from-primary via-violet-600 to-indigo-600 p-4 text-white shadow-lg md:p-5">
             <div className="absolute inset-0 opacity-10">
@@ -122,10 +129,10 @@ const GeminiAssistant = () => {
                 </div>
               </div>
               <div>
-                <span className="block text-base font-bold">مساعد منام</span>
+                <span className="block text-base font-bold">{t('name')}</span>
                 <span className="flex items-center gap-1 text-[11px] text-white/80">
                   <span className="h-1.5 w-1.5 rounded-full bg-green-400"></span>
-                  متصل الآن &bull; ذكاء اصطناعي
+                  {t('online')} &bull; {t('ai')}
                 </span>
               </div>
             </div>
@@ -197,8 +204,8 @@ const GeminiAssistant = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="اكتب سؤالك هنا..."
-                className="flex-1 rounded-xl border border-border bg-muted px-4 py-3.5 text-right text-sm transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/10"
+                placeholder={t('placeholder')}
+                className="flex-1 rounded-xl border border-border bg-muted px-4 py-3.5 text-sm transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/10 ltr:text-left rtl:text-right"
               />
               <button
                 onClick={() => handleSend()}
@@ -241,7 +248,7 @@ const GeminiAssistant = () => {
             </svg>
 
             <span className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-3 py-1.5 text-xs font-bold text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
-              اسألني أي شي! 💬
+              {t('tooltip')}
             </span>
           </button>
         </div>

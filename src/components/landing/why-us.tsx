@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface Feature {
   title: string;
@@ -63,45 +64,47 @@ const FeatureCard = ({ feature, index }: FeatureCardProps) => {
 };
 
 const WhyUs = () => {
+  const t = useTranslations('landing.whyUs');
+
   const features: Feature[] = [
     {
-      title: 'إدارة شاملة 360°',
-      desc: 'من الاستلام للتسليم، ندير كل تفصيل: النظافة، الصيانة، والاستقبال. ريح بالك واترك لنا القيادة الكاملة.',
+      title: t('feature1Title'),
+      desc: t('feature1Desc'),
       icon: '⚡',
       color: 'text-amber-600',
       bg: 'bg-amber-50',
     },
     {
-      title: 'تسويق رقمي ذكي',
-      desc: 'ظهور في Booking, Airbnb, Gathern بأفضل الصور والوصف لضمان أعلى نسبة إشغال.',
+      title: t('feature2Title'),
+      desc: t('feature2Desc'),
       icon: '🎯',
       color: 'text-blue-600',
       bg: 'bg-blue-50',
     },
     {
-      title: 'عائد استثماري أعلى',
-      desc: 'خوارزميات تسعير ديناميكية لتعظيم الأرباح.',
+      title: t('feature3Title'),
+      desc: t('feature3Desc'),
       icon: '📈',
       color: 'text-green-600',
       bg: 'bg-green-50',
     },
     {
-      title: 'تقارير فورية وشفافة',
-      desc: 'لوحة تحكم للملاك تعطيك كل ريال وين راح ووين جاء. تتبع أداء عقارك لحظة بلحظة وبكل شفافية.',
+      title: t('feature4Title'),
+      desc: t('feature4Desc'),
       icon: '📱',
       color: 'text-purple-600',
       bg: 'bg-purple-50',
     },
     {
-      title: 'تشغيل سعودي 100%',
-      desc: 'فريقنا سعودي بالكامل، نفهم ثقافتنا وعاداتنا، ونعرف كيف نرحب بالضيف ونكرمه بضيافة أصيلة تعكس هويتنا وتزيد من رضا النزلاء.',
+      title: t('feature5Title'),
+      desc: t('feature5Desc'),
       icon: '🇸🇦',
       color: 'text-emerald-600',
       bg: 'bg-emerald-50',
     },
     {
-      title: 'ضيافة فاخرة',
-      desc: 'مواد نظافة ومستلزمات 5 نجوم لراحة ضيوفك.',
+      title: t('feature6Title'),
+      desc: t('feature6Desc'),
       icon: '✨',
       color: 'text-rose-600',
       bg: 'bg-rose-50',
@@ -116,14 +119,14 @@ const WhyUs = () => {
       <div className="container mx-auto px-6">
         <div className="mb-20 flex flex-col items-end justify-between gap-8 md:flex-row">
           <div className="reveal max-w-2xl">
-            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">لماذا تختار منام؟</span>
+            <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">{t('badge')}</span>
             <h2 className="text-4xl font-black leading-[1.1] tracking-tight text-foreground md:text-6xl">
-              نحول العقار الجامد، <br />
-              <span className="text-muted-foreground">إلى تجربة حية ومربحة.</span>
+              {t('titleLine1')} <br />
+              <span className="text-muted-foreground">{t('titleLine2')}</span>
             </h2>
           </div>
           <p className="reveal delay-100 max-w-sm text-lg font-light leading-relaxed text-muted-foreground">
-            نجمع بين التكنولوجيا والضيافة الأصيلة لنقدم حلاً يريح المالك ويسعد الضيف.
+            {t('subtitle')}
           </p>
         </div>
 

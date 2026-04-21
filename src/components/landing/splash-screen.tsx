@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -11,11 +12,11 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, duration = 3000
   const [progress, setProgress] = useState(0);
   const [fadeOut, setFadeOut] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const t = useTranslations('landing.splash');
 
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
-    // تحديث شريط التقدم
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
@@ -26,12 +27,10 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, duration = 3000
       });
     }, duration / 50);
 
-    // بدء الخروج التدريجي
     const fadeTimer = setTimeout(() => {
       setFadeOut(true);
     }, duration - 500);
 
-    // اكتمال التحميل
     const completeTimer = setTimeout(() => {
       onComplete();
     }, duration);
@@ -60,7 +59,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, duration = 3000
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/15 rounded-full blur-[150px] animate-pulse [animation-delay:1s]"></div>
       </div>
 
-      {/* الجزيئات المتحركة */}
+      {/* Floating Particles */}
       {mounted && (
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(20)].map((_, i) => (
@@ -78,62 +77,57 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, duration = 3000
         </div>
       )}
 
-      {/* المحتوى الرئيسي */}
+      {/* Main Content */}
       <div className="relative z-10 flex flex-col items-center">
 
-        {/* الشعار مع تأثير التوهج */}
+        {/* Logo with glow effect */}
         <div className="relative mb-8 animate-in zoom-in duration-700">
-          {/* التوهج خلف الشعار */}
           <div className="absolute inset-0 w-40 h-40 bg-white/20 rounded-full blur-3xl animate-pulse"></div>
 
-          {/* حاوية الشعار */}
           <div className="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center">
-            {/* حلقات متحركة حول الشعار */}
             <div className="absolute inset-0 border-2 border-white/20 rounded-full animate-spin-slow"></div>
             <div className="absolute inset-2 border-2 border-white/10 rounded-full animate-spin-reverse"></div>
             <div className="absolute inset-4 border border-white/5 rounded-full animate-pulse"></div>
 
-            {/* الشعار */}
             <div className="relative w-20 h-20 md:w-24 md:h-24 animate-float-slow">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/mnam-logo.png"
-                alt="منام"
+                alt="Mnam"
                 className="w-full h-full object-contain drop-shadow-2xl"
               />
             </div>
           </div>
         </div>
 
-        {/* اسم الشركة */}
+        {/* Company Name */}
         <h1 className="text-4xl md:text-6xl font-black text-white mb-3 tracking-tight animate-in slide-in-from-bottom duration-700 delay-200">
 
         </h1>
 
-        {/* الشعار النصي */}
+        {/* Tagline */}
         <p className="text-white/70 text-base md:text-lg font-light mb-12 animate-in slide-in-from-bottom duration-700 delay-300">
-          الريادة في إدارة السكن الفندقية
+          {t('tagline')}
         </p>
 
-        {/* شريط التقدم */}
+        {/* Progress Bar */}
         <div className="w-48 md:w-64 animate-in fade-in duration-700 delay-500">
           <div className="h-1 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
             <div
               className="h-full bg-gradient-to-r from-white via-violet-200 to-white rounded-full transition-all duration-100 ease-out relative"
               style={{ width: `${progress}%` }}
             >
-              {/* تأثير اللمعان على شريط التقدم */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent animate-shimmer"></div>
             </div>
           </div>
 
-          {/* نسبة التحميل */}
           <div className="flex justify-between mt-3 text-white/50 text-xs font-medium">
-            <span>جاري التحميل...</span>
+            <span>{t('loading')}</span>
             <span>{progress}%</span>
           </div>
         </div>
 
-        {/* النقاط المتحركة */}
+        {/* Bouncing Dots */}
         <div className="flex gap-2 mt-8 animate-in fade-in duration-700 delay-700">
           <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce"></div>
           <div className="w-2 h-2 bg-white/50 rounded-full animate-bounce [animation-delay:0.1s]"></div>
@@ -141,9 +135,9 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, duration = 3000
         </div>
       </div>
 
-      {/* حقوق النشر في الأسفل */}
+      {/* Copyright */}
       <div className="absolute bottom-8 text-white/30 text-xs font-medium animate-in fade-in duration-700 delay-1000">
-        &copy; {new Date().getFullYear()} شركة منام لإدارة الوحدات السكنية
+        &copy; {new Date().getFullYear()} {t('copyright')}
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface LegalModalProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface LegalModalProps {
 
 const LegalModal = ({ isOpen, type, onClose }: LegalModalProps) => {
   const [animate, setAnimate] = useState(false);
+  const t = useTranslations('landing.legal');
 
   useEffect(() => {
     if (isOpen) {
@@ -27,87 +29,84 @@ const LegalModal = ({ isOpen, type, onClose }: LegalModalProps) => {
 
   const content = {
     terms: {
-      title: 'شروط الانضمام لبرنامج شركاء منام',
+      title: t('termsTitle'),
       body: (
         <div className="space-y-6 text-sm leading-relaxed text-muted-foreground md:text-base">
           <div className="mb-6 rounded-xl border border-amber-100 bg-amber-50 p-4">
-            <h4 className="mb-2 font-bold text-amber-800">ملاحظة هامة</h4>
+            <h4 className="mb-2 font-bold text-amber-800">{t('importantNote')}</h4>
             <p className="text-sm text-amber-700">
-              نحرص في منام على جودة الوحدات لضمان أعلى عائد للمالك وأفضل تجربة للضيف.
+              {t('importantNoteDesc')}
             </p>
           </div>
 
           <div>
-            <h4 className="mb-2 font-bold text-foreground">1. ملكية العقار وموقعه</h4>
+            <h4 className="mb-2 font-bold text-foreground">{t('terms1Title')}</h4>
             <ul className="mr-2 list-inside list-disc space-y-1">
-              <li>يجب تقديم صك ملكية إلكتروني ساري المفعول أو وكالة شرعية رسمية لإدارة العقار.</li>
-              <li>أن يقع العقار في المدن التي تغطيها خدماتنا حالياً (الرياض، جدة، الخبر).</li>
-              <li>أن يكون العقار في حي مكتمل الخدمات (طرق معبدة، إنارة، مياه، صرف صحي).</li>
+              <li>{t('terms1Item1')}</li>
+              <li>{t('terms1Item2')}</li>
+              <li>{t('terms1Item3')}</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-2 font-bold text-foreground">2. جاهزية الوحدة</h4>
+            <h4 className="mb-2 font-bold text-foreground">{t('terms2Title')}</h4>
             <ul className="mr-2 list-inside list-disc space-y-1">
-              <li>أن تكون الوحدة بحالة إنشائية ممتازة وخالية من العيوب الظاهرة (تسريبات، شقوق، رطوبة).</li>
-              <li>تركيب مكيفات سبليت أو مركزية بحالة ممتازة في جميع الغرف.</li>
-              <li>توفر مطبخ مركب بالكامل.</li>
+              <li>{t('terms2Item1')}</li>
+              <li>{t('terms2Item2')}</li>
+              <li>{t('terms2Item3')}</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="mb-2 font-bold text-foreground">3. التأثيث والتجهيز (في حال الإدارة الشاملة)</h4>
+            <h4 className="mb-2 font-bold text-foreground">{t('terms3Title')}</h4>
             <p className="mb-2">
-              للملاك الراغبين في باقة &ldquo;التشغيل الكامل&rdquo;، يجب الالتزام بمعايير &ldquo;منام&rdquo; للتأثيث، والتي تشمل:
+              {t('terms3Intro')}
             </p>
             <ul className="mr-2 list-inside list-disc space-y-1">
-              <li>استخدام مفروشات فندقية (مراتب سرير طبية، بياضات قطنية بيضاء).</li>
-              <li>توفير شاشة ذكية (Smart TV) واتصال إنترنت فايبر عالي السرعة.</li>
-              <li>توفير دخول ذكي (قفل ذكي) للباب الرئيسي.</li>
+              <li>{t('terms3Item1')}</li>
+              <li>{t('terms3Item2')}</li>
+              <li>{t('terms3Item3')}</li>
             </ul>
-            <p className="mt-2 text-xs text-muted-foreground">* يمكن لفريق منام الإشراف على التأثيث مقابل رسوم إضافية.</p>
+            <p className="mt-2 text-xs text-muted-foreground">{t('terms3Note')}</p>
           </div>
 
           <div>
-            <h4 className="mb-2 font-bold text-foreground">4. الرسوم والعوائد</h4>
+            <h4 className="mb-2 font-bold text-foreground">{t('terms4Title')}</h4>
             <ul className="mr-2 list-inside list-disc space-y-1">
-              <li>نسبة الإدارة التشغيلية تتراوح بين 20% إلى 25% من إجمالي الدخل الشهري.</li>
-              <li>يتم تحويل الأرباح للمالك في موعد أقصاه يوم 10 من كل شهر ميلادي.</li>
-              <li>فترة التعاقد الأدنى هي سنة ميلادية واحدة قابلة للتجديد.</li>
+              <li>{t('terms4Item1')}</li>
+              <li>{t('terms4Item2')}</li>
+              <li>{t('terms4Item3')}</li>
             </ul>
           </div>
         </div>
       ),
     },
     privacy: {
-      title: 'سياسة الخصوصية وحماية البيانات',
+      title: t('privacyTitle'),
       body: (
         <div className="space-y-6 text-sm leading-relaxed text-muted-foreground md:text-base">
           <p>
-            نحترم في شركة منام خصوصيتك ونلتزم بحماية بياناتك الشخصية وفقاً للأنظمة المعمول بها في المملكة العربية السعودية.
+            {t('privacyIntro')}
           </p>
 
           <div>
-            <h4 className="mb-2 font-bold text-foreground">جمع البيانات</h4>
+            <h4 className="mb-2 font-bold text-foreground">{t('privacyCollectTitle')}</h4>
             <p>
-              نقوم بجمع البيانات اللازمة فقط لتقديم خدماتنا، مثل الاسم، رقم الجوال، وبيانات العقار للملاك، أو بيانات الهوية للضيوف
-              لغرض التسجيل في منصة &ldquo;شموس&rdquo; الأمنية.
+              {t('privacyCollectDesc')}
             </p>
           </div>
 
           <div>
-            <h4 className="mb-2 font-bold text-foreground">استخدام المعلومات</h4>
+            <h4 className="mb-2 font-bold text-foreground">{t('privacyUseTitle')}</h4>
             <p>
-              تستخدم المعلومات لـ: إدارة الحجوزات، تحسين تجربة المستخدم، التواصل بخصوص العروض أو التحديثات، والامتثال للمتطلبات
-              القانونية.
+              {t('privacyUseDesc')}
             </p>
           </div>
 
           <div>
-            <h4 className="mb-2 font-bold text-foreground">مشاركة البيانات</h4>
+            <h4 className="mb-2 font-bold text-foreground">{t('privacyShareTitle')}</h4>
             <p>
-              لا نقوم ببيع بياناتك لأطراف ثالثة. نشارك البيانات فقط مع الجهات الحكومية عند الطلب الرسمي (مثل وزارة السياحة أو وزارة
-              الداخلية).
+              {t('privacyShareDesc')}
             </p>
           </div>
         </div>
@@ -155,7 +154,7 @@ const LegalModal = ({ isOpen, type, onClose }: LegalModalProps) => {
             onClick={onClose}
             className="rounded-xl border border-border px-6 py-2.5 font-bold text-muted-foreground transition-colors hover:bg-white"
           >
-            إغلاق
+            {t('close')}
           </button>
           {type === 'terms' && (
             <button
@@ -165,7 +164,7 @@ const LegalModal = ({ isOpen, type, onClose }: LegalModalProps) => {
               }}
               className="rounded-xl bg-foreground px-6 py-2.5 font-bold text-white shadow-lg shadow-foreground/10 transition-colors hover:bg-primary"
             >
-              موافق، ابدأ التسجيل
+              {t('agreeStart')}
             </button>
           )}
         </div>

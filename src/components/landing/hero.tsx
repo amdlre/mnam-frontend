@@ -1,10 +1,12 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 const Hero = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const t = useTranslations('landing.hero');
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!imageRef.current) return;
@@ -39,26 +41,26 @@ const Hero = () => {
       <div className="container relative z-10 mx-auto px-6">
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-24">
           {/* Text Content */}
-          <div className="relative z-20 text-right lg:w-1/2">
+          <div className="relative z-20 lg:w-1/2 ltr:text-left rtl:text-right">
             <div className="reveal group mb-8 inline-flex cursor-default items-center gap-2 rounded-full border border-white/40 bg-white/60 px-4 py-2   backdrop-blur-md transition-all hover:shadow-md">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary transition-colors group-hover:bg-primary"></span>
               </span>
               <span className="text-xs font-bold tracking-wide text-foreground transition-colors group-hover:text-primary">
-                مفهوم جديد للاستثمار العقاري
+                {t('badge')}
               </span>
             </div>
 
             <h1 className="reveal delay-100 mb-8 text-balance text-5xl font-black leading-[1.15] tracking-tighter text-foreground drop-  sm:text-6xl md:text-7xl md:leading-[1.1] lg:text-8xl">
-              استثمر بذكاء، <br />
+              {t('titleLine1')} <br />
               <span className="bg-gradient-to-r from-primary via-purple-600 to-indigo-600 bg-clip-text pb-2 text-transparent">
-                واسكن بفخامة.
+                {t('titleLine2')}
               </span>
             </h1>
 
             <p className="reveal delay-200 mb-10 max-w-xl text-balance text-lg font-normal leading-relaxed text-muted-foreground md:text-xl">
-              نحول وحدتك السكنية إلى وجهة فندقية بمعايير عالمية. إدارة متكاملة تضمن راحة بالك وتعظيم عوائدك، وتجربة إقامة لا تُنسى لضيوفنا.
+              {t('description')}
             </p>
 
             <div className="reveal delay-300 mb-16 flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row">
@@ -68,7 +70,7 @@ const Hero = () => {
               >
                 <span className="absolute inset-0 h-full w-full -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
                 <span className="relative z-10 flex items-center gap-3">
-                  <span>ابدأ رحلة الاستثمار</span>
+                  <span>{t('ctaInvest')}</span>
                   <svg
                     className="h-5 w-5 transition-transform group-hover:-translate-x-1 rtl:rotate-180"
                     fill="none"
@@ -83,28 +85,28 @@ const Hero = () => {
                 onClick={() => scrollToSection('guests')}
                 className="w-full rounded-2xl border border-border bg-white/60 px-10 py-5 text-base font-bold text-foreground backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-white hover:text-primary hover:shadow-lg active:scale-95 sm:w-auto"
               >
-                <span>حجز إقامة</span>
+                <span>{t('ctaBook')}</span>
               </button>
             </div>
 
             <div className="reveal delay-500 grid max-w-lg grid-cols-3 gap-6 border-t border-border/60 pt-8">
               <div className="hover-target group cursor-default">
                 <p className="text-3xl font-black tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
-                  +250
+                  {t('stat1Value')}
                 </p>
-                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">وحدة سكنية</p>
+                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">{t('stat1Label')}</p>
               </div>
               <div className="hover-target group cursor-default">
                 <p className="text-3xl font-black tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
-                  98%
+                  {t('stat2Value')}
                 </p>
-                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">رضا العملاء</p>
+                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">{t('stat2Label')}</p>
               </div>
               <div className="hover-target group cursor-default">
                 <p className="text-3xl font-black tracking-tight text-foreground transition-colors duration-300 group-hover:text-primary">
-                  24/7
+                  {t('stat3Value')}
                 </p>
-                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">دعم متواصل</p>
+                <p className="mt-1 text-xs font-bold text-muted-foreground group-hover:text-foreground">{t('stat3Label')}</p>
               </div>
             </div>
           </div>
@@ -151,7 +153,7 @@ const Hero = () => {
                   <div className="flex text-lg text-amber-400 drop- ">★★★★★</div>
                 </div>
                 <p className="text-sm font-bold leading-relaxed text-foreground">
-                  &ldquo;تجربة استثنائية بكل المقاييس. الاهتمام بالتفاصيل مذهل!&rdquo;
+                  &ldquo;{t('review')}&rdquo;
                 </p>
               </div>
             </div>
@@ -166,8 +168,8 @@ const Hero = () => {
                   📈
                 </div>
                 <div>
-                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">متوسط العائد السنوي</p>
-                  <p className="text-2xl font-black text-foreground">18% - 22%</p>
+                  <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t('annualReturn')}</p>
+                  <p className="text-2xl font-black text-foreground">{t('returnRange')}</p>
                 </div>
               </div>
             </div>
