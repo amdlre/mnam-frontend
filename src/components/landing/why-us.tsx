@@ -30,7 +30,7 @@ const FeatureCard = ({ feature, index }: FeatureCardProps) => {
     <div
       ref={divRef}
       onMouseMove={handleMouseMove}
-      className={`reveal group relative overflow-hidden rounded-[2.5rem] border border-slate-100 bg-white p-8 transition-all duration-500 hover:-translate-y-2 hover:border-slate-200 hover:shadow-2xl hover:shadow-slate-200/50 md:p-10 ${index === 0 || index === 3 || index === 4 ? 'md:col-span-2' : ''
+      className={`reveal group relative overflow-hidden rounded-[2.5rem] border border-border bg-card p-8 transition-all duration-500 hover:-translate-y-2 hover:border-border hover:shadow-2xl hover:shadow-border/50 md:p-10 ${index === 0 || index === 3 || index === 4 ? 'md:col-span-2' : ''
         }`}
       style={{ transitionDelay: `${index * 50}ms` }}
     >
@@ -48,10 +48,10 @@ const FeatureCard = ({ feature, index }: FeatureCardProps) => {
         >
           {feature.icon}
         </div>
-        <h3 className="mb-4 text-2xl font-black tracking-tight text-slate-900 transition-colors group-hover:text-primary md:text-3xl">
+        <h3 className="mb-4 text-2xl font-black tracking-tight text-foreground transition-colors group-hover:text-primary md:text-3xl">
           {feature.title}
         </h3>
-        <p className="mt-auto text-balance text-base font-normal leading-relaxed text-slate-500 md:text-lg">
+        <p className="mt-auto text-balance text-base font-normal leading-relaxed text-muted-foreground md:text-lg">
           {feature.desc}
         </p>
       </div>
@@ -109,20 +109,20 @@ const WhyUs = () => {
   ];
 
   return (
-    <section className="relative bg-surface py-32" id="why">
+    <section className="relative bg-background py-32" id="why">
       {/* Separator */}
-      <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+      <div className="absolute left-0 top-0 h-px w-full bg-gradient-to-r from-transparent via-border to-transparent"></div>
 
       <div className="container mx-auto px-6">
         <div className="mb-20 flex flex-col items-end justify-between gap-8 md:flex-row">
           <div className="reveal max-w-2xl">
             <span className="mb-4 block text-xs font-bold uppercase tracking-[0.2em] text-primary">لماذا تختار منام؟</span>
-            <h2 className="text-4xl font-black leading-[1.1] tracking-tight text-slate-900 md:text-6xl">
+            <h2 className="text-4xl font-black leading-[1.1] tracking-tight text-foreground md:text-6xl">
               نحول العقار الجامد، <br />
-              <span className="text-slate-400">إلى تجربة حية ومربحة.</span>
+              <span className="text-muted-foreground">إلى تجربة حية ومربحة.</span>
             </h2>
           </div>
-          <p className="reveal delay-100 max-w-sm text-lg font-light leading-relaxed text-slate-500">
+          <p className="reveal delay-100 max-w-sm text-lg font-light leading-relaxed text-muted-foreground">
             نجمع بين التكنولوجيا والضيافة الأصيلة لنقدم حلاً يريح المالك ويسعد الضيف.
           </p>
         </div>

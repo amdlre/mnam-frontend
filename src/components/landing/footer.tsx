@@ -77,7 +77,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
 
   return (
     <footer id="footer" className="relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900 to-black"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-foreground via-foreground to-black"></div>
 
       {/* Animated Background Blobs */}
       <div className="absolute right-0 top-0 h-[500px] w-[500px] -translate-y-1/2 translate-x-1/4 animate-pulse rounded-full bg-primary/20 blur-[150px]"></div>
@@ -110,7 +110,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
                 <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row md:gap-4">
                   <button
                     onClick={() => scrollToSection('owners')}
-                    className="group/btn relative overflow-hidden rounded-xl bg-white px-6 py-3.5 text-base font-bold text-slate-900 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-white/20 active:scale-95 md:rounded-2xl md:px-8 md:py-4 md:text-lg"
+                    className="group/btn relative overflow-hidden rounded-xl bg-white px-6 py-3.5 text-base font-bold text-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-white/20 active:scale-95 md:rounded-2xl md:px-8 md:py-4 md:text-lg"
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       <span>سجّل عقارك الآن</span>

@@ -37,14 +37,14 @@ const Header = ({ isScrolled, activeSection }: HeaderProps) => {
   return (
     <header
       className={`fixed top-0 z-50 w-full border-b transition-all duration-500 ${isScrolled || isMobileMenuOpen
-        ? 'border-slate-200/50 bg-white/90 py-3   backdrop-blur-xl'
+        ? 'border-border/50 bg-white/90 py-3   backdrop-blur-xl'
         : 'border-transparent bg-transparent py-4 md:py-6'
         }`}
     >
       <div className="container relative mx-auto flex items-center justify-between px-6">
         {/* Mobile Menu Toggle */}
         <button
-          className="z-50 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-900 transition-colors hover:bg-slate-200 md:hidden"
+          className="z-50 flex h-10 w-10 items-center justify-center rounded-xl bg-muted text-foreground transition-colors hover:bg-border md:hidden"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -79,8 +79,8 @@ const Header = ({ isScrolled, activeSection }: HeaderProps) => {
               key={item.id}
               onClick={() => scrollToSection(item.id)}
               className={`rounded-full px-5 py-2 text-xs font-bold transition-all duration-300 ${activeSection === item.id
-                ? 'bg-slate-900 text-white shadow-md'
-                : 'text-slate-600 hover:bg-white hover:text-primary'
+                ? 'bg-foreground text-white shadow-md'
+                : 'text-muted-foreground hover:bg-card hover:text-primary'
                 }`}
             >
               {item.label}
@@ -92,14 +92,14 @@ const Header = ({ isScrolled, activeSection }: HeaderProps) => {
         <div className="z-50 order-3 flex items-center gap-3 md:order-3">
           <button
             onClick={() => scrollToSection('footer')}
-            className="hidden px-3 text-xs font-bold text-slate-500 transition-colors hover:text-slate-900 sm:flex"
+            className="hidden px-3 text-xs font-bold text-muted-foreground transition-colors hover:text-foreground sm:flex"
           >
             تواصل معنا
           </button>
 
           <button
             onClick={() => scrollToSection('owners')}
-            className="group flex items-center gap-2 whitespace-nowrap rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-slate-900/20 transition-colors duration-300 hover:bg-primary md:px-6"
+            className="group flex items-center gap-2 whitespace-nowrap rounded-xl bg-foreground px-4 py-2.5 text-xs font-bold text-white shadow-lg shadow-foreground/20 transition-colors duration-300 hover:bg-primary md:px-6"
           >
             <span>انضم كشريك</span>
             <svg
@@ -116,7 +116,7 @@ const Header = ({ isScrolled, activeSection }: HeaderProps) => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`absolute left-0 top-full w-full overflow-hidden border-b border-slate-200 bg-white/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 md:hidden ${isMobileMenuOpen ? 'max-h-[400px] py-4 opacity-100' : 'max-h-0 py-0 opacity-0'
+        className={`absolute left-0 top-full w-full overflow-hidden border-b border-border bg-white/95 shadow-2xl backdrop-blur-2xl transition-all duration-300 md:hidden ${isMobileMenuOpen ? 'max-h-[400px] py-4 opacity-100' : 'max-h-0 py-0 opacity-0'
           }`}
       >
         <div className="flex flex-col gap-2 px-6">
@@ -124,7 +124,7 @@ const Header = ({ isScrolled, activeSection }: HeaderProps) => {
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`w-full border-b border-slate-50 py-3 text-right text-sm font-bold last:border-0 ${activeSection === item.id ? 'text-primary' : 'text-slate-800 hover:text-primary'
+              className={`w-full border-b border-border py-3 text-right text-sm font-bold last:border-0 ${activeSection === item.id ? 'text-primary' : 'text-foreground hover:text-primary'
                 }`}
             >
               {item.label}
@@ -132,7 +132,7 @@ const Header = ({ isScrolled, activeSection }: HeaderProps) => {
           ))}
           <button
             onClick={() => scrollToSection('footer')}
-            className="w-full pt-4 text-right text-sm font-bold text-slate-500 hover:text-primary"
+            className="w-full pt-4 text-right text-sm font-bold text-muted-foreground hover:text-primary"
           >
             تواصل معنا
           </button>

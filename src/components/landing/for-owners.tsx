@@ -21,7 +21,7 @@ const ForOwners = () => {
   };
 
   return (
-    <div className="relative overflow-hidden bg-slate-900 py-16 md:py-24 lg:py-32" id="owners">
+    <div className="relative overflow-hidden bg-foreground py-16 md:py-24 lg:py-32" id="owners">
       {/* Abstract Art Background */}
       <div className="pointer-events-none absolute inset-0 opacity-20">
         <div className="absolute right-0 top-0 h-[400px] w-[400px] translate-x-1/3 -translate-y-1/3 animate-float-slow rounded-full bg-primary blur-[100px] md:h-[600px] md:w-[600px] md:blur-[150px]"></div>
@@ -71,8 +71,8 @@ const ForOwners = () => {
             <div className="relative overflow-hidden rounded-[2.5rem] border border-white/20 bg-white/95 p-6 shadow-2xl backdrop-blur-xl md:p-10">
               <div className="relative z-10">
                 <div className="mb-8">
-                  <h3 className="mb-2 text-2xl font-black tracking-tight text-slate-900 md:text-3xl">ابدأ شراكتك معنا</h3>
-                  <p className="text-sm font-medium text-slate-500">املأ البيانات لنقوم بتحليل عقارك وتقديم العرض الأنسب لك.</p>
+                  <h3 className="mb-2 text-2xl font-black tracking-tight text-foreground md:text-3xl">ابدأ شراكتك معنا</h3>
+                  <p className="text-sm font-medium text-muted-foreground">املأ البيانات لنقوم بتحليل عقارك وتقديم العرض الأنسب لك.</p>
                 </div>
 
                 {state.succeeded ? (
@@ -85,21 +85,21 @@ const ForOwners = () => {
                   <form onSubmit={handleSubmit} className="space-y-5 md:space-y-8">
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
                       <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-slate-500 transition-colors group-focus-within:text-primary">
+                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
                           الاسم الكريم
                         </label>
                         <input
                           required
                           type="text"
                           name="name"
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 font-medium text-slate-900 outline-none transition-all placeholder:text-slate-300 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
+                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
                           placeholder="الاسم الثلاثي"
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         />
                       </div>
                       <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-slate-500 transition-colors group-focus-within:text-primary">
+                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
                           رقم الجوال
                         </label>
                         <input
@@ -107,7 +107,7 @@ const ForOwners = () => {
                           type="tel"
                           name="phone"
                           placeholder="05xxxxxxxx"
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-left font-medium text-slate-900 outline-none transition-all placeholder:text-slate-300 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
+                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 text-left font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
                           dir="ltr"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -117,7 +117,7 @@ const ForOwners = () => {
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5">
                       <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-slate-500 transition-colors group-focus-within:text-primary">
+                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
                           المدينة
                         </label>
                         <input
@@ -125,13 +125,13 @@ const ForOwners = () => {
                           type="text"
                           name="city"
                           placeholder="مثلاً: الرياض"
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 font-medium text-slate-900 outline-none transition-all placeholder:text-slate-300 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
+                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
                           value={formData.city}
                           onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                         />
                       </div>
                       <div className="group space-y-2">
-                        <label className="mr-1 text-xs font-bold text-slate-500 transition-colors group-focus-within:text-primary">
+                        <label className="mr-1 text-xs font-bold text-muted-foreground transition-colors group-focus-within:text-primary">
                           عدد الوحدات
                         </label>
                         <input
@@ -140,7 +140,7 @@ const ForOwners = () => {
                           name="unitCount"
                           min="1"
                           placeholder="مثلاً: 1"
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 font-medium text-slate-900 outline-none transition-all placeholder:text-slate-300 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
+                          className="w-full rounded-xl border border-border bg-muted px-4 py-3.5 font-medium text-foreground outline-none transition-all placeholder:text-muted-foreground/50 focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/20"
                           value={formData.unitCount}
                           onChange={(e) => setFormData({ ...formData, unitCount: e.target.value })}
                         />
@@ -149,7 +149,7 @@ const ForOwners = () => {
 
                     {/* Unit Type Selection */}
                     <div className="space-y-3">
-                      <label className="mr-1 block text-xs font-bold text-slate-500">نوع الوحدات</label>
+                      <label className="mr-1 block text-xs font-bold text-muted-foreground">نوع الوحدات</label>
                       <div className="flex flex-wrap gap-2">
                         {unitTypes.map((type) => (
                           <button
@@ -158,8 +158,8 @@ const ForOwners = () => {
                             onClick={() => setFormData({ ...formData, unitType: type })}
                             className={`rounded-xl border px-5 py-2.5 text-sm font-bold transition-all duration-300 ${
                               formData.unitType === type
-                                ? 'scale-105 border-slate-900 bg-slate-900 text-white shadow-lg'
-                                : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300 hover:bg-white'
+                                ? 'scale-105 border-foreground bg-foreground text-white shadow-lg'
+                                : 'border-border bg-muted text-muted-foreground hover:border-border hover:bg-white'
                             }`}
                           >
                             {type}
@@ -172,7 +172,7 @@ const ForOwners = () => {
                     <button
                       type="submit"
                       disabled={state.submitting || !formData.unitType}
-                      className="group relative mt-6 w-full overflow-hidden rounded-2xl bg-primary py-4 text-lg font-black text-white shadow-xl shadow-primary/30 transition-all hover:-translate-y-1 hover:bg-violet-700 active:scale-95 disabled:cursor-not-allowed disabled:bg-slate-300 md:py-5"
+                      className="group relative mt-6 w-full overflow-hidden rounded-2xl bg-primary py-4 text-lg font-black text-white shadow-xl shadow-primary/30 transition-all hover:-translate-y-1 hover:bg-primary/90 active:scale-95 disabled:cursor-not-allowed disabled:bg-muted md:py-5"
                     >
                       {state.submitting ? (
                         <div className="flex items-center justify-center gap-2">
@@ -187,7 +187,7 @@ const ForOwners = () => {
                         </>
                       )}
                     </button>
-                    <p className="mt-2 text-center text-[10px] text-slate-400">بإرسال الطلب أنت توافق على سياسة الخصوصية</p>
+                    <p className="mt-2 text-center text-[10px] text-muted-foreground">بإرسال الطلب أنت توافق على سياسة الخصوصية</p>
                   </form>
                 )}
               </div>

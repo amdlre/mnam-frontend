@@ -103,7 +103,7 @@ const GeminiAssistant = () => {
       {isOpen && <div className="absolute inset-0 md:hidden" onClick={() => setIsOpen(false)}></div>}
 
       {isOpen ? (
-        <div className="absolute bottom-0 flex h-[90vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-slate-200/50 bg-white text-right shadow-2xl md:relative md:h-[550px] md:w-[400px] md:rounded-[1.5rem]">
+        <div className="absolute bottom-0 flex h-[90vh] w-full flex-col overflow-hidden rounded-t-[2rem] border border-border/50 bg-white text-right shadow-2xl md:relative md:h-[550px] md:w-[400px] md:rounded-[1.5rem]">
           {/* Header */}
           <div className="relative flex flex-shrink-0 items-center justify-between overflow-hidden bg-gradient-to-r from-primary via-violet-600 to-indigo-600 p-4 text-white shadow-lg md:p-5">
             <div className="absolute inset-0 opacity-10">
@@ -146,7 +146,7 @@ const GeminiAssistant = () => {
           </div>
 
           {/* Chat Area */}
-          <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto bg-gradient-to-b from-slate-50 to-white p-4">
+          <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto bg-gradient-to-b from-muted to-card p-4">
             {messages.map((m, i) => (
               <div key={i} className={`flex ${m.role === 'user' ? 'justify-start' : 'justify-end'}`}>
                 {m.role === 'assistant' && (
@@ -158,7 +158,7 @@ const GeminiAssistant = () => {
                 <div
                   className={`max-w-[85%] whitespace-pre-wrap rounded-2xl p-4 text-sm leading-relaxed ${m.role === 'user'
                       ? 'rounded-tr-sm bg-gradient-to-r from-primary to-violet-600 text-white shadow-lg shadow-primary/20'
-                      : 'rounded-tl-sm border border-slate-100 bg-white text-slate-700 shadow-md'
+                      : 'rounded-tl-sm border border-border bg-white text-foreground shadow-md'
                     }`}
                 >
                   {m.text}
@@ -167,7 +167,7 @@ const GeminiAssistant = () => {
             ))}
             {isLoading && (
               <div className="flex items-center justify-end gap-2">
-                <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-sm border border-slate-100 bg-white px-5 py-4 shadow-md">
+                <div className="flex items-center gap-1.5 rounded-2xl rounded-tl-sm border border-border bg-white px-5 py-4 shadow-md">
                   <div className="h-2 w-2 animate-bounce rounded-full bg-primary"></div>
                   <div className="h-2 w-2 animate-bounce rounded-full bg-violet-500 [animation-delay:0.15s]"></div>
                   <div className="h-2 w-2 animate-bounce rounded-full bg-indigo-500 [animation-delay:0.3s]"></div>
@@ -177,14 +177,14 @@ const GeminiAssistant = () => {
           </div>
 
           {/* Suggestions & Input */}
-          <div className="flex-shrink-0 border-t border-slate-100 bg-white">
+          <div className="flex-shrink-0 border-t border-border bg-white">
             {messages.length < 3 && (
               <div className="flex gap-2 overflow-x-auto px-3 py-3">
                 {suggestions.map((s, i) => (
                   <button
                     key={i}
                     onClick={() => handleSend(s)}
-                    className="flex-shrink-0 whitespace-nowrap rounded-xl border border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100 px-4 py-2 text-xs font-medium   transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary hover:shadow-md"
+                    className="flex-shrink-0 whitespace-nowrap rounded-xl border border-border bg-gradient-to-r from-muted to-muted px-4 py-2 text-xs font-medium   transition-all duration-200 hover:border-primary hover:bg-primary/5 hover:text-primary hover:shadow-md"
                   >
                     {s}
                   </button>
@@ -198,13 +198,13 @@ const GeminiAssistant = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="اكتب سؤالك هنا..."
-                className="flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3.5 text-right text-sm transition-all placeholder:text-slate-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/10"
+                className="flex-1 rounded-xl border border-border bg-muted px-4 py-3.5 text-right text-sm transition-all placeholder:text-muted-foreground focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/10"
               />
               <button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isLoading}
                 className={`rounded-xl p-3 transition-all duration-200 ${!input.trim() || isLoading
-                    ? 'bg-slate-100 text-slate-400'
+                    ? 'bg-muted text-muted-foreground'
                     : 'bg-gradient-to-r from-primary to-violet-600 text-white hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30 active:scale-95'
                   }`}
               >
@@ -240,7 +240,7 @@ const GeminiAssistant = () => {
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
 
-            <span className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-bold text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
+            <span className="absolute -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-foreground px-3 py-1.5 text-xs font-bold text-white opacity-0 shadow-lg transition-opacity duration-200 group-hover:opacity-100">
               اسألني أي شي! 💬
             </span>
           </button>

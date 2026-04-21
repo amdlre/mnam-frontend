@@ -30,17 +30,17 @@ const ForGuests = () => {
   };
 
   return (
-    <div className="bg-white py-16 md:py-24" id="guests">
+    <div className="bg-card py-16 md:py-24" id="guests">
       <div className="container mx-auto px-6">
         <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
           {/* Text Content */}
           <div className="w-full lg:w-5/12">
             <span className="mb-4 block text-xs font-bold uppercase tracking-widest text-primary">للضيوف والزوار</span>
-            <h2 className="mb-6 text-3xl font-black leading-tight text-slate-900 md:text-4xl lg:text-5xl">
+            <h2 className="mb-6 text-3xl font-black leading-tight text-foreground md:text-4xl lg:text-5xl">
               لا ترضى بأقل من <br />
               <span className="text-primary">الراحة المطلقة.</span>
             </h2>
-            <p className="mb-10 text-base leading-relaxed text-slate-500 md:text-lg">
+            <p className="mb-10 text-base leading-relaxed text-muted-foreground md:text-lg">
               سواء كانت زيارتك للعمل أو الترفيه، وحداتنا مصممة لتعطيك إحساس البيت مع رفاهية الفندق. انترنت سريع، قهوة مختصة،
               وراحة بال.
             </p>
@@ -48,14 +48,14 @@ const ForGuests = () => {
             <div className="mb-10 space-y-6">
               {features.map((f, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-green-100">
-                    <svg className="h-3.5 w-3.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-secondary/20">
+                    <svg className="h-3.5 w-3.5 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-slate-900">{f.title}</h3>
-                    <p className="mt-1 text-sm text-slate-400">{f.desc}</p>
+                    <h3 className="text-lg font-bold text-foreground">{f.title}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{f.desc}</p>
                   </div>
                 </div>
               ))}
@@ -63,7 +63,7 @@ const ForGuests = () => {
 
             <button
               onClick={handleBrowseUnits}
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-slate-900 px-8 py-4 font-bold text-white shadow-xl shadow-slate-200 transition-all hover:bg-slate-800 sm:w-auto"
+              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-foreground px-8 py-4 font-bold text-white shadow-xl shadow-border transition-all hover:bg-foreground/90 sm:w-auto"
             >
               <span>تصفح الوحدات المتاحة</span>
               <svg

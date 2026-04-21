@@ -65,28 +65,28 @@ const FAQ = () => {
   };
 
   return (
-    <div className="bg-slate-50/30 py-16 md:py-24" id="faq">
+    <div className="bg-muted/30 py-16 md:py-24" id="faq">
       <div className="container mx-auto max-w-6xl px-4 md:px-6">
         <div className="mb-10 text-center md:mb-16">
           <div className="mb-4 inline-block rounded-full bg-primary/10 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-primary">
             عندك استفسار؟
           </div>
-          <h2 className="mb-3 text-2xl font-bold text-slate-900 md:mb-4 md:text-3xl lg:text-4xl">الأسئلة الشائعة</h2>
-          <p className="text-sm text-slate-500 md:text-base">كل اللي ودك تعرفه عن منام حسب اهتمامك</p>
+          <h2 className="mb-3 text-2xl font-bold text-foreground md:mb-4 md:text-3xl lg:text-4xl">الأسئلة الشائعة</h2>
+          <p className="text-sm text-muted-foreground md:text-base">كل اللي ودك تعرفه عن منام حسب اهتمامك</p>
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:gap-12 lg:grid-cols-2">
           {/* Guest Section */}
           <div>
-            <div className="mb-8 flex items-center gap-3 border-b border-slate-200 pb-4">
+            <div className="mb-8 flex items-center gap-3 border-b border-border pb-4">
               <span className="text-2xl">✨</span>
-              <h3 className="text-2xl font-bold text-slate-800">أسئلة الضيوف</h3>
+              <h3 className="text-2xl font-bold text-foreground">أسئلة الضيوف</h3>
             </div>
             <div className="space-y-4">
               {guestFaqs.map((faq, index) => (
                 <div
                   key={index}
-                  className={`rounded-2xl border bg-white transition-all duration-300 ${activeGuestIndex === index ? 'border-primary shadow-lg shadow-primary/5' : 'border-slate-100'
+                  className={`rounded-2xl border bg-card transition-all duration-300 ${activeGuestIndex === index ? 'border-primary shadow-lg shadow-primary/5' : 'border-border'
                     }`}
                 >
                   <button
@@ -94,7 +94,7 @@ const FAQ = () => {
                     className="flex w-full items-center justify-between gap-4 px-6 py-5 text-right"
                   >
                     <span
-                      className={`text-base font-bold transition-colors ${activeGuestIndex === index ? 'text-primary' : 'text-slate-700'
+                      className={`text-base font-bold transition-colors ${activeGuestIndex === index ? 'text-primary' : 'text-foreground'
                         }`}
                     >
                       {faq.question}
@@ -102,7 +102,7 @@ const FAQ = () => {
                     <div
                       className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border transition-all ${activeGuestIndex === index
                           ? 'rotate-180 border-primary bg-primary text-white'
-                          : 'border-slate-200 text-slate-400'
+                          : 'border-border text-muted-foreground'
                         }`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -114,7 +114,7 @@ const FAQ = () => {
                     className={`overflow-hidden transition-all duration-300 ${activeGuestIndex === index ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
                       }`}
                   >
-                    <div className="px-6 pb-6 text-sm leading-relaxed text-slate-500">{faq.answer}</div>
+                    <div className="px-6 pb-6 text-sm leading-relaxed text-muted-foreground">{faq.answer}</div>
                   </div>
                 </div>
               ))}
@@ -123,15 +123,15 @@ const FAQ = () => {
 
           {/* Owner Section */}
           <div>
-            <div className="mb-8 flex items-center gap-3 border-b border-slate-200 pb-4">
+            <div className="mb-8 flex items-center gap-3 border-b border-border pb-4">
               <span className="text-2xl">🏢</span>
-              <h3 className="text-2xl font-bold text-slate-800">أسئلة الملاك</h3>
+              <h3 className="text-2xl font-bold text-foreground">أسئلة الملاك</h3>
             </div>
             <div className="space-y-4">
               {ownerFaqs.map((faq, index) => (
                 <div
                   key={index}
-                  className={`rounded-2xl border bg-white transition-all duration-300 ${activeOwnerIndex === index ? 'border-primary shadow-lg shadow-primary/5' : 'border-slate-100'
+                  className={`rounded-2xl border bg-card transition-all duration-300 ${activeOwnerIndex === index ? 'border-primary shadow-lg shadow-primary/5' : 'border-border'
                     }`}
                 >
                   <button
@@ -139,7 +139,7 @@ const FAQ = () => {
                     className="flex w-full items-center justify-between gap-4 px-6 py-5 text-right"
                   >
                     <span
-                      className={`text-base font-bold transition-colors ${activeOwnerIndex === index ? 'text-primary' : 'text-slate-700'
+                      className={`text-base font-bold transition-colors ${activeOwnerIndex === index ? 'text-primary' : 'text-foreground'
                         }`}
                     >
                       {faq.question}
@@ -147,7 +147,7 @@ const FAQ = () => {
                     <div
                       className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border transition-all ${activeOwnerIndex === index
                           ? 'rotate-180 border-primary bg-primary text-white'
-                          : 'border-slate-200 text-slate-400'
+                          : 'border-border text-muted-foreground'
                         }`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -159,7 +159,7 @@ const FAQ = () => {
                     className={`overflow-hidden transition-all duration-300 ${activeOwnerIndex === index ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'
                       }`}
                   >
-                    <div className="px-6 pb-6 text-sm leading-relaxed text-slate-500">{faq.answer}</div>
+                    <div className="px-6 pb-6 text-sm leading-relaxed text-muted-foreground">{faq.answer}</div>
                   </div>
                 </div>
               ))}
@@ -168,10 +168,10 @@ const FAQ = () => {
         </div>
 
         <div className="mt-16 text-center">
-          <p className="mb-4 text-slate-500">ما لقيت جوابك؟</p>
+          <p className="mb-4 text-muted-foreground">ما لقيت جوابك؟</p>
           <button
             onClick={handleWhatsApp}
-            className="group inline-flex items-center gap-2 rounded-full border-2 border-primary/20 bg-white px-8 py-3 font-bold text-primary   transition-all hover:bg-primary hover:text-white"
+            className="group inline-flex items-center gap-2 rounded-full border-2 border-primary/20 bg-card px-8 py-3 font-bold text-primary   transition-all hover:bg-primary hover:text-white"
           >
             <span>تواصل معنا مباشرة عبر الواتساب</span>
             <svg className="h-5 w-5 transition-transform group-hover:-translate-x-1" fill="currentColor" viewBox="0 0 24 24">

@@ -27,10 +27,6 @@
   --color-popover-foreground: hsl(var(--popover-foreground));
   --color-ring-offset: hsl(var(--background));
 
-  /* --- Landing Page Colors --- */
-  --color-surface: #f8fafc;
-  --color-dark: #0f172a;
-
   /* --- Border Radius --- */
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
