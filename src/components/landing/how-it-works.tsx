@@ -72,9 +72,10 @@ const HowItWorks = ({ onOpenTerms }: HowItWorksProps) => {
 
         <Center className="reveal delay-300 mt-20">
           <Button
-            variant="link"
+            variant="default"
+            size={"xl"}
             onClick={onOpenTerms}
-            className="text-sm font-bold text-muted-foreground underline decoration-2 underline-offset-8 hover:text-primary hover:decoration-primary"
+
           >
             {t('readTerms')}
           </Button>
