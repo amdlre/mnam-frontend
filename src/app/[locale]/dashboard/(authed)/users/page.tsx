@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { UserPlus, Users as UsersIcon } from 'lucide-react';
 
+import { Link } from '@/i18n/navigation';
 import { fetchEmployeesStatus, fetchSystemUsers } from '@/lib/api/dashboard/users';
 import { UserCard } from '@/components/dashboard/features/users/user-card';
 import { UsersFilters } from '@/components/dashboard/features/users/filters';
@@ -36,7 +36,7 @@ function applyFilters(
 }
 
 export default async function DashboardUsersPage({ params, searchParams }: Props) {
-  const [{ locale }, sp] = await Promise.all([params, searchParams]);
+  const [, sp] = await Promise.all([params, searchParams]);
   const [t, tRoles, users, statuses] = await Promise.all([
     getTranslations('dashboard.users'),
     getTranslations('dashboard.roles'),
@@ -63,7 +63,7 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
           <p className="text-neutral-dashboard-muted mt-1 text-sm">{t('subtitle')}</p>
         </div>
         <Link
-          href={`/${locale}/dashboard/users/new`}
+          href="/dashboard/users/new"
           className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
         >
           <UserPlus className="h-4 w-4" />
@@ -87,7 +87,7 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
         />
       </section>
 
-      <UsersFilters locale={locale} />
+      <UsersFilters />
 
       {filtered.length === 0 ? (
         <div className="text-neutral-dashboard-muted py-12 text-center">
@@ -97,12 +97,7 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
       ) : viewMode === 'grid' ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filtered.map((user) => (
-            <UserCard
-              key={user.id}
-              user={user}
-              status={statusById.get(user.id)}
-              locale={locale}
-            />
+            <UserCard key={user.id} user={user} status={statusById.get(user.id)} />
           ))}
         </div>
       ) : (
@@ -152,13 +147,13 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
                       {!user.isSystemOwner ? (
                         <>
                           <Link
-                            href={`/${locale}/dashboard/users/${user.id}`}
+                            href={`/dashboard/users/${user.id}`}
                             className="text-xs text-indigo-600 hover:underline"
                           >
                             {t('file')}
                           </Link>
                           <Link
-                            href={`/${locale}/dashboard/users/${user.id}/edit`}
+                            href={`/dashboard/users/${user.id}/edit`}
                             className="text-dashboard-primary-600 text-xs hover:underline"
                           >
                             {t('edit')}

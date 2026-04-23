@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardUserCreatePage({ params }: Props) {
-  const { locale } = await params;
+  await params;
   const roles = await fetchAssignableRoles();
-  return <UserCreateForm roles={roles} locale={locale} />;
+  return <UserCreateForm roles={roles} />;
 }

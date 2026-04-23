@@ -1,22 +1,22 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useRef, useState, useTransition } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { ChevronDown, LogOut, Settings, User as UserIcon } from 'lucide-react';
 
+import { Link } from '@/i18n/navigation';
 import { dashboardLogoutAction } from '@/actions/dashboard/auth';
 
 import type { DashboardUser } from '@/types/dashboard';
 
 interface Props {
   user: DashboardUser;
-  locale: string;
 }
 
-export function DashboardUserMenu({ user, locale }: Props) {
+export function DashboardUserMenu({ user }: Props) {
   const t = useTranslations('dashboard.userMenu');
   const tRoles = useTranslations('dashboard.roles');
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
   const ref = useRef<HTMLDivElement>(null);
@@ -35,6 +35,7 @@ export function DashboardUserMenu({ user, locale }: Props) {
   function handleLogout() {
     startTransition(async () => {
       await dashboardLogoutAction();
+      // Full reload to clear all client state; locale-aware path
       window.location.href = `/${locale}/dashboard/login`;
     });
   }
@@ -67,7 +68,7 @@ export function DashboardUserMenu({ user, locale }: Props) {
 
           <div className="py-1">
             <Link
-              href={`/${locale}/dashboard/profile`}
+              href="/dashboard/profile"
               onClick={() => setOpen(false)}
               className="text-neutral-dashboard-text flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-slate-50"
             >
@@ -75,7 +76,7 @@ export function DashboardUserMenu({ user, locale }: Props) {
               <span>{t('profile')}</span>
             </Link>
             <Link
-              href={`/${locale}/dashboard/account`}
+              href="/dashboard/account"
               onClick={() => setOpen(false)}
               className="text-neutral-dashboard-text flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors hover:bg-slate-50"
             >

@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { Building2, Plus } from 'lucide-react';
 
+import { Link } from '@/i18n/navigation';
 import { fetchUnits } from '@/lib/api/dashboard/units';
 
 interface Props {
@@ -44,7 +44,7 @@ export default async function DashboardUnitsPage({ params }: Props) {
           <p className="text-neutral-dashboard-muted mt-1 text-sm">{t('subtitle')}</p>
         </div>
         <Link
-          href={`/${locale}/dashboard/units/new`}
+          href="/dashboard/units/new"
           className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
         >
           <Plus className="h-4 w-4" />
@@ -97,7 +97,7 @@ export default async function DashboardUnitsPage({ params }: Props) {
                       </td>
                       <td className="px-4 py-3">
                         <Link
-                          href={`/${locale}/dashboard/units/${u.id}`}
+                          href={`/dashboard/units/${u.id}`}
                           className="text-dashboard-primary-600 text-xs font-medium hover:underline"
                         >
                           {t('cols.view')}

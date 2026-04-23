@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Loader2, Sparkles } from 'lucide-react';
+
+import { useRouter } from '@/i18n/navigation';
 
 import { createCleaningRequestAction } from '@/actions/dashboard/cleaning';
 import { CLEANING_REQUEST_TYPES } from '@/types/dashboard';

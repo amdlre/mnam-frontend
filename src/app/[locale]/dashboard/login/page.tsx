@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
+import { redirect } from '@/i18n/navigation';
 import { hasDashboardSession } from '@/lib/api/dashboard/auth';
 import { DashboardLoginForm } from '@/components/dashboard/login-form';
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function DashboardLoginPage({ params }: Props) {
   const { locale } = await params;
-  if (await hasDashboardSession()) redirect(`/${locale}/dashboard`);
+  if (await hasDashboardSession()) redirect({ href: '/dashboard', locale });
 
   const t = await getTranslations('dashboard.login');
 
@@ -43,7 +43,7 @@ export default async function DashboardLoginPage({ params }: Props) {
               {t('subtitle')}
             </p>
 
-            <DashboardLoginForm locale={locale} />
+            <DashboardLoginForm />
           </div>
         </div>
 

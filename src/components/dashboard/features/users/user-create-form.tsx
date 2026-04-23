@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { ChevronRight, Loader2, Save } from 'lucide-react';
+import { ChevronRight, LockKeyhole, UserCircle } from 'lucide-react';
 
+import { Link, useRouter } from '@/i18n/navigation';
+import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
 import { createUserAction } from '@/actions/dashboard/users';
 import {
   userCreateSchema,
@@ -18,23 +17,16 @@ import type { AssignableRole } from '@/types/dashboard';
 
 interface Props {
   roles: AssignableRole[];
-  locale: string;
 }
 
-export function UserCreateForm({ roles, locale }: Props) {
+export function UserCreateForm({ roles }: Props) {
   const t = useTranslations('dashboard.userForm');
   const tErrors = useTranslations('dashboard.userForm.errors');
   const router = useRouter();
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
 
   const defaultRole = roles[0]?.value ?? 'customers_agent';
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UserCreateFormData>({
+  const form = useForm<UserCreateFormData>({
     resolver: zodResolver(userCreateSchema),
     defaultValues: {
       first_name: '',
@@ -45,131 +37,73 @@ export function UserCreateForm({ roles, locale }: Props) {
       phone: '',
       role: defaultRole,
     },
+    mode: 'onBlur',
   });
 
-  function onSubmit(data: UserCreateFormData) {
-    setSubmitError(null);
-    startTransition(async () => {
-      const result = await createUserAction(data);
-      if (!result.success) {
-        setSubmitError(result.message || t('createFailed'));
-        return;
-      }
-      router.push(`/${locale}/dashboard/users`);
-      router.refresh();
-    });
+  const {
+    register,
+    formState: { errors },
+  } = form;
+
+  const steps: WizardStepConfig<UserCreateFormData>[] = [
+    {
+      id: 'account',
+      title: t('accountSection'),
+      icon: <LockKeyhole className="h-4 w-4" />,
+      fields: ['username', 'email', 'password', 'role'],
+    },
+    {
+      id: 'personal',
+      title: t('personalSection'),
+      icon: <UserCircle className="h-4 w-4" />,
+      fields: ['first_name', 'last_name', 'phone'],
+    },
+  ];
+
+  async function handleComplete(values: UserCreateFormData) {
+    const result = await createUserAction(values);
+    if (!result.success) {
+      return { success: false, message: result.message || t('createFailed') };
+    }
+    router.push('/dashboard/users');
+    router.refresh();
+    return { success: true };
   }
 
-  const errorText = (key?: string) => (key ? tErrors(key) : '');
+  const err = (k?: string) => (k ? tErrors(k) : '');
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
-      <header className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <Link
-            href={`/${locale}/dashboard/users`}
-            className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
-            aria-label={t('back')}
-          >
-            <ChevronRight className="h-5 w-5" />
-          </Link>
-          <div>
-            <h1 className="text-neutral-dashboard-text text-xl font-bold">{t('createTitle')}</h1>
-            <p className="text-neutral-dashboard-muted text-xs">{t('createSubtitle')}</p>
-          </div>
-        </div>
-        <button
-          type="submit"
-          disabled={isPending}
-          className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
+    <div className="space-y-6">
+      <header className="flex items-center gap-3">
+        <Link
+          href="/dashboard/users"
+          className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
+          aria-label={t('back')}
         >
-          {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-          <span>{t('createSubmit')}</span>
-        </button>
+          <ChevronRight className="h-5 w-5 ltr:rotate-180" />
+        </Link>
+        <div>
+          <h1 className="text-neutral-dashboard-text text-xl font-bold">{t('createTitle')}</h1>
+          <p className="text-neutral-dashboard-muted text-xs">{t('createSubtitle')}</p>
+        </div>
       </header>
 
-      {submitError ? (
-        <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-          {submitError}
-        </div>
-      ) : null}
-
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-        <section className="md:col-span-6">
-          <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
-            <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
-              {t('personalSection')}
-            </h2>
-            <Field
-              label={t('firstName')}
-              required
-              error={errorText(errors.first_name?.message)}
-            >
-              <input
-                type="text"
-                {...register('first_name')}
-                className="input"
-                placeholder={t('firstNamePlaceholder')}
-              />
-            </Field>
-            <Field label={t('lastName')} error={errorText(errors.last_name?.message)}>
-              <input
-                type="text"
-                {...register('last_name')}
-                className="input"
-                placeholder={t('lastNamePlaceholder')}
-              />
-            </Field>
-            <Field label={t('phone')} error={errorText(errors.phone?.message)}>
-              <input
-                type="tel"
-                {...register('phone')}
-                className="input"
-                placeholder="05xxxxxxxx"
-                dir="ltr"
-              />
-            </Field>
-          </div>
-        </section>
-
-        <section className="md:col-span-6">
+      <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('createSubmit')}>
+        <WizardStep id="account">
           <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
             <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
               {t('accountSection')}
             </h2>
-            <Field
-              label={t('username')}
-              required
-              hint={t('usernameHint')}
-              error={errorText(errors.username?.message)}
-            >
-              <input
-                type="text"
-                {...register('username')}
-                className="input text-left"
-                dir="ltr"
-                placeholder="username"
-              />
+            <Field label={t('username')} required hint={t('usernameHint')} error={err(errors.username?.message)}>
+              <input type="text" {...register('username')} className="input text-left" dir="ltr" placeholder="username" />
             </Field>
-            <Field label={t('email')} required error={errorText(errors.email?.message)}>
-              <input
-                type="email"
-                {...register('email')}
-                className="input text-left"
-                dir="ltr"
-                placeholder="email@example.com"
-              />
+            <Field label={t('email')} required error={err(errors.email?.message)}>
+              <input type="email" {...register('email')} className="input text-left" dir="ltr" placeholder="email@example.com" />
             </Field>
-            <Field label={t('password')} required error={errorText(errors.password?.message)}>
-              <input
-                type="password"
-                {...register('password')}
-                className="input text-left"
-                dir="ltr"
-                placeholder="••••••••"
-              />
+            <Field label={t('password')} required error={err(errors.password?.message)}>
+              <input type="password" {...register('password')} className="input text-left" dir="ltr" placeholder="••••••••" />
             </Field>
-            <Field label={t('role')} required error={errorText(errors.role?.message)}>
+            <Field label={t('role')} required error={err(errors.role?.message)}>
               <select {...register('role')} className="input">
                 {roles.map((r) => (
                   <option key={r.value} value={r.value}>
@@ -179,8 +113,25 @@ export function UserCreateForm({ roles, locale }: Props) {
               </select>
             </Field>
           </div>
-        </section>
-      </div>
+        </WizardStep>
+
+        <WizardStep id="personal">
+          <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
+            <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
+              {t('personalSection')}
+            </h2>
+            <Field label={t('firstName')} required error={err(errors.first_name?.message)}>
+              <input type="text" {...register('first_name')} className="input" placeholder={t('firstNamePlaceholder')} />
+            </Field>
+            <Field label={t('lastName')} error={err(errors.last_name?.message)}>
+              <input type="text" {...register('last_name')} className="input" placeholder={t('lastNamePlaceholder')} />
+            </Field>
+            <Field label={t('phone')} error={err(errors.phone?.message)}>
+              <input type="tel" {...register('phone')} className="input" placeholder="05xxxxxxxx" dir="ltr" />
+            </Field>
+          </div>
+        </WizardStep>
+      </Wizard>
 
       <style>{`
         .input {
@@ -199,7 +150,7 @@ export function UserCreateForm({ roles, locale }: Props) {
           box-shadow: 0 0 0 2px var(--color-dashboard-primary-100);
         }
       `}</style>
-    </form>
+    </div>
   );
 }
 

@@ -384,6 +384,11 @@
       "subtitle": "This page is under construction",
       "body": "Coming soon — we're working on this page"
     },
+    "wizard": {
+      "back": "Back",
+      "next": "Next",
+      "submit": "Save"
+    },
     "owners": {
       "title": "Owners",
       "subtitle": "Property owners and their information.",
@@ -399,6 +404,24 @@
         "view": "View"
       }
     },
+    "ownerDetail": {
+      "title": "Owner profile",
+      "subtitle": "Owner information and registered projects",
+      "contact": "Contact information",
+      "phone": "Phone",
+      "paypal": "PayPal email",
+      "notes": "Notes",
+      "projectsList": "Owner's projects",
+      "projectsCount": "Projects",
+      "unitsCount": "Units",
+      "noProjects": "No projects registered under this owner",
+      "delete": "Delete owner",
+      "deleteTitle": "Delete owner",
+      "deleteConfirm": "Are you sure you want to delete owner \"{name}\"?",
+      "deleteConfirmLabel": "Yes, delete",
+      "deleteFailed": "Delete failed",
+      "cancel": "Cancel"
+    },
     "projects": {
       "title": "Projects",
       "subtitle": "Projects, contracts, and their units.",
@@ -408,6 +431,56 @@
       "district": "District",
       "units": "Units",
       "commission": "Commission"
+    },
+    "projectForm": {
+      "title": "New project",
+      "subtitle": "Create a new project in the system",
+      "submit": "Save project",
+      "createFailed": "Failed to create the project",
+      "steps": {
+        "basic": "Basic info",
+        "location": "Location",
+        "contract": "Contract & finance"
+      },
+      "name": "Project name",
+      "owner": "Owner",
+      "noOwners": "No owners available — please add an owner first",
+      "city": "City",
+      "district": "District",
+      "securityPhone": "Security phone",
+      "managerPhone": "Manager phone",
+      "mapUrl": "Map URL",
+      "contractNo": "Contract number",
+      "contractStatus": "Contract status",
+      "contractDuration": "Contract duration",
+      "commission": "Commission (%)",
+      "bankName": "Bank name",
+      "iban": "IBAN",
+      "statusActive": "Active",
+      "statusExpired": "Expired",
+      "statusSuspended": "Suspended",
+      "errors": {
+        "required": "This field is required",
+        "invalidNumber": "Invalid value"
+      }
+    },
+    "projectDetail": {
+      "overview": "Overview",
+      "location": "Location",
+      "contract": "Contract",
+      "owner": "Owner",
+      "units": "Units count",
+      "city": "City",
+      "district": "District",
+      "contractNo": "Contract number",
+      "commission": "Commission",
+      "status": "Status",
+      "delete": "Delete project",
+      "deleteTitle": "Delete project",
+      "deleteConfirm": "Are you sure you want to delete project \"{name}\"? Associated data will also be removed.",
+      "deleteConfirmLabel": "Yes, delete",
+      "deleteFailed": "Delete failed",
+      "cancel": "Cancel"
     },
     "units": {
       "title": "Units",
@@ -424,6 +497,33 @@
         "status": "Status",
         "actions": "Actions",
         "view": "View"
+      }
+    },
+    "unitForm": {
+      "title": "New unit",
+      "subtitle": "Add a new unit to a project",
+      "submit": "Save unit",
+      "createFailed": "Failed to create the unit",
+      "steps": {
+        "info": "Unit info",
+        "pricing": "Pricing"
+      },
+      "project": "Project",
+      "noProjects": "No projects available — please add a project first",
+      "unitName": "Unit name",
+      "unitType": "Unit type",
+      "rooms": "Rooms",
+      "status": "Status",
+      "floor": "Floor",
+      "area": "Area (m²)",
+      "description": "Description",
+      "permitNo": "Permit number",
+      "weekdayPrice": "Base weekday price",
+      "weekendMarkup": "Weekend markup (%)",
+      "weekendMarkupHint": "e.g. 50 means 50% above the base price",
+      "errors": {
+        "required": "This field is required",
+        "invalidNumber": "Invalid value"
       }
     },
     "bookings": {
@@ -446,6 +546,34 @@
         "prev": "Previous",
         "next": "Next",
         "page": "Page {page} of {total}"
+      }
+    },
+    "bookingForm": {
+      "title": "New booking",
+      "subtitle": "Register a new booking in the system",
+      "submit": "Save booking",
+      "createFailed": "Failed to create the booking",
+      "steps": {
+        "selection": "Select unit and guest",
+        "dates": "Dates and payment"
+      },
+      "project": "Project",
+      "unit": "Unit",
+      "unitPlaceholder": "Select an available unit...",
+      "noProjects": "No projects available — please add a project first",
+      "guestName": "Guest name",
+      "guestPhone": "Guest phone",
+      "checkIn": "Check-in date",
+      "checkOut": "Check-out date",
+      "price": "Total price",
+      "priceHint": "Leave blank to let the system calculate automatically",
+      "status": "Booking status",
+      "channel": "Booking channel",
+      "notes": "Notes",
+      "errors": {
+        "required": "This field is required",
+        "invalidNumber": "Invalid value",
+        "checkoutAfterCheckin": "Check-out must be after check-in"
       }
     },
     "userForm": {
@@ -475,6 +603,7 @@
       "deactivate": "Deactivate account",
       "confirmActivate": "Are you sure you want to activate this user?",
       "confirmDeactivate": "Are you sure you want to deactivate this user?",
+      "cancel": "Cancel",
       "errors": {
         "firstNameRequired": "First name is required",
         "usernameRequired": "Username is required",
@@ -525,7 +654,10 @@
       "protectedAccount": "Protected account",
       "todayDuration": "Today",
       "hoursUnit": "h",
-      "deleteConfirm": "Are you sure you want to delete member \"{name}\"?",
+      "deleteTitle": "Delete member",
+      "deleteConfirm": "Are you sure you want to delete \"{name}\"? This action cannot be undone.",
+      "deleteConfirmLabel": "Yes, delete",
+      "deleteCancelLabel": "Cancel",
       "deleteFailed": "Failed to delete the member",
       "stats": {
         "total": "Total members",

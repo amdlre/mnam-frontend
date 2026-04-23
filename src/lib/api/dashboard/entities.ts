@@ -20,21 +20,66 @@ interface ApiOwner {
   unit_count: number;
 }
 
+function normalizeOwner(o: ApiOwner): Owner {
+  return {
+    id: o.id,
+    ownerName: o.owner_name,
+    ownerMobilePhone: o.owner_mobile_phone,
+    paypalEmail: o.paypal_email,
+    note: o.note,
+    createdAt: o.created_at,
+    projectCount: o.project_count,
+    unitCount: o.unit_count,
+  };
+}
+
 export async function fetchOwners(): Promise<Owner[]> {
   try {
     const data = await dashboardApi.get<ApiOwner[]>('/api/owners');
-    return data.map((o) => ({
-      id: o.id,
-      ownerName: o.owner_name,
-      ownerMobilePhone: o.owner_mobile_phone,
-      paypalEmail: o.paypal_email,
-      note: o.note,
-      createdAt: o.created_at,
-      projectCount: o.project_count,
-      unitCount: o.unit_count,
+    return data.map(normalizeOwner);
+  } catch {
+    return [];
+  }
+}
+
+export async function fetchOwnerById(ownerId: string): Promise<Owner | null> {
+  try {
+    const all = await fetchOwners();
+    return all.find((o) => o.id === ownerId) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function fetchOwnerProjects(
+  ownerId: string,
+): Promise<Array<{ projectName: string; city?: string; district?: string; unitCount: number }>> {
+  try {
+    const data = await dashboardApi.get<
+      Array<{ project_name: string; city?: string; district?: string; unit_count: number }>
+    >(`/api/owners/${ownerId}/projects`);
+    return data.map((p) => ({
+      projectName: p.project_name,
+      city: p.city,
+      district: p.district,
+      unitCount: p.unit_count,
     }));
   } catch {
     return [];
+  }
+}
+
+export interface SimpleOwner {
+  id: string;
+  name: string;
+}
+
+export async function fetchSimpleOwners(): Promise<SimpleOwner[]> {
+  try {
+    return await dashboardApi.get<SimpleOwner[]>('/api/owners/select');
+  } catch {
+    const all = await fetchOwners();
+    return all.map((o) => ({ id: o.id, name: o.ownerName }));
   }
 }
 
@@ -51,23 +96,50 @@ interface ApiProject {
   unit_count: number;
 }
 
+function normalizeProject(p: ApiProject): Project {
+  return {
+    id: p.id,
+    ownerId: p.owner_id,
+    ownerName: p.owner_name,
+    name: p.name,
+    city: p.city,
+    district: p.district,
+    contractNo: p.contract_no,
+    contractStatus: p.contract_status,
+    commissionPercent: p.commission_percent,
+    unitCount: p.unit_count,
+  };
+}
+
 export async function fetchProjects(): Promise<Project[]> {
   try {
     const data = await dashboardApi.get<ApiProject[]>('/api/projects');
-    return data.map((p) => ({
-      id: p.id,
-      ownerId: p.owner_id,
-      ownerName: p.owner_name,
-      name: p.name,
-      city: p.city,
-      district: p.district,
-      contractNo: p.contract_no,
-      contractStatus: p.contract_status,
-      commissionPercent: p.commission_percent,
-      unitCount: p.unit_count,
-    }));
+    return data.map(normalizeProject);
   } catch {
     return [];
+  }
+}
+
+export async function fetchProjectById(projectId: string): Promise<Project | null> {
+  try {
+    const all = await fetchProjects();
+    return all.find((p) => p.id === projectId) ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export interface SimpleProject {
+  id: string;
+  name: string;
+}
+
+export async function fetchSimpleProjects(): Promise<SimpleProject[]> {
+  try {
+    return await dashboardApi.get<SimpleProject[]>('/api/projects/select');
+  } catch {
+    const all = await fetchProjects();
+    return all.map((p) => ({ id: p.id, name: p.name }));
   }
 }
 

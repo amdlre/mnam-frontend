@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { ChevronRight, Loader2, Save } from 'lucide-react';
+import { ChevronRight, Loader2, ShieldCheck, UserCircle } from 'lucide-react';
 
+import { Link, useRouter } from '@/i18n/navigation';
+import { useConfirm } from '@/components/shared/confirm-modal';
+import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
 import { toggleUserActiveAction, updateUserAction } from '@/actions/dashboard/users';
 import {
   userEditSchema,
@@ -19,23 +20,17 @@ import type { AssignableRole, SystemUser } from '@/types/dashboard';
 interface Props {
   user: SystemUser;
   roles: AssignableRole[];
-  locale: string;
 }
 
-export function UserEditForm({ user, roles, locale }: Props) {
+export function UserEditForm({ user, roles }: Props) {
   const t = useTranslations('dashboard.userForm');
   const tErrors = useTranslations('dashboard.userForm.errors');
   const router = useRouter();
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
+  const confirm = useConfirm();
   const [isToggling, startToggleTransition] = useTransition();
   const [isActive, setIsActive] = useState(user.isActive);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<UserEditFormData>({
+  const form = useForm<UserEditFormData>({
     resolver: zodResolver(userEditSchema),
     defaultValues: {
       first_name: user.firstName,
@@ -45,42 +40,73 @@ export function UserEditForm({ user, roles, locale }: Props) {
       role: user.role,
       is_active: user.isActive,
     },
+    mode: 'onBlur',
   });
 
-  function onSubmit(data: UserEditFormData) {
-    setSubmitError(null);
-    startTransition(async () => {
-      const result = await updateUserAction(user.id, { ...data, is_active: isActive });
-      if (!result.success) {
-        setSubmitError(result.message || t('updateFailed'));
-        return;
-      }
-      router.push(`/${locale}/dashboard/users`);
-      router.refresh();
-    });
+  const {
+    register,
+    formState: { errors },
+  } = form;
+
+  const steps: WizardStepConfig<UserEditFormData>[] = [
+    {
+      id: 'personal',
+      title: t('personalSection'),
+      icon: <UserCircle className="h-4 w-4" />,
+      fields: ['first_name', 'last_name', 'phone'],
+    },
+    {
+      id: 'access',
+      title: t('accessSection'),
+      icon: <ShieldCheck className="h-4 w-4" />,
+      fields: ['email', 'role'],
+    },
+  ];
+
+  async function handleComplete(values: UserEditFormData) {
+    const result = await updateUserAction(user.id, { ...values, is_active: isActive });
+    if (!result.success) {
+      return { success: false, message: result.message || t('updateFailed') };
+    }
+    router.push('/dashboard/users');
+    router.refresh();
+    return { success: true };
   }
 
-  function onToggleActive() {
-    const msg = isActive ? t('confirmDeactivate') : t('confirmActivate');
-    if (typeof window !== 'undefined' && !window.confirm(msg)) return;
+  async function onToggleActive() {
+    const ok = await confirm({
+      iconVariant: isActive ? 'warning' : 'info',
+      title: isActive ? t('deactivate') : t('activate'),
+      description: isActive ? t('confirmDeactivate') : t('confirmActivate'),
+      confirmLabel: isActive ? t('deactivate') : t('activate'),
+      cancelLabel: t('cancel'),
+      confirmVariant: isActive ? 'destructive' : 'default',
+    });
+    if (!ok) return;
     startToggleTransition(async () => {
       const result = await toggleUserActiveAction(user.id);
       if (result.success) {
         setIsActive((prev) => !prev);
       } else {
-        window.alert(result.message || t('updateFailed'));
+        await confirm({
+          iconVariant: 'danger',
+          title: t('updateFailed'),
+          description: result.message || t('updateFailed'),
+          confirmLabel: t('cancel'),
+          cancelLabel: '',
+        });
       }
     });
   }
 
-  const errorText = (key?: string) => (key ? tErrors(key) : '');
+  const err = (k?: string) => (k ? tErrors(k) : '');
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-6">
+    <div className="space-y-6">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link
-            href={`/${locale}/dashboard/users`}
+            href="/dashboard/users"
             className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
             aria-label={t('back')}
           >
@@ -93,9 +119,7 @@ export function UserEditForm({ user, roles, locale }: Props) {
               </h1>
               <span
                 className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${
-                  isActive
-                    ? 'bg-emerald-100 text-emerald-700'
-                    : 'bg-red-100 text-red-700'
+                  isActive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
                 }`}
               >
                 {isActive ? t('active') : t('inactive')}
@@ -104,64 +128,48 @@ export function UserEditForm({ user, roles, locale }: Props) {
             <p className="text-neutral-dashboard-muted font-mono text-xs">@{user.username}</p>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onToggleActive}
-            disabled={isToggling}
-            className={`rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors disabled:opacity-60 ${
-              isActive
-                ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
-                : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-            }`}
-          >
-            {isToggling ? <Loader2 className="inline h-4 w-4 animate-spin" /> : null}
-            {isActive ? t('deactivate') : t('activate')}
-          </button>
-          <button
-            type="submit"
-            disabled={isPending}
-            className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
-          >
-            {isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            <span>{t('saveChanges')}</span>
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={onToggleActive}
+          disabled={isToggling}
+          className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors disabled:opacity-60 ${
+            isActive
+              ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
+              : 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+          }`}
+        >
+          {isToggling ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          <span>{isActive ? t('deactivate') : t('activate')}</span>
+        </button>
       </header>
 
-      {submitError ? (
-        <div className="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">
-          {submitError}
-        </div>
-      ) : null}
-
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-        <section className="md:col-span-6">
+      <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('saveChanges')}>
+        <WizardStep id="personal">
           <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
             <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
               {t('personalSection')}
             </h2>
-            <Field label={t('firstName')} required error={errorText(errors.first_name?.message)}>
+            <Field label={t('firstName')} required error={err(errors.first_name?.message)}>
               <input type="text" {...register('first_name')} className="input" />
             </Field>
-            <Field label={t('lastName')} error={errorText(errors.last_name?.message)}>
+            <Field label={t('lastName')} error={err(errors.last_name?.message)}>
               <input type="text" {...register('last_name')} className="input" />
             </Field>
-            <Field label={t('phone')} error={errorText(errors.phone?.message)}>
+            <Field label={t('phone')} error={err(errors.phone?.message)}>
               <input type="tel" {...register('phone')} className="input" dir="ltr" />
             </Field>
           </div>
-        </section>
+        </WizardStep>
 
-        <section className="md:col-span-6">
+        <WizardStep id="access">
           <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
             <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
               {t('accessSection')}
             </h2>
-            <Field label={t('email')} required error={errorText(errors.email?.message)}>
+            <Field label={t('email')} required error={err(errors.email?.message)}>
               <input type="email" {...register('email')} className="input text-left" dir="ltr" />
             </Field>
-            <Field label={t('role')} required error={errorText(errors.role?.message)}>
+            <Field label={t('role')} required error={err(errors.role?.message)}>
               <select {...register('role')} className="input">
                 {roles.map((r) => (
                   <option key={r.value} value={r.value}>
@@ -171,8 +179,8 @@ export function UserEditForm({ user, roles, locale }: Props) {
               </select>
             </Field>
           </div>
-        </section>
-      </div>
+        </WizardStep>
+      </Wizard>
 
       <style>{`
         .input {
@@ -191,7 +199,7 @@ export function UserEditForm({ user, roles, locale }: Props) {
           box-shadow: 0 0 0 2px var(--color-dashboard-primary-100);
         }
       `}</style>
-    </form>
+    </div>
   );
 }
 

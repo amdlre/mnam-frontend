@@ -1,6 +1,6 @@
-import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
+import { redirect } from '@/i18n/navigation';
 import { fetchDashboardCurrentUser } from '@/lib/api/dashboard/auth';
 import { DashboardShell } from '@/components/dashboard/layout/shell';
 
@@ -16,11 +16,9 @@ export const metadata: Metadata = {
 export default async function DashboardAuthedLayout({ children, params }: LayoutProps) {
   const { locale } = await params;
   const user = await fetchDashboardCurrentUser();
-  if (!user) redirect(`/${locale}/dashboard/login`);
+  if (!user) {
+    redirect({ href: '/dashboard/login', locale });
+  }
 
-  return (
-    <DashboardShell user={user} locale={locale}>
-      {children}
-    </DashboardShell>
-  );
+  return <DashboardShell user={user!}>{children}</DashboardShell>;
 }

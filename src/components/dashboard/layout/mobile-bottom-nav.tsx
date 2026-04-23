@@ -1,10 +1,9 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Menu } from 'lucide-react';
 
+import { Link, usePathname } from '@/i18n/navigation';
 import { DASHBOARD_ROLE_PAGES } from '@/types/dashboard';
 import { DASHBOARD_NAV_ITEMS } from './nav-items';
 
@@ -12,14 +11,13 @@ import type { DashboardUserRole } from '@/types/dashboard';
 
 interface Props {
   role: DashboardUserRole;
-  locale: string;
   onToggleSidebar: () => void;
 }
 
-export function DashboardMobileBottomNav({ role, locale, onToggleSidebar }: Props) {
+export function DashboardMobileBottomNav({ role, onToggleSidebar }: Props) {
   const t = useTranslations('dashboard.nav');
   const pathname = usePathname();
-  const basePath = `/${locale}/dashboard`;
+  const basePath = '/dashboard';
   const allowed = DASHBOARD_ROLE_PAGES[role] ?? [];
   const items = DASHBOARD_NAV_ITEMS.filter((i) => i.inBottomNav && allowed.includes(i.id));
 

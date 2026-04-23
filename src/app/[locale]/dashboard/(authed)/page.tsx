@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { Building2, Sparkles } from 'lucide-react';
+
+import { Link } from '@/i18n/navigation';
 
 import { fetchDashboardSummary } from '@/lib/api/dashboard/summary';
 import {
@@ -106,7 +107,7 @@ export default async function DashboardHomePage({ params }: Props) {
             </span>
           </div>
           <Link
-            href={`/${locale}/dashboard/cleaning-maintenance`}
+            href="/dashboard/cleaning-maintenance"
             className="text-dashboard-primary-600 text-xs font-medium hover:underline"
           >
             {t('cleaning.viewAll')}

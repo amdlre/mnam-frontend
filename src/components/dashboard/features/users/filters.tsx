@@ -1,15 +1,12 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
-import { Search, UserPlus } from 'lucide-react';
+import { Search } from 'lucide-react';
 
-interface Props {
-  locale: string;
-}
+import { useRouter, usePathname } from '@/i18n/navigation';
 
-export function UsersFilters({ locale }: Props) {
+export function UsersFilters() {
   const t = useTranslations('dashboard.users');
   const router = useRouter();
   const pathname = usePathname();

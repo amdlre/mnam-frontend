@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { ChevronRight, Mail, Pencil, Phone, ShieldCheck, User } from 'lucide-react';
 
+import { Link } from '@/i18n/navigation';
 import { fetchEmployeesStatus, fetchUserById } from '@/lib/api/dashboard/users';
 import { USER_ROLE_BADGE_STYLES } from '@/components/dashboard/features/users/role-badge';
 
@@ -44,7 +44,7 @@ export default async function DashboardUserDetailPage({ params }: Props) {
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link
-            href={`/${locale}/dashboard/users`}
+            href="/dashboard/users"
             className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
             aria-label={t('back')}
           >
@@ -57,7 +57,7 @@ export default async function DashboardUserDetailPage({ params }: Props) {
         </div>
         {!user.isSystemOwner ? (
           <Link
-            href={`/${locale}/dashboard/users/${user.id}/edit`}
+            href={`/dashboard/users/${user.id}/edit`}
             className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
           >
             <Pencil className="h-4 w-4" />

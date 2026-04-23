@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardUserEditPage({ params }: Props) {
-  const { locale, id } = await params;
+  const { id } = await params;
   const [user, roles] = await Promise.all([
     fetchUserById(id),
     fetchAssignableRoles(),
   ]);
   if (!user) notFound();
-  return <UserEditForm user={user} roles={roles} locale={locale} />;
+  return <UserEditForm user={user} roles={roles} />;
 }

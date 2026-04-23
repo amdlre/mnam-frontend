@@ -1,7 +1,9 @@
 'use client';
 
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
+
+import { useRouter, usePathname } from '@/i18n/navigation';
 
 import { CLEANING_REQUEST_STATUSES, CLEANING_REQUEST_TYPES } from '@/types/dashboard';
 

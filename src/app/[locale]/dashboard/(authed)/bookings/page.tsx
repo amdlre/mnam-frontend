@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { ClipboardList, Plus } from 'lucide-react';
+
+import { Link } from '@/i18n/navigation';
 
 import { fetchBookingsPaginated } from '@/lib/api/dashboard/entities';
 
@@ -58,7 +59,7 @@ export default async function DashboardBookingsPage({ params, searchParams }: Pr
           </p>
         </div>
         <Link
-          href={`/${locale}/dashboard/bookings/new`}
+          href="/dashboard/bookings/new"
           className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
         >
           <Plus className="h-4 w-4" />
@@ -116,7 +117,7 @@ export default async function DashboardBookingsPage({ params, searchParams }: Pr
                         </td>
                         <td className="px-4 py-3">
                           <Link
-                            href={`/${locale}/dashboard/bookings/${b.id}`}
+                            href={`/dashboard/bookings/${b.id}`}
                             className="text-dashboard-primary-600 text-xs font-medium hover:underline"
                           >
                             {t('cols.view')}
@@ -134,7 +135,7 @@ export default async function DashboardBookingsPage({ params, searchParams }: Pr
             <nav className="flex items-center justify-between gap-2 text-sm">
               <PagerLink
                 disabled={!result.hasPrevious}
-                href={`/${locale}/dashboard/bookings?page=${page - 1}`}
+                page={page - 1}
                 label={t('pager.prev')}
               />
               <span className="text-neutral-dashboard-muted">
@@ -142,7 +143,7 @@ export default async function DashboardBookingsPage({ params, searchParams }: Pr
               </span>
               <PagerLink
                 disabled={!result.hasNext}
-                href={`/${locale}/dashboard/bookings?page=${page + 1}`}
+                page={page + 1}
                 label={t('pager.next')}
               />
             </nav>
@@ -154,11 +155,11 @@ export default async function DashboardBookingsPage({ params, searchParams }: Pr
 }
 
 function PagerLink({
-  href,
+  page,
   label,
   disabled,
 }: {
-  href: string;
+  page: number;
   label: string;
   disabled?: boolean;
 }) {
@@ -171,7 +172,7 @@ function PagerLink({
   }
   return (
     <Link
-      href={href}
+      href={`/dashboard/bookings?page=${page}`}
       className="border-neutral-dashboard-border text-neutral-dashboard-text hover:border-dashboard-primary-300 hover:text-dashboard-primary-600 rounded border px-3 py-1.5 text-xs transition-colors"
     >
       {label}

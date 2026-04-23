@@ -1,11 +1,11 @@
 'use client';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Mail, Pencil, Phone, Trash2 } from 'lucide-react';
 
+import { Link, useRouter } from '@/i18n/navigation';
+import { useConfirm } from '@/components/shared/confirm-modal/use-confirm';
 import { deleteUserAction } from '@/actions/dashboard/users';
 import { USER_ROLE_BADGE_STYLES } from './role-badge';
 
@@ -14,27 +14,41 @@ import type { EmployeeOnlineStatus, SystemUser } from '@/types/dashboard';
 interface Props {
   user: SystemUser;
   status?: EmployeeOnlineStatus;
-  locale: string;
 }
 
-export function UserCard({ user, status, locale }: Props) {
+export function UserCard({ user, status }: Props) {
   const t = useTranslations('dashboard.users');
   const tRoles = useTranslations('dashboard.roles');
+  const locale = useLocale();
   const router = useRouter();
+  const confirm = useConfirm();
   const [isPending, startTransition] = useTransition();
 
   const initial = user.firstName?.charAt(0) || 'U';
   const isOnline = status?.isOnline ?? false;
   const duration = status?.formattedDuration ?? '0م';
 
-  function onDelete() {
+  async function onDelete() {
     const fullName = `${user.firstName} ${user.lastName}`.trim();
-    const confirmMessage = t('deleteConfirm', { name: fullName });
-    if (typeof window !== 'undefined' && !window.confirm(confirmMessage)) return;
+    const ok = await confirm({
+      iconVariant: 'danger',
+      title: t('deleteTitle'),
+      description: t('deleteConfirm', { name: fullName }),
+      confirmLabel: t('deleteConfirmLabel'),
+      cancelLabel: t('deleteCancelLabel'),
+      confirmVariant: 'destructive',
+    });
+    if (!ok) return;
     startTransition(async () => {
       const result = await deleteUserAction(user.id);
       if (!result.success) {
-        window.alert(result.message || t('deleteFailed'));
+        await confirm({
+          iconVariant: 'danger',
+          title: t('deleteFailed'),
+          description: result.message || t('deleteFailed'),
+          confirmLabel: t('deleteCancelLabel'),
+          cancelLabel: '',
+        });
         return;
       }
       router.refresh();
@@ -123,13 +137,13 @@ export function UserCard({ user, status, locale }: Props) {
           ) : (
             <>
               <Link
-                href={`/${locale}/dashboard/users/${user.id}`}
+                href={`/dashboard/users/${user.id}`}
                 className="border-neutral-dashboard-border hover:text-dashboard-primary-600 flex-1 rounded border bg-white px-1.5 py-1 text-center text-[10px] text-neutral-600 transition-colors hover:bg-slate-50 md:text-xs"
               >
                 {t('file')}
               </Link>
               <Link
-                href={`/${locale}/dashboard/users/${user.id}/edit`}
+                href={`/dashboard/users/${user.id}/edit`}
                 className="border-neutral-dashboard-border hover:text-dashboard-primary-600 rounded border bg-white px-1.5 py-1 text-neutral-600 transition-colors hover:bg-slate-50"
                 aria-label={t('edit')}
               >

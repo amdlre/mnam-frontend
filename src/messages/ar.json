@@ -384,6 +384,11 @@
       "subtitle": "هذه الصفحة قيد التطوير",
       "body": "قريباً — نعمل على هذه الصفحة الآن"
     },
+    "wizard": {
+      "back": "السابق",
+      "next": "التالي",
+      "submit": "حفظ"
+    },
     "owners": {
       "title": "الملاك",
       "subtitle": "قائمة ملاك العقارات وإدارة معلوماتهم.",
@@ -399,6 +404,24 @@
         "view": "عرض"
       }
     },
+    "ownerDetail": {
+      "title": "ملف المالك",
+      "subtitle": "معلومات المالك والمشاريع المسجلة باسمه",
+      "contact": "معلومات التواصل",
+      "phone": "رقم الجوال",
+      "paypal": "بريد PayPal",
+      "notes": "ملاحظات",
+      "projectsList": "مشاريع المالك",
+      "projectsCount": "عدد المشاريع",
+      "unitsCount": "عدد الوحدات",
+      "noProjects": "لا يوجد مشاريع مسجلة باسم المالك",
+      "delete": "حذف المالك",
+      "deleteTitle": "حذف المالك",
+      "deleteConfirm": "هل أنت متأكد من حذف المالك \"{name}\"؟",
+      "deleteConfirmLabel": "نعم، احذف",
+      "deleteFailed": "فشل الحذف",
+      "cancel": "إلغاء"
+    },
     "projects": {
       "title": "المشاريع",
       "subtitle": "قائمة المشاريع والعقود والوحدات التابعة لها.",
@@ -408,6 +431,56 @@
       "district": "الحي",
       "units": "الوحدات",
       "commission": "العمولة"
+    },
+    "projectForm": {
+      "title": "مشروع جديد",
+      "subtitle": "أضف مشروعاً جديداً إلى النظام",
+      "submit": "حفظ المشروع",
+      "createFailed": "فشل إنشاء المشروع",
+      "steps": {
+        "basic": "البيانات الأساسية",
+        "location": "الموقع",
+        "contract": "العقد والتفاصيل المالية"
+      },
+      "name": "اسم المشروع",
+      "owner": "المالك",
+      "noOwners": "لا يوجد ملاك، يرجى إضافة مالك أولاً",
+      "city": "المدينة",
+      "district": "الحي",
+      "securityPhone": "جوال الأمن",
+      "managerPhone": "جوال المدير",
+      "mapUrl": "رابط الخريطة",
+      "contractNo": "رقم العقد",
+      "contractStatus": "حالة العقد",
+      "contractDuration": "مدة العقد",
+      "commission": "نسبة العمولة (%)",
+      "bankName": "اسم البنك",
+      "iban": "رقم الآيبان",
+      "statusActive": "ساري",
+      "statusExpired": "منتهي",
+      "statusSuspended": "موقف مؤقتاً",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "invalidNumber": "قيمة غير صالحة"
+      }
+    },
+    "projectDetail": {
+      "overview": "نظرة عامة",
+      "location": "الموقع",
+      "contract": "العقد",
+      "owner": "المالك",
+      "units": "عدد الوحدات",
+      "city": "المدينة",
+      "district": "الحي",
+      "contractNo": "رقم العقد",
+      "commission": "العمولة",
+      "status": "الحالة",
+      "delete": "حذف المشروع",
+      "deleteTitle": "حذف المشروع",
+      "deleteConfirm": "هل أنت متأكد من حذف المشروع \"{name}\"؟ سيؤدي ذلك إلى حذف البيانات المرتبطة به.",
+      "deleteConfirmLabel": "نعم، احذف",
+      "deleteFailed": "فشل الحذف",
+      "cancel": "إلغاء"
     },
     "units": {
       "title": "الوحدات",
@@ -424,6 +497,33 @@
         "status": "الحالة",
         "actions": "إجراءات",
         "view": "عرض"
+      }
+    },
+    "unitForm": {
+      "title": "وحدة جديدة",
+      "subtitle": "أضف وحدة جديدة إلى مشروع",
+      "submit": "حفظ الوحدة",
+      "createFailed": "فشل إنشاء الوحدة",
+      "steps": {
+        "info": "بيانات الوحدة",
+        "pricing": "التسعير"
+      },
+      "project": "المشروع",
+      "noProjects": "لا يوجد مشاريع، يرجى إضافة مشروع أولاً",
+      "unitName": "اسم الوحدة",
+      "unitType": "نوع الوحدة",
+      "rooms": "عدد الغرف",
+      "status": "الحالة",
+      "floor": "رقم الطابق",
+      "area": "المساحة (م²)",
+      "description": "الوصف",
+      "permitNo": "رقم الترخيص",
+      "weekdayPrice": "السعر الأساسي (أيام الأسبوع)",
+      "weekendMarkup": "نسبة زيادة نهاية الأسبوع (%)",
+      "weekendMarkupHint": "مثال: 50 يعني زيادة 50% على السعر الأساسي",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "invalidNumber": "قيمة غير صالحة"
       }
     },
     "bookings": {
@@ -446,6 +546,34 @@
         "prev": "السابق",
         "next": "التالي",
         "page": "صفحة {page} من {total}"
+      }
+    },
+    "bookingForm": {
+      "title": "حجز جديد",
+      "subtitle": "سجّل حجزاً جديداً في النظام",
+      "submit": "حفظ الحجز",
+      "createFailed": "فشل إنشاء الحجز",
+      "steps": {
+        "selection": "اختيار الوحدة والضيف",
+        "dates": "التواريخ والدفع"
+      },
+      "project": "المشروع",
+      "unit": "الوحدة",
+      "unitPlaceholder": "اختر وحدة متاحة...",
+      "noProjects": "لا يوجد مشاريع، يرجى إضافة مشروع أولاً",
+      "guestName": "اسم الضيف",
+      "guestPhone": "رقم جوال الضيف",
+      "checkIn": "تاريخ الوصول",
+      "checkOut": "تاريخ المغادرة",
+      "price": "المبلغ الإجمالي",
+      "priceHint": "اتركه فارغاً ليحسبه النظام تلقائياً",
+      "status": "حالة الحجز",
+      "channel": "قناة الحجز",
+      "notes": "ملاحظات",
+      "errors": {
+        "required": "هذا الحقل مطلوب",
+        "invalidNumber": "قيمة غير صالحة",
+        "checkoutAfterCheckin": "تاريخ المغادرة يجب أن يكون بعد تاريخ الوصول"
       }
     },
     "userForm": {
@@ -475,6 +603,7 @@
       "deactivate": "تعطيل الحساب",
       "confirmActivate": "هل أنت متأكد من تفعيل هذا المستخدم؟",
       "confirmDeactivate": "هل أنت متأكد من تعطيل هذا المستخدم؟",
+      "cancel": "إلغاء",
       "errors": {
         "firstNameRequired": "الاسم الأول مطلوب",
         "usernameRequired": "اسم المستخدم مطلوب",
@@ -525,7 +654,10 @@
       "protectedAccount": "حساب محمي",
       "todayDuration": "اليوم",
       "hoursUnit": "س",
-      "deleteConfirm": "هل أنت متأكد من حذف الموظف \"{name}\"؟",
+      "deleteTitle": "حذف الموظف",
+      "deleteConfirm": "هل أنت متأكد من حذف الموظف \"{name}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "deleteConfirmLabel": "نعم، احذف",
+      "deleteCancelLabel": "إلغاء",
       "deleteFailed": "فشل في حذف الموظف",
       "stats": {
         "total": "إجمالي الأعضاء",

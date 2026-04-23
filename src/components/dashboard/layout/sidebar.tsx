@@ -1,11 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { X } from 'lucide-react';
 
+import { Link, usePathname } from '@/i18n/navigation';
 import { DASHBOARD_ROLE_PAGES } from '@/types/dashboard';
 import { DASHBOARD_NAV_ITEMS } from './nav-items';
 
@@ -13,11 +12,10 @@ import type { DashboardUserRole } from '@/types/dashboard';
 
 interface SidebarProps {
   role: DashboardUserRole;
-  locale: string;
   onClose?: () => void;
 }
 
-export function DashboardSidebar({ role, locale, onClose }: SidebarProps) {
+export function DashboardSidebar({ role, onClose }: SidebarProps) {
   const t = useTranslations('dashboard.nav');
   const tCommon = useTranslations('dashboard.common');
   const pathname = usePathname();
@@ -25,7 +23,7 @@ export function DashboardSidebar({ role, locale, onClose }: SidebarProps) {
   const allowed = DASHBOARD_ROLE_PAGES[role] ?? [];
   const items = DASHBOARD_NAV_ITEMS.filter((i) => allowed.includes(i.id));
 
-  const basePath = `/${locale}/dashboard`;
+  const basePath = '/dashboard';
 
   return (
     <aside className="bg-neutral-dashboard-card border-neutral-dashboard-border relative z-50 flex h-full w-72 flex-col border-s shadow-sm">

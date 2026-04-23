@@ -1,21 +1,20 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { Bell, Menu } from 'lucide-react';
 
+import { Link } from '@/i18n/navigation';
 import { DashboardUserMenu } from './user-menu';
 
 import type { DashboardUser } from '@/types/dashboard';
 
 interface HeaderProps {
   user: DashboardUser;
-  locale: string;
   onToggleSidebar: () => void;
 }
 
-export function DashboardHeader({ user, locale, onToggleSidebar }: HeaderProps) {
+export function DashboardHeader({ user, onToggleSidebar }: HeaderProps) {
   const t = useTranslations('dashboard.header');
 
   return (
@@ -31,7 +30,7 @@ export function DashboardHeader({ user, locale, onToggleSidebar }: HeaderProps) 
             >
               <Menu className="h-5 w-5" />
             </button>
-            <Link href={`/${locale}/dashboard`} className="flex items-center lg:hidden">
+            <Link href="/dashboard" className="flex items-center lg:hidden">
               <Image
                 src="/dashboard/mnam-logo.png"
                 alt="Mnam"
@@ -61,7 +60,7 @@ export function DashboardHeader({ user, locale, onToggleSidebar }: HeaderProps) 
 
             <div className="bg-neutral-dashboard-border mx-1 h-6 w-px" />
 
-            <DashboardUserMenu user={user} locale={locale} />
+            <DashboardUserMenu user={user} />
           </div>
         </div>
       </header>

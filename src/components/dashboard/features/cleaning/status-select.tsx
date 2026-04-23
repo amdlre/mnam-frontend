@@ -1,8 +1,9 @@
 'use client';
 
 import { useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+
+import { useRouter } from '@/i18n/navigation';
 
 import { updateCleaningRequestStatusAction } from '@/actions/dashboard/cleaning';
 import { CLEANING_REQUEST_STATUSES } from '@/types/dashboard';

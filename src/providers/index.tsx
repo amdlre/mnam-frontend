@@ -2,6 +2,7 @@
 
 import { AmdlreProvider, AmdlreTheme, presetThemes } from '@amdlre/design-system';
 
+import { ConfirmProvider } from '@/components/shared/confirm-modal';
 import { AuthProvider } from './auth-provider';
 
 // const projectTheme = presetThemes.royal;
@@ -63,7 +64,7 @@ export function Providers({ children }: ProvidersProps) {
   return (
     <AmdlreProvider theme={myTheme}>
       <AuthProvider>
-        {children}
+        <ConfirmProvider>{children}</ConfirmProvider>
       </AuthProvider>
     </AmdlreProvider>
   );

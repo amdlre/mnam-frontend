@@ -1,23 +1,19 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react';
 
+import { useRouter } from '@/i18n/navigation';
 import { dashboardLoginAction } from '@/actions/dashboard/auth';
 import {
   dashboardLoginSchema,
   type DashboardLoginFormData,
 } from '@/lib/validations/dashboard/auth';
 
-interface Props {
-  locale: string;
-}
-
-export function DashboardLoginForm({ locale }: Props) {
+export function DashboardLoginForm() {
   const t = useTranslations('dashboard.login');
   const tErrors = useTranslations('dashboard.errors');
   const router = useRouter();
@@ -47,7 +43,7 @@ export function DashboardLoginForm({ locale }: Props) {
         setSubmitError(tErrors(result.messageKey || 'loginFailed'));
         return;
       }
-      router.replace(`/${locale}/dashboard`);
+      router.replace('/dashboard');
       router.refresh();
     });
   }

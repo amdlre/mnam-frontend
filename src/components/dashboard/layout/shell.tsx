@@ -10,11 +10,10 @@ import type { DashboardUser } from '@/types/dashboard';
 
 interface ShellProps {
   user: DashboardUser;
-  locale: string;
   children: React.ReactNode;
 }
 
-export function DashboardShell({ user, locale, children }: ShellProps) {
+export function DashboardShell({ user, children }: ShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -32,25 +31,17 @@ export function DashboardShell({ user, locale, children }: ShellProps) {
           sidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0',
         ].join(' ')}
       >
-        <DashboardSidebar role={user.role} locale={locale} onClose={() => setSidebarOpen(false)} />
+        <DashboardSidebar role={user.role} onClose={() => setSidebarOpen(false)} />
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <DashboardHeader
-          user={user}
-          locale={locale}
-          onToggleSidebar={() => setSidebarOpen(true)}
-        />
+        <DashboardHeader user={user} onToggleSidebar={() => setSidebarOpen(true)} />
         <main className="custom-scrollbar flex-1 overflow-y-auto p-4 md:p-8 lg:p-12">
           <div className="mx-auto max-w-7xl space-y-8 pb-32 lg:pb-24">{children}</div>
         </main>
       </div>
 
-      <DashboardMobileBottomNav
-        role={user.role}
-        locale={locale}
-        onToggleSidebar={() => setSidebarOpen(true)}
-      />
+      <DashboardMobileBottomNav role={user.role} onToggleSidebar={() => setSidebarOpen(true)} />
     </div>
   );
 }
