@@ -269,5 +269,99 @@
       "errorFallback": "معليش، ما فهمت عليك زين. ممكن تعيد الصياغة؟",
       "serviceDown": "الخدمة عليها ضغط حالياً، بس فريقنا موجود عالواتساب!"
     }
+  },
+  "dashboard": {
+    "common": {
+      "close": "إغلاق",
+      "version": "إصدار",
+      "pro": "Pro"
+    },
+    "nav": {
+      "menu": "القائمة الرئيسية",
+      "home": "الرئيسية",
+      "bookings": "الحجوزات",
+      "units": "الوحدات",
+      "owners": "الملاك",
+      "projects": "المشاريع",
+      "financials": "المالية",
+      "users": "الفريق",
+      "customers": "العملاء",
+      "integrations": "التكاملات",
+      "audit": "سجل الأنشطة",
+      "urgentRequests": "الطلبات العاجلة",
+      "cleaningMaintenance": "طلبات النظافة والصيانة"
+    },
+    "header": {
+      "openMenu": "فتح القائمة",
+      "system": "النظام",
+      "controlPanel": "لوحة التحكم",
+      "notifications": "الإشعارات"
+    },
+    "userMenu": {
+      "profile": "الملف الشخصي",
+      "account": "إعدادات الحساب",
+      "logout": "تسجيل الخروج",
+      "loggingOut": "جاري تسجيل الخروج..."
+    },
+    "roles": {
+      "system_owner": "مالك النظام",
+      "admin": "مدير نظام",
+      "owners_agent": "وكيل ملاك",
+      "customers_agent": "وكيل عملاء"
+    },
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "أدخل بيانات اعتمادك للوصول إلى النظام",
+      "usernameLabel": "اسم المستخدم",
+      "passwordLabel": "كلمة المرور",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "submit": "تسجيل الدخول",
+      "submitting": "جاري الدخول...",
+      "copyright": "© 2026 منام - جميع الحقوق محفوظة"
+    },
+    "errors": {
+      "username_required": "اسم المستخدم مطلوب",
+      "password_required": "كلمة المرور مطلوبة",
+      "loginFailed": "فشل تسجيل الدخول",
+      "networkError": "تعذر الاتصال بالخادم، تحقق من الاتصال وحاول مرة أخرى",
+      "sessionExpired": "جلستك انتهت، يرجى تسجيل الدخول مرة أخرى"
+    },
+    "home": {
+      "title": "لوحة التحكم",
+      "subtitle": "نظرة سريعة على أداء أعمالك اليوم",
+      "summaryUnavailable": "تعذر تحميل الملخص حالياً",
+      "kpis": {
+        "revenue": "إيرادات الشهر الحالي",
+        "revenueSub": "الدخل المتحقق حتى الآن",
+        "currentGuests": "الضيوف الحاليون",
+        "currentGuestsSub": "المقيمون الآن",
+        "totalUnits": "إجمالي الوحدات",
+        "totalUnitsSub": "الوحدات المفعلة",
+        "occupancy": "نسبة الإشغال",
+        "occupancySub": "متوسط الشهر"
+      },
+      "todayFocus": {
+        "arrivals": "وصول اليوم",
+        "departures": "مغادرة اليوم",
+        "pending": "بانتظار التسجيل",
+        "count": "{count, plural, zero {# حجز} one {حجز واحد} two {حجزان} few {# حجوزات} many {# حجزاً} other {# حجز}}",
+        "none": "لا يوجد"
+      }
+    },
+    "profile": {
+      "title": "الملف الشخصي",
+      "subtitle": "معلوماتك في النظام",
+      "name": "الاسم",
+      "username": "اسم المستخدم",
+      "email": "البريد الإلكتروني",
+      "role": "الدور",
+      "editHint": "سيتوفر تعديل الملف الشخصي في الإصدار القادم"
+    },
+    "account": {
+      "title": "إعدادات الحساب",
+      "subtitle": "تفضيلاتك الشخصية",
+      "comingSoon": "قريباً..."
+    }
   }
 }

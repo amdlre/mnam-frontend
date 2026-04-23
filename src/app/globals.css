@@ -409,3 +409,75 @@ body.hovering .cursor-outline {
     @apply font-sans;
   }
 }
+
+/* =========================================================================
+   DASHBOARD MODULE — scoped tokens, utilities, animations (appended)
+   These are prefixed so they do not collide with landing-page tokens.
+   ========================================================================= */
+@theme inline {
+  /* Dashboard neutrals (Vite: --bg-main / --bg-card / --text-main / --text-muted / --border-color) */
+  --color-neutral-dashboard-bg: #f7f7fb;
+  --color-neutral-dashboard-card: #ffffff;
+  --color-neutral-dashboard-text: #0b0b0f;
+  --color-neutral-dashboard-muted: #4b5563;
+  --color-neutral-dashboard-border: #e5e7eb;
+
+  /* Dashboard primary palette (violet — Vite: primary-50..900) */
+  --color-dashboard-primary-50: #f5f3ff;
+  --color-dashboard-primary-100: #ede9fe;
+  --color-dashboard-primary-200: #ddd6fe;
+  --color-dashboard-primary-300: #c4b5fd;
+  --color-dashboard-primary-400: #a78bfa;
+  --color-dashboard-primary-500: #8b5cf6;
+  --color-dashboard-primary-600: #6d28d9;
+  --color-dashboard-primary-700: #5b21b6;
+  --color-dashboard-primary-800: #4c1d95;
+  --color-dashboard-primary-900: #3b0764;
+
+  /* Keyframe bindings for dashboard-only animations */
+  --animate-dashboard-slide-in-up: dashboard-slide-in-up 0.3s ease-out forwards;
+  --animate-dashboard-scale-in: dashboard-scale-in 0.2s ease-out forwards;
+}
+
+@keyframes dashboard-slide-in-up {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes dashboard-scale-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* iOS safe-area utility used by the mobile bottom nav */
+@utility pb-safe {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Dashboard custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

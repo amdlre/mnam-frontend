@@ -7,6 +7,10 @@ import { PUBLIC_ROUTES, AUTH_ROUTES } from '@/constants/routes';
 
 const intlMiddleware = createMiddleware(routing);
 
+// Dashboard module (appended): uses a separate cookie-based session from the
+// mnam backend. Its routes are handled here before the legacy auth logic runs.
+const DASHBOARD_SESSION_COOKIE = process.env.DASHBOARD_SESSION_COOKIE || 'access_token';
+
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -17,6 +21,22 @@ export default async function middleware(request: NextRequest) {
   const pathnameWithoutLocale = pathnameLocale
     ? pathname.replace(`/${pathnameLocale}`, '') || '/'
     : pathname;
+
+  // ── Dashboard module gating (appended) ────────────────────────────────────
+  if (pathnameWithoutLocale.startsWith('/dashboard')) {
+    const locale = pathnameLocale || APP_CONFIG.i18n.defaultLocale;
+    const dashSession = request.cookies.get(DASHBOARD_SESSION_COOKIE)?.value;
+    const isDashLogin = pathnameWithoutLocale === '/dashboard/login';
+
+    if (isDashLogin && dashSession) {
+      return NextResponse.redirect(new URL(`/${locale}/dashboard`, request.url));
+    }
+    if (!isDashLogin && !dashSession) {
+      return NextResponse.redirect(new URL(`/${locale}/dashboard/login`, request.url));
+    }
+    return intlMiddleware(request);
+  }
+  // ── End dashboard module gating ───────────────────────────────────────────
 
   const token = request.cookies.get(APP_CONFIG.auth.cookieName)?.value;
   const isPublicRoute = PUBLIC_ROUTES.some(

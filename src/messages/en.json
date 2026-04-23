@@ -269,5 +269,99 @@
       "errorFallback": "Sorry, I didn't quite catch that. Could you rephrase?",
       "serviceDown": "The service is currently under heavy load, but our team is available on WhatsApp!"
     }
+  },
+  "dashboard": {
+    "common": {
+      "close": "Close",
+      "version": "Version",
+      "pro": "Pro"
+    },
+    "nav": {
+      "menu": "Main Menu",
+      "home": "Home",
+      "bookings": "Bookings",
+      "units": "Units",
+      "owners": "Owners",
+      "projects": "Projects",
+      "financials": "Financials",
+      "users": "Team",
+      "customers": "Customers",
+      "integrations": "Integrations",
+      "audit": "Activity Log",
+      "urgentRequests": "Urgent Requests",
+      "cleaningMaintenance": "Cleaning & Maintenance"
+    },
+    "header": {
+      "openMenu": "Open menu",
+      "system": "System",
+      "controlPanel": "Control Panel",
+      "notifications": "Notifications"
+    },
+    "userMenu": {
+      "profile": "Profile",
+      "account": "Account Settings",
+      "logout": "Log out",
+      "loggingOut": "Logging out..."
+    },
+    "roles": {
+      "system_owner": "System Owner",
+      "admin": "Administrator",
+      "owners_agent": "Owners Agent",
+      "customers_agent": "Customers Agent"
+    },
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Enter your credentials to access the system",
+      "usernameLabel": "Username",
+      "passwordLabel": "Password",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "submit": "Sign in",
+      "submitting": "Signing in...",
+      "copyright": "© 2026 Mnam — All rights reserved"
+    },
+    "errors": {
+      "username_required": "Username is required",
+      "password_required": "Password is required",
+      "loginFailed": "Login failed",
+      "networkError": "Could not reach the server, please try again",
+      "sessionExpired": "Your session has expired, please sign in again"
+    },
+    "home": {
+      "title": "Dashboard",
+      "subtitle": "A quick look at your business today",
+      "summaryUnavailable": "Summary is currently unavailable",
+      "kpis": {
+        "revenue": "Current month revenue",
+        "revenueSub": "Earned so far",
+        "currentGuests": "Current guests",
+        "currentGuestsSub": "Currently staying",
+        "totalUnits": "Total units",
+        "totalUnitsSub": "Active units",
+        "occupancy": "Occupancy rate",
+        "occupancySub": "Month-to-date average"
+      },
+      "todayFocus": {
+        "arrivals": "Today's arrivals",
+        "departures": "Today's departures",
+        "pending": "Awaiting check-in",
+        "count": "{count, plural, one {# booking} other {# bookings}}",
+        "none": "None"
+      }
+    },
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Your information in the system",
+      "name": "Name",
+      "username": "Username",
+      "email": "Email",
+      "role": "Role",
+      "editHint": "Profile editing will be available in the next release"
+    },
+    "account": {
+      "title": "Account Settings",
+      "subtitle": "Your personal preferences",
+      "comingSoon": "Coming soon..."
+    }
   }
 }
