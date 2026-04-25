@@ -46,7 +46,7 @@ export function HeaderInfo({
           <Link
             href={backHref}
             aria-label={backLabel}
-            className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200 hover:bg-slate-50"
+            className="text-neutral-dashboard-muted hover:text-neutral-dashboard-text rounded-full border border-transparent p-2 transition-colors hover:border-neutral-200  "
           >
             <ChevronRight className="h-5 w-5 ltr:rotate-180" />
           </Link>

@@ -112,7 +112,7 @@ export function FinancialsTabs({ data, labels, pdfTitles }: Props) {
                 type="button"
                 onClick={() => handleExport(period)}
                 disabled={Boolean(exportingPeriod)}
-                className="border-neutral-dashboard-border flex items-center justify-between rounded-md border p-4 text-start transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+                className="border-neutral-dashboard-border flex items-center justify-between rounded-md border p-4 text-start transition-colors   disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <div className="flex items-center gap-3">
                   <div className="rounded bg-slate-100 p-2 text-slate-600">

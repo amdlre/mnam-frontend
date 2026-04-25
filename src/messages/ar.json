@@ -410,6 +410,11 @@
       "tasksList": "أنشطتي",
       "tasksEmpty": "لا توجد أنشطة",
       "settings": {
+        "appearanceTitle": "المظهر",
+        "appearanceHint": "اختر مظهر الواجهة حسب تفضيلك أو اتركها لتتبع إعدادات النظام.",
+        "themeLight": "فاتح",
+        "themeDark": "داكن",
+        "themeSystem": "النظام",
         "passwordTitle": "الأمان وكلمة المرور",
         "passwordHint": "ينصح باختيار كلمة مرور قوية لا تقل عن 6 أحرف.",
         "currentPassword": "كلمة المرور الحالية",

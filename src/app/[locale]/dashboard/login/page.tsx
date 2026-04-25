@@ -35,7 +35,7 @@ export default async function DashboardLoginPage({ params }: Props) {
           />
         </div>
 
-        <Card className="border-neutral-dashboard-border overflow-hidden bg-white shadow-xl">
+        <Card className="border-neutral-dashboard-border bg-neutral-dashboard-card overflow-hidden shadow-xl">
           <CardContent className="p-8">
             <Typography
               as="h1"

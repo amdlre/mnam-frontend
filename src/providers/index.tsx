@@ -29,25 +29,27 @@ const myTheme: AmdlreTheme = {
     popoverForeground: '222 47% 11%',
   },
   darkColors: {
-    background: '222 47% 11%',          // #0F172A
-    foreground: '210 40% 98%',          // #F8FAFC
+    // Mirrors production tokens: bg-main #0F172A, bg-card #1E293B,
+    // text-main #F1F5F9, text-muted #94A3B8, border-color #334155.
+    background: '222 47% 11%',          // #0F172A — slate-900
+    foreground: '210 40% 96%',          // #F1F5F9 — slate-100
     primary: '263 85% 68%',             // lighter violet for dark
     primaryForeground: '222 47% 11%',   // dark bg
     secondary: '160 72% 28%',           // darker emerald
-    secondaryForeground: '210 40% 98%',
-    muted: '217 33% 18%',              // slate-800
-    mutedForeground: '215 20% 65%',    // slate-400
-    accent: '262 40% 20%',             // muted violet
-    accentForeground: '210 40% 98%',
-    destructive: '0 63% 31%',
-    destructiveForeground: '210 40% 98%',
-    border: '217 33% 18%',             // slate-800
-    input: '217 33% 18%',
-    ring: '263 85% 68%',               // matches dark primary
-    card: '222 47% 13%',               // slightly lighter than bg
-    cardForeground: '210 40% 98%',
-    popover: '222 47% 13%',
-    popoverForeground: '210 40% 98%',
+    secondaryForeground: '210 40% 96%',
+    muted: '217 33% 17%',               // #1E293B — slate-800
+    mutedForeground: '215 20% 65%',     // #94A3B8 — slate-400
+    accent: '263 45% 32%',              // ≈ #3F2E78 — visible muted violet for hover/selected rows
+    accentForeground: '210 40% 96%',
+    destructive: '0 91% 71%',           // tailwind red-400 — readable on dark surfaces
+    destructiveForeground: '210 40% 96%',
+    border: '215 25% 27%',              // #334155 — slate-700
+    input: '215 25% 27%',               // #334155
+    ring: '263 85% 68%',                // matches dark primary
+    card: '217 33% 17%',                // #1E293B — slate-800 (clearly stands off bg)
+    cardForeground: '210 40% 96%',
+    popover: '217 33% 17%',             // #1E293B
+    popoverForeground: '210 40% 96%',
   },
   fonts: {
     sans: '"IBM Plex Sans Arabic", sans-serif',

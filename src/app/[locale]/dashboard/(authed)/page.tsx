@@ -93,9 +93,9 @@ export default async function DashboardHomePage({ params }: Props) {
       <CleaningCreateForm units={units} activeUnitIds={activeUnitIds} />
 
       <div className="bg-neutral-dashboard-card border-neutral-dashboard-border rounded-md border shadow-sm">
-        <div className="border-neutral-dashboard-border flex items-center justify-between border-b bg-slate-50/50 px-4 py-3">
+        <div className="border-neutral-dashboard-border flex items-center justify-between border-b px-4 py-3">
           <div className="flex items-center gap-2">
-            <Sparkles className="text-dashboard-primary-600 h-4 w-4" />
+            <Sparkles className="text-dashboard-primary-600 dark:text-dashboard-primary-400 h-4 w-4" />
             <h3 className="text-neutral-dashboard-text text-sm font-semibold">
               {tCleaning('title')}
             </h3>
@@ -105,7 +105,7 @@ export default async function DashboardHomePage({ params }: Props) {
           </div>
           <Link
             href="/dashboard/cleaning-maintenance"
-            className="text-dashboard-primary-600 text-xs font-medium hover:underline"
+            className="text-dashboard-primary-600 dark:text-dashboard-primary-300 text-xs font-medium hover:underline"
           >
             {t('cleaning.viewAll')}
           </Link>
@@ -118,7 +118,7 @@ export default async function DashboardHomePage({ params }: Props) {
         ) : (
           <div className="hidden overflow-x-auto md:block">
             <table className="w-full text-right text-sm">
-              <thead className="text-neutral-dashboard-muted border-neutral-dashboard-border border-b bg-slate-50">
+              <thead className="text-neutral-dashboard-muted border-neutral-dashboard-border border-b bg-primary-foreground">
                 <tr>
                   <th className="px-4 py-2 font-medium">{tCleaning('cols.unit')}</th>
                   <th className="px-4 py-2 font-medium">{tCleaning('cols.project')}</th>
@@ -130,7 +130,7 @@ export default async function DashboardHomePage({ params }: Props) {
               </thead>
               <tbody className="divide-neutral-dashboard-border divide-y">
                 {cleaningPreview.slice(0, 5).map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-50">
+                  <tr key={item.id} className=" ">
                     <td className="text-neutral-dashboard-text px-4 py-2 font-medium">
                       {item.unitName}
                     </td>

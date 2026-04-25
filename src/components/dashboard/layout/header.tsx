@@ -25,7 +25,7 @@ export function DashboardHeader({ user, onToggleSidebar }: HeaderProps) {
             <button
               type="button"
               onClick={onToggleSidebar}
-              className="text-neutral-dashboard-muted hover:text-dashboard-primary-600 rounded-md p-2 transition-colors hover:bg-slate-50 lg:hidden"
+              className="text-neutral-dashboard-muted hover:text-dashboard-primary-600 rounded-md p-2 transition-colors   lg:hidden"
               aria-label={t('openMenu')}
             >
               <Menu className="h-5 w-5" />
@@ -52,7 +52,7 @@ export function DashboardHeader({ user, onToggleSidebar }: HeaderProps) {
           <div className="flex items-center gap-2 md:gap-4">
             <button
               type="button"
-              className="hover:text-dashboard-primary-600 relative rounded-md p-2 text-slate-500 transition-colors hover:bg-slate-50"
+              className="hover:text-dashboard-primary-600 relative rounded-md p-2 text-slate-500 transition-colors  "
               aria-label={t('notifications')}
             >
               <Bell className="h-5 w-5" />

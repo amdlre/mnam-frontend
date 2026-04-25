@@ -21,6 +21,7 @@ import { Card, CardContent } from '@amdlre/design-system';
 
 import { StatCard } from '@/components/dashboard/shared/stat-card';
 import { AccountSettingsForm } from './account-settings-form';
+import { AppearanceSection } from './appearance-section';
 
 import type { AccountProfile, AccountTaskActivity } from '@/lib/api/dashboard/account';
 
@@ -91,16 +92,14 @@ export function AccountTabs({ profile, tasks, locale }: Props) {
                 {profile.roleLabel}
               </span>
               <span
-                className={`flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] ${
-                  profile.isActive
+                className={`flex items-center gap-1.5 rounded-full border px-2 py-0.5 text-[10px] ${profile.isActive
                     ? 'border-emerald-100 bg-emerald-50 text-emerald-700'
                     : 'border-slate-200 bg-slate-50 text-slate-500'
-                }`}
+                  }`}
               >
                 <span
-                  className={`h-1.5 w-1.5 rounded-full ${
-                    profile.isActive ? 'bg-emerald-500' : 'bg-slate-400'
-                  }`}
+                  className={`h-1.5 w-1.5 rounded-full ${profile.isActive ? 'bg-emerald-500' : 'bg-slate-400'
+                    }`}
                 />
                 {profile.isActive ? t('active') : t('inactive')}
               </span>
@@ -115,11 +114,10 @@ export function AccountTabs({ profile, tasks, locale }: Props) {
             key={item.id}
             type="button"
             onClick={() => setTab(item.id)}
-            className={`-mb-px flex items-center gap-2 border-b-2 px-3 py-2 text-sm font-medium transition-colors ${
-              tab === item.id
+            className={`-mb-px flex items-center gap-2 border-b-2 px-3 py-2 text-sm font-medium transition-colors ${tab === item.id
                 ? 'border-dashboard-primary-600 text-dashboard-primary-600'
                 : 'text-neutral-dashboard-muted hover:text-neutral-dashboard-text border-transparent'
-            }`}
+              }`}
           >
             {item.icon}
             {item.label}
@@ -134,7 +132,10 @@ export function AccountTabs({ profile, tasks, locale }: Props) {
       ) : tab === 'stats' ? (
         <StatsTab profile={profile} />
       ) : (
-        <AccountSettingsForm />
+        <div className="space-y-6">
+          <AppearanceSection />
+          <AccountSettingsForm />
+        </div>
       )}
     </div>
   );
@@ -244,7 +245,7 @@ function TasksTab({ tasks, locale }: { tasks: AccountTaskActivity[]; locale: str
       <CardContent className="p-0">
         <ul className="divide-neutral-dashboard-border divide-y">
           {tasks.map((a) => (
-            <li key={a.id} className="flex items-center gap-3 p-3 hover:bg-slate-50">
+            <li key={a.id} className="flex items-center gap-3 p-3  ">
               <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-emerald-500" />
               <div className="min-w-0 flex-1">
                 <p className="text-neutral-dashboard-text text-sm font-medium">{a.title}</p>

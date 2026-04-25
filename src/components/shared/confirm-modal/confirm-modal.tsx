@@ -62,7 +62,7 @@ export function ConfirmModal({ open, options, onConfirm, onCancel }: ConfirmModa
     confirmVariant === 'destructive'
       ? 'bg-red-600 text-white hover:bg-red-700'
       : confirmVariant === 'outline'
-        ? 'border border-neutral-dashboard-border bg-white text-neutral-dashboard-text hover:bg-slate-50'
+        ? 'border border-neutral-dashboard-border bg-neutral-dashboard-card text-neutral-dashboard-text hover:bg-neutral-dashboard-bg'
         : 'bg-dashboard-primary-600 text-white hover:bg-dashboard-primary-700';
 
   return (
@@ -94,7 +94,7 @@ export function ConfirmModal({ open, options, onConfirm, onCancel }: ConfirmModa
             <button
               type="button"
               onClick={onCancel}
-              className="border-neutral-dashboard-border text-neutral-dashboard-text rounded-lg border bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-slate-50"
+              className="border-neutral-dashboard-border bg-neutral-dashboard-card text-neutral-dashboard-text hover:bg-neutral-dashboard-bg rounded-lg border px-4 py-2 text-sm font-medium transition-colors"
             >
               {showCancel}
             </button>

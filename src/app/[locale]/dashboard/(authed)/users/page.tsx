@@ -88,7 +88,7 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
         />
       </section>
 
-      <div className="bg-neutral-dashboard-card border-neutral-dashboard-border flex flex-wrap items-center justify-between gap-4 rounded-md border p-4 shadow-sm">
+      {/* <div className="bg-neutral-dashboard-card border-neutral-dashboard-border flex flex-wrap items-center justify-between gap-4 rounded-md border p-4 shadow-sm">
         {viewMode === 'grid' ? <UsersFilters /> : <div />}
         <UsersViewToggle />
       </div>
@@ -108,7 +108,9 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
         )
       ) : (
         <UsersTable users={users} />
-      )}
+      )} */}
+      <UsersTable users={users} />
+
     </div>
   );
 }

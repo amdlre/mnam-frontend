@@ -1,8 +1,10 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Search } from 'lucide-react';
+import { CustomCombobox } from '@amdlre/design-system';
 
 import { useRouter, usePathname } from '@/i18n/navigation';
 
@@ -24,6 +26,25 @@ export function UsersFilters() {
   const currentRole = searchParams.get('role') || 'all';
   const currentStatus = searchParams.get('status') || 'all';
 
+  const roleOptions = useMemo(
+    () => [
+      { value: 'all', label: t('allRoles') },
+      { value: 'admin', label: t('roleAdmin') },
+      { value: 'customers_agent', label: t('roleCustomersAgent') },
+      { value: 'owners_agent', label: t('roleOwnersAgent') },
+    ],
+    [t],
+  );
+
+  const statusOptions = useMemo(
+    () => [
+      { value: 'all', label: t('allStatuses') },
+      { value: 'active', label: t('active') },
+      { value: 'inactive', label: t('inactive') },
+    ],
+    [t],
+  );
+
   return (
     <div className="flex flex-wrap items-center gap-3">
       <div className="relative min-w-[200px] flex-grow">
@@ -37,26 +58,21 @@ export function UsersFilters() {
         />
       </div>
 
-      <select
+      <CustomCombobox
+        className="min-w-[140px]"
+        options={roleOptions}
         value={currentRole}
-        onChange={(e) => update('role', e.target.value)}
-        className="border-neutral-dashboard-border focus:ring-dashboard-primary-500 min-w-[140px] rounded-md border px-3 py-2 text-sm focus:ring-1"
-      >
-        <option value="all">{t('allRoles')}</option>
-        <option value="admin">{t('roleAdmin')}</option>
-        <option value="customers_agent">{t('roleCustomersAgent')}</option>
-        <option value="owners_agent">{t('roleOwnersAgent')}</option>
-      </select>
+        onValueChange={(v) => update('role', v || 'all')}
+        placeholder={t('allRoles')}
+      />
 
-      <select
+      <CustomCombobox
+        className="min-w-[140px]"
+        options={statusOptions}
         value={currentStatus}
-        onChange={(e) => update('status', e.target.value)}
-        className="border-neutral-dashboard-border focus:ring-dashboard-primary-500 min-w-[140px] rounded-md border px-3 py-2 text-sm focus:ring-1"
-      >
-        <option value="all">{t('allStatuses')}</option>
-        <option value="active">{t('active')}</option>
-        <option value="inactive">{t('inactive')}</option>
-      </select>
+        onValueChange={(v) => update('status', v || 'all')}
+        placeholder={t('allStatuses')}
+      />
     </div>
   );
 }

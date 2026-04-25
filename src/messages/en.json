@@ -410,6 +410,11 @@
       "tasksList": "My activities",
       "tasksEmpty": "No activities",
       "settings": {
+        "appearanceTitle": "Appearance",
+        "appearanceHint": "Pick a theme that suits you, or leave it to follow your system.",
+        "themeLight": "Light",
+        "themeDark": "Dark",
+        "themeSystem": "System",
         "passwordTitle": "Security & password",
         "passwordHint": "Choose a strong password of at least 6 characters.",
         "currentPassword": "Current password",

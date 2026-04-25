@@ -42,7 +42,7 @@ export function DashboardSidebar({ role, onClose }: SidebarProps) {
           <button
             type="button"
             onClick={onClose}
-            className="text-neutral-dashboard-muted rounded-md p-2 transition-colors hover:bg-slate-50 lg:hidden"
+            className="text-neutral-dashboard-muted rounded-md p-2 transition-colors hover:bg-primary lg:hidden"
             aria-label={tCommon('close')}
           >
             <X className="h-5 w-5" />
@@ -70,15 +70,15 @@ export function DashboardSidebar({ role, onClose }: SidebarProps) {
                 'group flex w-full items-center gap-3 rounded-md px-3 py-2.5 transition-all duration-200',
                 item.inBottomNav ? 'hidden lg:flex' : '',
                 isActive
-                  ? 'bg-dashboard-primary-50 text-dashboard-primary-700 ring-dashboard-primary-200 font-bold shadow-sm ring-1'
-                  : 'text-neutral-dashboard-text hover:text-dashboard-primary-600 hover:bg-slate-50',
+                  ? 'bg-dashboard-primary-50 text-dashboard-primary-700 ring-dashboard-primary-200 dark:ring-dashboard-primary-500 font-bold shadow-sm ring-1'
+                  : ' text-dashboard-primary-700 ring-dashboard-primary-200 dark:ring-dashboard-primary-500',
               ].join(' ')}
             >
               <Icon
                 className={
                   isActive
-                    ? 'text-dashboard-primary-700 h-5 w-5 transition-colors'
-                    : 'group-hover:text-dashboard-primary-500 h-5 w-5 text-slate-400 transition-colors'
+                    ? 'bg-dashboard-primary-50 text-dashboard-primary-700 ring-dashboard-primary-200 dark:ring-dashboard-primary-500 h-5 w-5 transition-colors'
+                    : ' text-dashboard-primary-700 ring-dashboard-primary-200 dark:ring-dashboard-primary-500 transition-colors'
                 }
               />
               <span className="text-sm">{t(item.labelKey)}</span>
@@ -88,7 +88,7 @@ export function DashboardSidebar({ role, onClose }: SidebarProps) {
         })}
       </nav>
 
-      <div className="border-neutral-dashboard-border border-t bg-slate-50/50 p-4">
+      <div className="border-neutral-dashboard-border border-t p-4">
         <div className="text-neutral-dashboard-muted flex items-center justify-between text-[11px] font-medium">
           <span>{tCommon('version')} 2.5.0</span>
           <span className="text-slate-400">Pro</span>

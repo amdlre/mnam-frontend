@@ -9,6 +9,7 @@ import { Toaster } from '@amdlre/design-system';
 import { routing } from '@/i18n/routing';
 import { Providers } from '@/providers';
 import { generateSiteMetadata } from '@/lib/seo/metadata';
+import { themeInitScript } from '@/lib/theme';
 import '../globals.css';
 
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -40,6 +41,9 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className={`${ibmPlexSansArabic.variable} font-sans antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <Providers>

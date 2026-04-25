@@ -107,11 +107,10 @@ export function AlertsList({ initialAlerts, initialFilter = 'open' }: Props) {
             key={tab}
             type="button"
             onClick={() => setFilter(tab)}
-            className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${
-              filter === tab
+            className={`border-b-2 px-4 py-2 text-sm font-medium transition-colors ${filter === tab
                 ? 'border-dashboard-primary-600 text-dashboard-primary-600'
                 : 'text-neutral-dashboard-muted hover:text-neutral-dashboard-text border-transparent'
-            }`}
+              }`}
           >
             {t(`alertTabs.${tab}`)}
           </button>
@@ -131,7 +130,7 @@ export function AlertsList({ initialAlerts, initialFilter = 'open' }: Props) {
         ) : (
           <div className="divide-neutral-dashboard-border divide-y">
             {alerts.map((alert) => (
-              <div key={alert.id} className="flex items-start gap-3 p-4 transition-colors hover:bg-slate-50">
+              <div key={alert.id} className="flex items-start gap-3 p-4 transition-colors  ">
                 <div className="mt-1 flex-shrink-0">{severityIcon(alert.severity)}</div>
                 <div className="min-w-0 flex-1">
                   <div className="mb-1 flex items-center justify-between gap-2">
@@ -146,13 +145,12 @@ export function AlertsList({ initialAlerts, initialFilter = 'open' }: Props) {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span
-                        className={`rounded px-2 py-0.5 text-xs font-medium ${
-                          alert.status === 'open'
+                        className={`rounded px-2 py-0.5 text-xs font-medium ${alert.status === 'open'
                             ? 'bg-red-100 text-red-700'
                             : alert.status === 'acknowledged'
                               ? 'bg-amber-100 text-amber-700'
                               : 'bg-emerald-100 text-emerald-700'
-                        }`}
+                          }`}
                       >
                         {t(`alertStatus.${alert.status}`)}
                       </span>

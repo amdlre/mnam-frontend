@@ -57,11 +57,10 @@ export function UserCard({ user, status }: Props) {
 
   return (
     <div
-      className={`bg-neutral-dashboard-card rounded-md border shadow-sm transition-all hover:shadow-md ${
-        user.isSystemOwner
+      className={`bg-neutral-dashboard-card rounded-md border shadow-sm transition-all hover:shadow-md ${user.isSystemOwner
           ? 'border-amber-200 ring-1 ring-amber-50'
           : 'border-neutral-dashboard-border'
-      }`}
+        }`}
     >
       <div className="border-neutral-dashboard-border flex items-start justify-between border-b p-3 md:p-4">
         <div className="flex items-center gap-2 md:gap-3">
@@ -75,9 +74,8 @@ export function UserCard({ user, status }: Props) {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
                 ) : null}
                 <span
-                  className={`relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-white md:h-3 md:w-3 ${
-                    isOnline ? 'bg-green-500' : 'bg-gray-300'
-                  }`}
+                  className={`relative inline-flex h-2.5 w-2.5 rounded-full border-2 border-white md:h-3 md:w-3 ${isOnline ? 'bg-green-500' : 'bg-gray-300'
+                    }`}
                 />
               </span>
             ) : null}
@@ -90,9 +88,8 @@ export function UserCard({ user, status }: Props) {
           </div>
         </div>
         <span
-          className={`rounded border px-1.5 py-0.5 text-[10px] ${
-            USER_ROLE_BADGE_STYLES[user.role] ?? 'border-slate-200 bg-slate-50 text-slate-600'
-          }`}
+          className={`rounded border px-1.5 py-0.5 text-[10px] ${USER_ROLE_BADGE_STYLES[user.role] ?? 'border-slate-200 bg-slate-50 text-slate-600'
+            }`}
         >
           {tRoles(user.role)}
         </span>
@@ -138,13 +135,13 @@ export function UserCard({ user, status }: Props) {
             <>
               <Link
                 href={`/dashboard/users/${user.id}`}
-                className="border-neutral-dashboard-border hover:text-dashboard-primary-600 flex-1 rounded border bg-white px-1.5 py-1 text-center text-[10px] text-neutral-600 transition-colors hover:bg-slate-50 md:text-xs"
+                className="border-neutral-dashboard-border hover:text-dashboard-primary-600 flex-1 rounded border bg-white px-1.5 py-1 text-center text-[10px] text-neutral-600 transition-colors   md:text-xs"
               >
                 {t('file')}
               </Link>
               <Link
                 href={`/dashboard/users/${user.id}/edit`}
-                className="border-neutral-dashboard-border hover:text-dashboard-primary-600 rounded border bg-white px-1.5 py-1 text-neutral-600 transition-colors hover:bg-slate-50"
+                className="border-neutral-dashboard-border hover:text-dashboard-primary-600 rounded border bg-white px-1.5 py-1 text-neutral-600 transition-colors  "
                 aria-label={t('edit')}
               >
                 <Pencil className="h-3 w-3 md:h-3.5 md:w-3.5" />
