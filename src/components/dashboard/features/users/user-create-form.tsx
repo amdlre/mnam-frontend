@@ -1,10 +1,17 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { LockKeyhole, UserCircle } from 'lucide-react';
-import { WizardForm, type WizardFormStep } from '@amdlre/design-system';
+import {
+  Card,
+  CardContent,
+  CustomCombobox,
+  CustomInput,
+  WizardForm,
+  type WizardFormStep,
+} from '@amdlre/design-system';
 
 import { useRouter } from '@/i18n/navigation';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
@@ -85,89 +92,88 @@ export function UserCreateForm({ roles }: Props) {
           router.refresh();
         }}
       >
-        <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
-          <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
-            {t('accountSection')}
-          </h2>
-          <Field label={t('username')} required hint={t('usernameHint')} error={err(errors.username?.message)}>
-            <input type="text" {...register('username')} className="input text-left" dir="ltr" placeholder="username" />
-          </Field>
-          <Field label={t('email')} required error={err(errors.email?.message)}>
-            <input type="email" {...register('email')} className="input text-left" dir="ltr" placeholder="email@example.com" />
-          </Field>
-          <Field label={t('password')} required error={err(errors.password?.message)}>
-            <input type="password" {...register('password')} className="input text-left" dir="ltr" placeholder="••••••••" />
-          </Field>
-          <Field label={t('role')} required error={err(errors.role?.message)}>
-            <select {...register('role')} className="input">
-              {roles.map((r) => (
-                <option key={r.value} value={r.value}>
-                  {r.label}
-                </option>
-              ))}
-            </select>
-          </Field>
-        </div>
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('accountSection')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <CustomInput
+                label={t('username')}
+                isRequired
+                type="text"
+                dir="ltr"
+                placeholder="username"
+                error={err(errors.username?.message)}
+                {...register('username')}
+              />
+              <CustomInput
+                label={t('email')}
+                isRequired
+                type="email"
+                dir="ltr"
+                placeholder="email@example.com"
+                error={err(errors.email?.message)}
+                {...register('email')}
+              />
+              <CustomInput
+                label={t('password')}
+                isRequired
+                type="password"
+                dir="ltr"
+                placeholder="••••••••"
+                error={err(errors.password?.message)}
+                {...register('password')}
+              />
+              <Controller
+                control={form.control}
+                name="role"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('role')}
+                    isRequired
+                    options={roles.map((r) => ({ value: r.value, label: r.label }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectRole')}
+                    searchPlaceholder={t('selectRole')}
+                  />
+                )}
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-        <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
-          <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
-            {t('personalSection')}
-          </h2>
-          <Field label={t('firstName')} required error={err(errors.first_name?.message)}>
-            <input type="text" {...register('first_name')} className="input" placeholder={t('firstNamePlaceholder')} />
-          </Field>
-          <Field label={t('lastName')} error={err(errors.last_name?.message)}>
-            <input type="text" {...register('last_name')} className="input" placeholder={t('lastNamePlaceholder')} />
-          </Field>
-          <Field label={t('phone')} error={err(errors.phone?.message)}>
-            <input type="tel" {...register('phone')} className="input" placeholder="05xxxxxxxx" dir="ltr" />
-          </Field>
-        </div>
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('personalSection')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <CustomInput
+                label={t('firstName')}
+                isRequired
+                type="text"
+                placeholder={t('firstNamePlaceholder')}
+                error={err(errors.first_name?.message)}
+                {...register('first_name')}
+              />
+              <CustomInput
+                label={t('lastName')}
+                type="text"
+                placeholder={t('lastNamePlaceholder')}
+                error={err(errors.last_name?.message)}
+                {...register('last_name')}
+              />
+              <CustomInput
+                label={t('phone')}
+                type="tel"
+                dir="ltr"
+                placeholder="05xxxxxxxx"
+                error={err(errors.phone?.message)}
+                {...register('phone')}
+              />
+            </div>
+          </CardContent>
+        </Card>
       </WizardForm>
-
-      <style>{`
-        .input {
-          width: 100%;
-          padding: 0.5rem 0.75rem;
-          border-radius: 0.5rem;
-          border: 1px solid var(--color-neutral-dashboard-border);
-          background: var(--color-neutral-dashboard-card);
-          color: var(--color-neutral-dashboard-text);
-          font-size: 0.875rem;
-          outline: none;
-          transition: box-shadow 0.15s;
-        }
-        .input:focus {
-          border-color: var(--color-dashboard-primary-500);
-          box-shadow: 0 0 0 2px var(--color-dashboard-primary-100);
-        }
-      `}</style>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  required,
-  error,
-  hint,
-  children,
-}: {
-  label: string;
-  required?: boolean;
-  error?: string;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div>
-      <label className="text-neutral-dashboard-text mb-1 block text-sm font-medium">
-        {label}
-        {required ? <span className="ms-1 text-red-500">*</span> : null}
-      </label>
-      {children}
-      {hint && !error ? <p className="text-neutral-dashboard-muted mt-1 text-xs">{hint}</p> : null}
-      {error ? <p className="mt-1 text-xs text-red-600">{error}</p> : null}
     </div>
   );
 }

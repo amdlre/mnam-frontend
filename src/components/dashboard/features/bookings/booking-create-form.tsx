@@ -1,14 +1,21 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { CalendarDays, ClipboardList } from 'lucide-react';
-import { WizardForm, type WizardFormStep } from '@amdlre/design-system';
+import {
+  Card,
+  CardContent,
+  CustomCombobox,
+  CustomInput,
+  CustomTextarea,
+  WizardForm,
+  type WizardFormStep,
+} from '@amdlre/design-system';
 
 import { useRouter } from '@/i18n/navigation';
-import { FormCard, FormField, FormInputs } from '@/components/dashboard/features/forms/form-primitives';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createBookingAction } from '@/actions/dashboard/entities';
 import {
@@ -99,92 +106,131 @@ export function BookingCreateForm({ projects, units }: Props) {
           router.refresh();
         }}
       >
-        <FormCard title={t('steps.selection')}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <FormField label={t('project')} required error={err(errors.project_id?.message)}>
-              <select
-                {...register('project_id')}
-                onChange={(e) => {
-                  register('project_id').onChange(e);
-                  setValue('unit_id', '');
-                }}
-                className="input"
-              >
-                {projects.length === 0 ? <option value="">{t('noProjects')}</option> : null}
-                {projects.map((p) => (
-                  <option key={p.id} value={p.id}>
-                    {p.name}
-                  </option>
-                ))}
-              </select>
-            </FormField>
-            <FormField label={t('unit')} required error={err(errors.unit_id?.message)}>
-              <select {...register('unit_id')} className="input">
-                <option value="">{t('unitPlaceholder')}</option>
-                {availableUnits.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.unitName}
-                  </option>
-                ))}
-              </select>
-            </FormField>
-            <FormField label={t('guestName')} required error={err(errors.guest_name?.message)}>
-              <input type="text" {...register('guest_name')} className="input" />
-            </FormField>
-            <FormField label={t('guestPhone')} error={err(errors.guest_phone?.message)}>
-              <input type="tel" {...register('guest_phone')} className="input" dir="ltr" />
-            </FormField>
-          </div>
-        </FormCard>
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('steps.selection')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <Controller
+                control={form.control}
+                name="project_id"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('project')}
+                    isRequired
+                    options={projects.map((p) => ({ value: p.id, label: p.name }))}
+                    value={field.value}
+                    onValueChange={(v) => {
+                      field.onChange(v);
+                      setValue('unit_id', '');
+                    }}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectProject')}
+                    emptyMessage={t('noProjects')}
+                  />
+                )}
+              />
+              <Controller
+                control={form.control}
+                name="unit_id"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('unit')}
+                    isRequired
+                    options={availableUnits.map((u) => ({ value: u.id, label: u.unitName }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('unitPlaceholder')}
+                  />
+                )}
+              />
+              <CustomInput
+                label={t('guestName')}
+                isRequired
+                type="text"
+                placeholder={t('guestName')}
+                error={err(errors.guest_name?.message)}
+                {...register('guest_name')}
+              />
+              <CustomInput
+                label={t('guestPhone')}
+                type="tel"
+                dir="ltr"
+                placeholder="05xxxxxxxx"
+                error={err(errors.guest_phone?.message)}
+                {...register('guest_phone')}
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-        <FormCard title={t('steps.dates')}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <FormField label={t('checkIn')} required error={err(errors.check_in_date?.message)}>
-              <input type="date" {...register('check_in_date')} className="input" />
-            </FormField>
-            <FormField label={t('checkOut')} required error={err(errors.check_out_date?.message)}>
-              <input type="date" {...register('check_out_date')} className="input" />
-            </FormField>
-            <FormField
-              label={t('price')}
-              hint={t('priceHint')}
-              error={err(errors.total_price?.message)}
-            >
-              <input
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('steps.dates')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <CustomInput
+                label={t('checkIn')}
+                isRequired
+                type="date"
+                error={err(errors.check_in_date?.message)}
+                {...register('check_in_date')}
+              />
+              <CustomInput
+                label={t('checkOut')}
+                isRequired
+                type="date"
+                error={err(errors.check_out_date?.message)}
+                {...register('check_out_date')}
+              />
+              <CustomInput
+                label={t('price')}
                 type="number"
                 step="0.01"
+                placeholder="0.00"
+                error={err(errors.total_price?.message)}
                 {...register('total_price', { valueAsNumber: true })}
-                className="input"
               />
-            </FormField>
-            <FormField label={t('status')} required error={err(errors.status?.message)}>
-              <select {...register('status')} className="input">
-                {BOOKING_STATUSES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </FormField>
-            <FormField label={t('channel')} error={err(errors.channel_source?.message)}>
-              <select {...register('channel_source')} className="input">
-                {CHANNELS.map((c) => (
-                  <option key={c} value={c}>
-                    {c}
-                  </option>
-                ))}
-              </select>
-            </FormField>
-            <div className="md:col-span-2">
-              <FormField label={t('notes')} error={err(errors.notes?.message)}>
-                <textarea {...register('notes')} className="input" />
-              </FormField>
+              <Controller
+                control={form.control}
+                name="status"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('status')}
+                    isRequired
+                    options={BOOKING_STATUSES.map((s) => ({ value: s, label: s }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectStatus')}
+                  />
+                )}
+              />
+              <Controller
+                control={form.control}
+                name="channel_source"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('channel')}
+                    options={CHANNELS.map((c) => ({ value: c, label: c }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectChannel')}
+                  />
+                )}
+              />
+              <div className="md:col-span-2 lg:col-span-3">
+                <CustomTextarea
+                  label={t('notes')}
+                  placeholder={t('notesPlaceholder')}
+                  error={err(errors.notes?.message)}
+                  {...register('notes')}
+                />
+              </div>
             </div>
-          </div>
-        </FormCard>
+          </CardContent>
+        </Card>
       </WizardForm>
-
-      <FormInputs />
     </div>
   );
 }

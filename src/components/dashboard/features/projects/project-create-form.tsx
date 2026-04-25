@@ -1,13 +1,19 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { FileSignature, Info, MapPin } from 'lucide-react';
-import { WizardForm, type WizardFormStep } from '@amdlre/design-system';
+import {
+  Card,
+  CardContent,
+  CustomCombobox,
+  CustomInput,
+  WizardForm,
+  type WizardFormStep,
+} from '@amdlre/design-system';
 
 import { useRouter } from '@/i18n/navigation';
-import { FormCard, FormField, FormInputs } from '@/components/dashboard/features/forms/form-primitives';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createProjectAction } from '@/actions/dashboard/entities';
 import {
@@ -20,6 +26,8 @@ import type { SimpleOwner } from '@/lib/api/dashboard/entities';
 interface Props {
   owners: SimpleOwner[];
 }
+
+const CONTRACT_STATUSES = ['ساري', 'منتهي', 'موقف مؤقتاً'];
 
 export function ProjectCreateForm({ owners }: Props) {
   const t = useTranslations('dashboard.projectForm');
@@ -73,6 +81,9 @@ export function ProjectCreateForm({ owners }: Props) {
     },
   ];
 
+  const contractStatusLabel = (s: string) =>
+    s === 'ساري' ? t('statusActive') : s === 'منتهي' ? t('statusExpired') : t('statusSuspended');
+
   const err = (k?: string) => (k ? tErrors(k) : '');
 
   return (
@@ -95,81 +106,145 @@ export function ProjectCreateForm({ owners }: Props) {
           router.refresh();
         }}
       >
-        <FormCard title={t('steps.basic')}>
-          <FormField label={t('name')} required error={err(errors.name?.message)}>
-            <input type="text" {...register('name')} className="input" />
-          </FormField>
-          <FormField label={t('owner')} required error={err(errors.owner_id?.message)}>
-            <select {...register('owner_id')} className="input">
-              {owners.length === 0 ? <option value="">{t('noOwners')}</option> : null}
-              {owners.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.name}
-                </option>
-              ))}
-            </select>
-          </FormField>
-        </FormCard>
-
-        <FormCard title={t('steps.location')}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <FormField label={t('city')} error={err(errors.city?.message)}>
-              <input type="text" {...register('city')} className="input" />
-            </FormField>
-            <FormField label={t('district')} error={err(errors.district?.message)}>
-              <input type="text" {...register('district')} className="input" />
-            </FormField>
-            <FormField label={t('securityPhone')} error={err(errors.security_guard_phone?.message)}>
-              <input type="tel" {...register('security_guard_phone')} className="input" dir="ltr" />
-            </FormField>
-            <FormField
-              label={t('managerPhone')}
-              error={err(errors.property_manager_phone?.message)}
-            >
-              <input type="tel" {...register('property_manager_phone')} className="input" dir="ltr" />
-            </FormField>
-            <div className="md:col-span-2">
-              <FormField label={t('mapUrl')} error={err(errors.map_url?.message)}>
-                <input type="url" {...register('map_url')} className="input" dir="ltr" />
-              </FormField>
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('steps.basic')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <CustomInput
+                label={t('name')}
+                isRequired
+                type="text"
+                placeholder={t('name')}
+                error={err(errors.name?.message)}
+                {...register('name')}
+              />
+              <Controller
+                control={form.control}
+                name="owner_id"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('owner')}
+                    isRequired
+                    options={owners.map((o) => ({ value: o.id, label: o.name }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectOwner')}
+                    emptyMessage={t('noOwners')}
+                  />
+                )}
+              />
             </div>
-          </div>
-        </FormCard>
+          </CardContent>
+        </Card>
 
-        <FormCard title={t('steps.contract')}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <FormField label={t('contractNo')} error={err(errors.contract_no?.message)}>
-              <input type="text" {...register('contract_no')} className="input" />
-            </FormField>
-            <FormField label={t('contractStatus')} error={err(errors.contract_status?.message)}>
-              <select {...register('contract_status')} className="input">
-                <option value="ساري">{t('statusActive')}</option>
-                <option value="منتهي">{t('statusExpired')}</option>
-                <option value="موقف مؤقتاً">{t('statusSuspended')}</option>
-              </select>
-            </FormField>
-            <FormField label={t('contractDuration')} error={err(errors.contract_duration?.message)}>
-              <input type="text" {...register('contract_duration')} className="input" />
-            </FormField>
-            <FormField label={t('commission')} error={err(errors.commission_percent?.message)}>
-              <input
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('steps.location')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <CustomInput
+                label={t('city')}
+                type="text"
+                placeholder={t('city')}
+                error={err(errors.city?.message)}
+                {...register('city')}
+              />
+              <CustomInput
+                label={t('district')}
+                type="text"
+                placeholder={t('district')}
+                error={err(errors.district?.message)}
+                {...register('district')}
+              />
+              <CustomInput
+                label={t('securityPhone')}
+                type="tel"
+                dir="ltr"
+                placeholder="05xxxxxxxx"
+                error={err(errors.security_guard_phone?.message)}
+                {...register('security_guard_phone')}
+              />
+              <CustomInput
+                label={t('managerPhone')}
+                type="tel"
+                dir="ltr"
+                placeholder="05xxxxxxxx"
+                error={err(errors.property_manager_phone?.message)}
+                {...register('property_manager_phone')}
+              />
+              <div className="md:col-span-2 lg:col-span-3">
+                <CustomInput
+                  label={t('mapUrl')}
+                  type="url"
+                  dir="ltr"
+                  placeholder="https://maps.google.com/..."
+                  error={err(errors.map_url?.message)}
+                  {...register('map_url')}
+                />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('steps.contract')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <CustomInput
+                label={t('contractNo')}
+                type="text"
+                placeholder={t('contractNo')}
+                error={err(errors.contract_no?.message)}
+                {...register('contract_no')}
+              />
+              <Controller
+                control={form.control}
+                name="contract_status"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('contractStatus')}
+                    options={CONTRACT_STATUSES.map((s) => ({ value: s, label: contractStatusLabel(s) }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectStatus')}
+                  />
+                )}
+              />
+              <CustomInput
+                label={t('contractDuration')}
+                type="text"
+                placeholder={t('contractDuration')}
+                error={err(errors.contract_duration?.message)}
+                {...register('contract_duration')}
+              />
+              <CustomInput
+                label={t('commission')}
                 type="number"
                 step="0.1"
+                placeholder="0"
+                error={err(errors.commission_percent?.message)}
                 {...register('commission_percent', { valueAsNumber: true })}
-                className="input"
               />
-            </FormField>
-            <FormField label={t('bankName')} error={err(errors.bank_name?.message)}>
-              <input type="text" {...register('bank_name')} className="input" />
-            </FormField>
-            <FormField label={t('iban')} error={err(errors.bank_iban?.message)}>
-              <input type="text" {...register('bank_iban')} className="input" dir="ltr" />
-            </FormField>
-          </div>
-        </FormCard>
+              <CustomInput
+                label={t('bankName')}
+                type="text"
+                placeholder={t('bankName')}
+                error={err(errors.bank_name?.message)}
+                {...register('bank_name')}
+              />
+              <CustomInput
+                label={t('iban')}
+                type="text"
+                dir="ltr"
+                placeholder="SA00 0000 0000 0000 0000 0000"
+                error={err(errors.bank_iban?.message)}
+                {...register('bank_iban')}
+              />
+            </div>
+          </CardContent>
+        </Card>
       </WizardForm>
-
-      <FormInputs />
     </div>
   );
 }

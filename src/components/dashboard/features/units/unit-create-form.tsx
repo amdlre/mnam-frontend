@@ -1,13 +1,20 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { Building2, DollarSign } from 'lucide-react';
-import { WizardForm, type WizardFormStep } from '@amdlre/design-system';
+import {
+  Card,
+  CardContent,
+  CustomCombobox,
+  CustomInput,
+  CustomTextarea,
+  WizardForm,
+  type WizardFormStep,
+} from '@amdlre/design-system';
 
 import { useRouter } from '@/i18n/navigation';
-import { FormCard, FormField, FormInputs } from '@/components/dashboard/features/forms/form-primitives';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createUnitAction } from '@/actions/dashboard/entities';
 import {
@@ -90,105 +97,133 @@ export function UnitCreateForm({ projects }: Props) {
           router.refresh();
         }}
       >
-        <FormCard title={t('steps.info')}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="md:col-span-2">
-              <FormField label={t('project')} required error={err(errors.project_id?.message)}>
-                <select {...register('project_id')} className="input">
-                  {projects.length === 0 ? <option value="">{t('noProjects')}</option> : null}
-                  {projects.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.name}
-                    </option>
-                  ))}
-                </select>
-              </FormField>
-            </div>
-            <FormField label={t('unitName')} required error={err(errors.unit_name?.message)}>
-              <input type="text" {...register('unit_name')} className="input" />
-            </FormField>
-            <FormField label={t('unitType')} required error={err(errors.unit_type?.message)}>
-              <select {...register('unit_type')} className="input">
-                {UNIT_TYPES.map((u) => (
-                  <option key={u} value={u}>
-                    {u}
-                  </option>
-                ))}
-              </select>
-            </FormField>
-            <FormField label={t('rooms')} required error={err(errors.rooms?.message)}>
-              <input
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('steps.info')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="md:col-span-2 lg:col-span-3">
+                <Controller
+                  control={form.control}
+                  name="project_id"
+                  render={({ field, fieldState }) => (
+                    <CustomCombobox
+                      label={t('project')}
+                      isRequired
+                      options={projects.map((p) => ({ value: p.id, label: p.name }))}
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      error={err(fieldState.error?.message)}
+                      placeholder={t('selectProject')}
+                      emptyMessage={t('noProjects')}
+                    />
+                  )}
+                />
+              </div>
+              <CustomInput
+                label={t('unitName')}
+                isRequired
+                type="text"
+                placeholder={t('unitName')}
+                error={err(errors.unit_name?.message)}
+                {...register('unit_name')}
+              />
+              <Controller
+                control={form.control}
+                name="unit_type"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('unitType')}
+                    isRequired
+                    options={UNIT_TYPES.map((u) => ({ value: u, label: u }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectUnitType')}
+                  />
+                )}
+              />
+              <CustomInput
+                label={t('rooms')}
+                isRequired
                 type="number"
+                placeholder="1"
+                error={err(errors.rooms?.message)}
                 {...register('rooms', { valueAsNumber: true })}
-                className="input"
               />
-            </FormField>
-            <FormField label={t('status')} required error={err(errors.status?.message)}>
-              <select {...register('status')} className="input">
-                {UNIT_STATUSES.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
-            </FormField>
-            <FormField label={t('floor')} error={err(errors.floor_number?.message)}>
-              <input
+              <Controller
+                control={form.control}
+                name="status"
+                render={({ field, fieldState }) => (
+                  <CustomCombobox
+                    label={t('status')}
+                    isRequired
+                    options={UNIT_STATUSES.map((s) => ({ value: s, label: s }))}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    error={err(fieldState.error?.message)}
+                    placeholder={t('selectStatus')}
+                  />
+                )}
+              />
+              <CustomInput
+                label={t('floor')}
                 type="number"
+                placeholder="0"
+                error={err(errors.floor_number?.message)}
                 {...register('floor_number', { valueAsNumber: true })}
-                className="input"
               />
-            </FormField>
-            <FormField label={t('area')} error={err(errors.unit_area?.message)}>
-              <input
+              <CustomInput
+                label={t('area')}
                 type="number"
                 step="0.1"
+                placeholder="0"
+                error={err(errors.unit_area?.message)}
                 {...register('unit_area', { valueAsNumber: true })}
-                className="input"
               />
-            </FormField>
-            <div className="md:col-span-2">
-              <FormField label={t('description')} error={err(errors.description?.message)}>
-                <textarea {...register('description')} className="input" />
-              </FormField>
+              <div className="md:col-span-2 lg:col-span-3">
+                <CustomTextarea
+                  label={t('description')}
+                  placeholder={t('descriptionPlaceholder')}
+                  error={err(errors.description?.message)}
+                  {...register('description')}
+                />
+              </div>
+              <CustomInput
+                label={t('permitNo')}
+                type="text"
+                placeholder={t('permitNo')}
+                error={err(errors.permit_no?.message)}
+                {...register('permit_no')}
+              />
             </div>
-            <FormField label={t('permitNo')} error={err(errors.permit_no?.message)}>
-              <input type="text" {...register('permit_no')} className="input" />
-            </FormField>
-          </div>
-        </FormCard>
+          </CardContent>
+        </Card>
 
-        <FormCard title={t('steps.pricing')}>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <FormField
-              label={t('weekdayPrice')}
-              required
-              error={err(errors.base_weekday_price?.message)}
-            >
-              <input
+        <Card>
+          <CardContent className="space-y-6 p-6">
+            <h2 className="border-b pb-3 text-base font-bold">{t('steps.pricing')}</h2>
+            <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2 lg:grid-cols-3">
+              <CustomInput
+                label={t('weekdayPrice')}
+                isRequired
                 type="number"
                 step="0.01"
+                placeholder="0.00"
+                error={err(errors.base_weekday_price?.message)}
                 {...register('base_weekday_price', { valueAsNumber: true })}
-                className="input"
               />
-            </FormField>
-            <FormField
-              label={t('weekendMarkup')}
-              hint={t('weekendMarkupHint')}
-              error={err(errors.weekend_markup_percent?.message)}
-            >
-              <input
+              <CustomInput
+                label={t('weekendMarkup')}
                 type="number"
                 step="0.01"
+                placeholder="0"
+                error={err(errors.weekend_markup_percent?.message)}
                 {...register('weekend_markup_percent', { valueAsNumber: true })}
-                className="input"
               />
-            </FormField>
-          </div>
-        </FormCard>
+            </div>
+          </CardContent>
+        </Card>
       </WizardForm>
-
-      <FormInputs />
     </div>
   );
 }
