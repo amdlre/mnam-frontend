@@ -58,3 +58,12 @@ export async function fetchUnits(): Promise<FetchedUnit[]> {
     return [];
   }
 }
+
+export async function fetchUnitById(id: string): Promise<FetchedUnit | null> {
+  try {
+    const data = await dashboardApi.get<ApiUnit>(DASHBOARD_ENDPOINTS.units.byId(id));
+    return normalizeUnit(data);
+  } catch {
+    return null;
+  }
+}

@@ -505,6 +505,26 @@
       "deleteFailed": "Delete failed",
       "cancel": "Cancel"
     },
+    "unitDetail": {
+      "overview": "Overview",
+      "specs": "Specifications",
+      "pricing": "Pricing",
+      "project": "Project",
+      "owner": "Owner",
+      "type": "Type",
+      "rooms": "Rooms",
+      "floor": "Floor",
+      "area": "Area (m²)",
+      "city": "City",
+      "permitNo": "Permit number",
+      "status": "Status",
+      "weekdayPrice": "Weekday price",
+      "weekendPrice": "Weekend price",
+      "amenities": "Amenities",
+      "noAmenities": "No amenities",
+      "description": "Description",
+      "noDescription": "No description"
+    },
     "units": {
       "title": "Units",
       "subtitle": "Units, their status and pricing.",

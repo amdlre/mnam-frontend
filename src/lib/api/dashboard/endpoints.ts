@@ -104,4 +104,12 @@ export const DASHBOARD_ENDPOINTS = {
     ratePlans: (connectionId: string, roomTypeId: string) =>
       `/api/channex/connections/${connectionId}/room-types/${roomTypeId}/rate-plans`,
   },
+  audit: {
+    logs: '/api/audit/logs',
+    stats: '/api/audit/stats',
+    deleted: '/api/audit/deleted',
+    activityTypes: '/api/audit/activity-types',
+    entityTypes: '/api/audit/entity-types',
+    create: '/api/audit/logs',
+  },
 } as const;

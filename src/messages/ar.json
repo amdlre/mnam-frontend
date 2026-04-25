@@ -505,6 +505,26 @@
       "deleteFailed": "فشل الحذف",
       "cancel": "إلغاء"
     },
+    "unitDetail": {
+      "overview": "نظرة عامة",
+      "specs": "المواصفات",
+      "pricing": "التسعير",
+      "project": "المشروع",
+      "owner": "المالك",
+      "type": "النوع",
+      "rooms": "عدد الغرف",
+      "floor": "رقم الطابق",
+      "area": "المساحة (م²)",
+      "city": "المدينة",
+      "permitNo": "رقم الترخيص",
+      "status": "الحالة",
+      "weekdayPrice": "سعر أيام الأسبوع",
+      "weekendPrice": "سعر نهاية الأسبوع",
+      "amenities": "المرافق",
+      "noAmenities": "لا توجد مرافق",
+      "description": "الوصف",
+      "noDescription": "لا يوجد وصف"
+    },
     "units": {
       "title": "الوحدات",
       "subtitle": "قائمة الوحدات وحالاتها وأسعارها.",
