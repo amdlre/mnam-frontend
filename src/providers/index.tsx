@@ -12,7 +12,7 @@ const myTheme: AmdlreTheme = {
     foreground: '222 47% 11%',          // #0F172A (slate-900)
     primary: '262 83% 58%',             // #7C3AED (violet-600)
     primaryForeground: '0 0% 100%',     // white
-    secondary: '160 84% 39%',           // #10B981 (emerald-500)
+    secondary: '222 47% 11%',           // #0F172A (slate-900) — matches the "join as partner" CTA
     secondaryForeground: '0 0% 100%',   // white
     muted: '210 40% 96%',               // slate-100
     mutedForeground: '215 16% 47%',     // slate-500
@@ -35,8 +35,8 @@ const myTheme: AmdlreTheme = {
     foreground: '210 40% 96%',          // #F1F5F9 — slate-100
     primary: '263 85% 68%',             // lighter violet for dark
     primaryForeground: '222 47% 11%',   // dark bg
-    secondary: '160 72% 28%',           // darker emerald
-    secondaryForeground: '210 40% 96%',
+    secondary: '210 40% 96%',           // #F1F5F9 (slate-100) — inverted neutral for dark mode
+    secondaryForeground: '222 47% 11%', // #0F172A — dark text on the light surface
     muted: '217 33% 17%',               // #1E293B — slate-800
     mutedForeground: '215 20% 65%',     // #94A3B8 — slate-400
     accent: '263 45% 32%',              // ≈ #3F2E78 — visible muted violet for hover/selected rows

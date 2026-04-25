@@ -121,7 +121,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
 
                 <Flex direction="col" gap={3} className="w-full sm:w-auto sm:flex-row md:gap-4">
                   <Button
-                    size="lg"
+                    size="2xl"
                     onClick={() => scrollToSection('owners')}
                     className="group/btn relative overflow-hidden rounded-xl bg-white px-6 py-3.5 text-base font-bold text-foreground transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-foreground hover:shadow-2xl hover:shadow-white/20 active:scale-95 md:rounded-2xl md:px-8 md:py-4 md:text-lg"
                   >
@@ -140,7 +140,7 @@ const Footer = ({ onOpenLegal }: FooterProps) => {
 
                   <Button
                     variant="outline"
-                    size="lg"
+                    size="2xl"
                     asChild
                     className="rounded-2xl border-white/20 bg-white/10 px-8 py-4 text-lg font-bold text-white backdrop-blur-sm hover:border-white/40 hover:bg-white/20 hover:text-white"
                   >

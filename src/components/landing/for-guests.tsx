@@ -75,7 +75,7 @@ const ForGuests = () => {
             </Stack>
 
             <Button
-              size="lg"
+              size="2xl"
               onClick={handleBrowseUnits}
               className="group w-full rounded-xl bg-foreground px-8 py-4 font-bold text-white shadow-xl shadow-border transition-all hover:bg-foreground/90 sm:w-auto"
             >

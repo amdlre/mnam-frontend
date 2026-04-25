@@ -69,9 +69,9 @@ const Hero = () => {
 
             <Flex direction="col" align="center" gap={4} className="reveal delay-300 mb-16 w-full sm:w-auto sm:flex-row">
               <Button
-                size="lg"
+                size="2xl"
+                variant={"secondary"}
                 onClick={() => scrollToSection('owners')}
-                className="group relative w-full overflow-hidden rounded-2xl bg-foreground px-10 py-5 text-base font-bold text-white shadow-2xl shadow-foreground/30 ring-4 ring-transparent transition-all duration-300 hover:-translate-y-1 hover:bg-foreground/90 hover:ring-foreground/10 active:scale-95 sm:w-auto"
               >
                 <span className="absolute inset-0 h-full w-full -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
                 <span className="relative z-10 flex items-center gap-3">
@@ -88,9 +88,8 @@ const Hero = () => {
               </Button>
               <Button
                 variant="outline"
-                size="lg"
+                size="2xl"
                 onClick={() => scrollToSection('guests')}
-                className="w-full rounded-2xl border-border bg-white/60 px-10 py-5 text-base font-bold backdrop-blur-sm transition-all duration-300 hover:border-primary/30 hover:bg-white hover:text-primary hover:shadow-lg active:scale-95 sm:w-auto"
               >
                 <span>{t('ctaBook')}</span>
               </Button>

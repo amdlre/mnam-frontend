@@ -47,10 +47,10 @@ export default function Error({
 
           {/* Actions */}
           <div className="flex gap-3">
-            <Button onClick={reset} rounded="xl" size="lg">
+            <Button onClick={reset} rounded="xl" size="2xl">
               {t('error.retry')}
             </Button>
-            <Button asChild variant="outline" rounded="xl" size="lg">
+            <Button asChild variant="outline" rounded="xl" size="2xl">
               <Link href="/">{t('notFound.backHome')}</Link>
             </Button>
           </div>
