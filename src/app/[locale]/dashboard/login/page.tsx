@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { Card, CardContent, Typography } from '@amdlre/design-system';
 
-import { redirect } from '@/i18n/navigation';
+import { Link, redirect } from '@/i18n/navigation';
 import { hasDashboardSession } from '@/lib/api/dashboard/auth';
 import { DashboardLoginForm } from '@/components/dashboard/login-form';
 
@@ -25,14 +25,16 @@ export default async function DashboardLoginPage({ params }: Props) {
     <div className="bg-neutral-dashboard-bg flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 flex justify-center">
-          <Image
-            src="/dashboard/mnam-logo.png"
-            alt="Mnam"
-            width={160}
-            height={64}
-            className="h-16 w-auto object-contain"
-            priority
-          />
+          <Link href={"/"}>
+            <Image
+              src="/dashboard/mnam-logo.png"
+              alt="Mnam"
+              width={160}
+              height={64}
+              className="h-16 w-auto object-contain"
+              priority
+            />
+          </Link>
         </div>
 
         <Card className="border-neutral-dashboard-border bg-neutral-dashboard-card overflow-hidden shadow-xl">
