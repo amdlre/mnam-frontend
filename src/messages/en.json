@@ -715,6 +715,13 @@
         "weekly": "Weekly",
         "monthly": "Monthly"
       },
+      "performance": {
+        "daily": "Daily performance",
+        "weekly": "Weekly performance",
+        "monthly": "Monthly performance"
+      },
+      "exportSuccess": "Report exported successfully",
+      "exportFailed": "Failed to export report",
       "stats": {
         "income": "Income / Revenue",
         "occupancy": "Occupancy rate (%)",

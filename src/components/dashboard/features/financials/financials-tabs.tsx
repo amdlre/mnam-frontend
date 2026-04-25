@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Building2, CalendarDays, DollarSign, Sparkles, Users } from 'lucide-react';
+import { Building2, CalendarDays, DollarSign, Loader2, Sparkles, Users } from 'lucide-react';
 
 import { StatCard } from '@/components/dashboard/shared/stat-card';
-
-type Period = 'daily' | 'weekly' | 'monthly';
+import { downloadFinancialPDF, type FinancialPeriod } from '@/lib/financials/download-pdf';
 
 interface PeriodData {
   income: number;
@@ -15,7 +14,7 @@ interface PeriodData {
 }
 
 interface Labels {
-  tabs: Record<Period, string>;
+  tabs: Record<FinancialPeriod, string>;
   income: string;
   occupiedUnits: string;
   occupancy: string;
@@ -24,18 +23,41 @@ interface Labels {
   currency: string;
   exportTitle: string;
   exportFormat: string;
-  exportLabels: Record<Period, string>;
+  exportLabels: Record<FinancialPeriod, string>;
 }
 
 interface Props {
-  data: Record<Period, PeriodData>;
+  data: Record<FinancialPeriod, PeriodData>;
   labels: Labels;
+  /** Per-period title used in the PDF body. */
+  pdfTitles: Record<FinancialPeriod, string>;
 }
 
-export function FinancialsTabs({ data, labels }: Props) {
-  const [active, setActive] = useState<Period>('daily');
+export function FinancialsTabs({ data, labels, pdfTitles }: Props) {
+  const [active, setActive] = useState<FinancialPeriod>('daily');
+  const [exportingPeriod, setExportingPeriod] = useState<FinancialPeriod | null>(null);
+
   const current = data[active];
   const occupancyLabel = active === 'daily' ? labels.occupiedUnits : labels.occupancy;
+
+  const handleExport = async (period: FinancialPeriod) => {
+    if (exportingPeriod) return;
+    setExportingPeriod(period);
+    try {
+      const periodData = data[period];
+      const periodOccupancyLabel = period === 'daily' ? labels.occupiedUnits : labels.occupancy;
+      await downloadFinancialPDF(period, {
+        title: pdfTitles[period],
+        income: periodData.income,
+        occupancy: periodData.occupancy,
+        nights: periodData.nights,
+        cancellations: periodData.cancellations,
+        occupancyLabel: periodOccupancyLabel,
+      });
+    } finally {
+      setExportingPeriod(null);
+    }
+  };
 
   return (
     <>
@@ -82,28 +104,36 @@ export function FinancialsTabs({ data, labels }: Props) {
       <div className="border-neutral-dashboard-border bg-neutral-dashboard-card rounded-md border p-6 shadow-sm">
         <h3 className="mb-4 text-base font-bold">{labels.exportTitle}</h3>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3 md:gap-4">
-          {(['daily', 'weekly', 'monthly'] as const).map((period) => (
-            <button
-              key={period}
-              type="button"
-              onClick={() => setActive(period)}
-              className="border-neutral-dashboard-border flex items-center justify-between rounded-md border p-4 text-start transition-colors hover:bg-slate-50"
-            >
-              <div className="flex items-center gap-3">
-                <div className="rounded bg-slate-100 p-2 text-slate-600">
-                  <CalendarDays className="h-5 w-5" />
+          {(['daily', 'weekly', 'monthly'] as const).map((period) => {
+            const isExporting = exportingPeriod === period;
+            return (
+              <button
+                key={period}
+                type="button"
+                onClick={() => handleExport(period)}
+                disabled={Boolean(exportingPeriod)}
+                className="border-neutral-dashboard-border flex items-center justify-between rounded-md border p-4 text-start transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="rounded bg-slate-100 p-2 text-slate-600">
+                    {isExporting ? (
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                    ) : (
+                      <CalendarDays className="h-5 w-5" />
+                    )}
+                  </div>
+                  <div>
+                    <span className="text-neutral-dashboard-text block text-sm font-medium">
+                      {labels.exportLabels[period]}
+                    </span>
+                    <span className="text-neutral-dashboard-muted block text-xs">
+                      {labels.exportFormat}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-neutral-dashboard-text block text-sm font-medium">
-                    {labels.exportLabels[period]}
-                  </span>
-                  <span className="text-neutral-dashboard-muted block text-xs">
-                    {labels.exportFormat}
-                  </span>
-                </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       </div>
     </>

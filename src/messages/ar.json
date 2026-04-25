@@ -715,6 +715,13 @@
         "weekly": "أسبوعي",
         "monthly": "شهري"
       },
+      "performance": {
+        "daily": "الأداء اليومي",
+        "weekly": "الأداء الأسبوعي",
+        "monthly": "الأداء الشهري"
+      },
+      "exportSuccess": "تم تصدير التقرير بنجاح",
+      "exportFailed": "فشل في تصدير التقرير",
       "stats": {
         "income": "الدخل / الإيرادات",
         "occupancy": "نسبة الإشغال (%)",
