@@ -56,8 +56,28 @@ export const unitCreateSchema = z.object({
   weekend_markup_percent: z
     .number({ message: 'invalidNumber' })
     .min(0, { message: 'invalidNumber' }),
+  discount_16_percent: z
+    .number({ message: 'invalidNumber' })
+    .min(0)
+    .max(100)
+    .default(0),
+  discount_21_percent: z
+    .number({ message: 'invalidNumber' })
+    .min(0)
+    .max(100)
+    .default(0),
+  discount_23_percent: z
+    .number({ message: 'invalidNumber' })
+    .min(0)
+    .max(100)
+    .default(0),
   description: z.string(),
   permit_no: z.string(),
+  amenities: z.array(z.string()).default([]),
+  access_info: z.string().default(''),
+  booking_links: z
+    .array(z.object({ platform: z.string(), url: z.string() }))
+    .default([]),
 });
 export type UnitCreateFormData = z.infer<typeof unitCreateSchema>;
 

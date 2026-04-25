@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { Building2, Plus } from 'lucide-react';
+import { Building2, CalendarCheck, CheckCircle2, Plus, Wrench } from 'lucide-react';
 import { Button } from '@amdlre/design-system';
 
 import { Link } from '@/i18n/navigation';
 import { fetchUnits } from '@/lib/api/dashboard/units';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
+import { StatCard } from '@/components/dashboard/shared/stat-card';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -38,6 +39,10 @@ export default async function DashboardUnitsPage({ params }: Props) {
     fetchUnits(),
   ]);
 
+  const availableUnits = units.filter((u) => u.status === 'متاحة').length;
+  const bookedUnits = units.filter((u) => u.status === 'محجوزة').length;
+  const maintenanceUnits = units.filter((u) => u.status === 'صيانة').length;
+
   return (
     <div className="space-y-6">
       <HeaderInfo
@@ -53,6 +58,32 @@ export default async function DashboardUnitsPage({ params }: Props) {
           </Button>
         }
       />
+
+      <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
+        <StatCard
+          label={t('stats.total')}
+          value={units.length}
+          icon={<Building2 className="text-slate-300" />}
+        />
+        <StatCard
+          label={t('stats.available')}
+          value={availableUnits}
+          valueTone="success"
+          icon={<CheckCircle2 className="text-slate-300" />}
+        />
+        <StatCard
+          label={t('stats.booked')}
+          value={bookedUnits}
+          valueTone="info"
+          icon={<CalendarCheck className="text-slate-300" />}
+        />
+        <StatCard
+          label={t('stats.maintenance')}
+          value={maintenanceUnits}
+          valueTone="danger"
+          icon={<Wrench className="text-slate-300" />}
+        />
+      </div>
 
       {units.length === 0 ? (
         <div className="bg-neutral-dashboard-card border-neutral-dashboard-border rounded-md border p-12 text-center shadow-sm">

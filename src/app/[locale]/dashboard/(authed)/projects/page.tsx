@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import { Folder, Plus } from 'lucide-react';
+import { Building2, CheckCircle2, Folder, Plus, XCircle } from 'lucide-react';
 import { Button } from '@amdlre/design-system';
 
 import { Link } from '@/i18n/navigation';
 import { fetchProjects } from '@/lib/api/dashboard/entities';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
+import { StatCard } from '@/components/dashboard/shared/stat-card';
 
 interface Props {
   params: Promise<{ locale: string }>;
@@ -28,6 +29,10 @@ export default async function DashboardProjectsPage({ params }: Props) {
     fetchProjects(),
   ]);
 
+  const activeContracts = projects.filter((p) => p.contractStatus === 'ساري').length;
+  const expiredContracts = projects.filter((p) => p.contractStatus === 'منتهي').length;
+  const totalUnits = projects.reduce((sum, p) => sum + p.unitCount, 0);
+
   return (
     <div className="space-y-6">
       <HeaderInfo
@@ -43,6 +48,31 @@ export default async function DashboardProjectsPage({ params }: Props) {
           </Button>
         }
       />
+
+      <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
+        <StatCard
+          label={t('stats.total')}
+          value={projects.length}
+          icon={<Folder className="text-slate-300" />}
+        />
+        <StatCard
+          label={t('stats.active')}
+          value={activeContracts}
+          valueTone="success"
+          icon={<CheckCircle2 className="text-slate-300" />}
+        />
+        <StatCard
+          label={t('stats.expired')}
+          value={expiredContracts}
+          valueTone="danger"
+          icon={<XCircle className="text-slate-300" />}
+        />
+        <StatCard
+          label={t('stats.totalUnits')}
+          value={totalUnits}
+          icon={<Building2 className="text-slate-300" />}
+        />
+      </div>
 
       {projects.length === 0 ? (
         <div className="bg-neutral-dashboard-card border-neutral-dashboard-border rounded-md border p-12 text-center shadow-sm">

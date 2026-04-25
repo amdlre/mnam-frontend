@@ -394,6 +394,12 @@
       "subtitle": "Property owners and their information.",
       "add": "Add owner",
       "empty": "No owners yet",
+      "stats": {
+        "total": "Total owners",
+        "projects": "Total projects",
+        "units": "Total units",
+        "avgUnits": "Avg units per owner"
+      },
       "cols": {
         "name": "Name",
         "phone": "Phone",
@@ -451,7 +457,13 @@
       "city": "City",
       "district": "District",
       "units": "Units",
-      "commission": "Commission"
+      "commission": "Commission",
+      "stats": {
+        "total": "Total projects",
+        "active": "Active contracts",
+        "expired": "Expired contracts",
+        "totalUnits": "Total units"
+      }
     },
     "projectForm": {
       "title": "New project",
@@ -528,6 +540,12 @@
     "units": {
       "title": "Units",
       "subtitle": "Units, their status and pricing.",
+      "stats": {
+        "total": "Total units",
+        "available": "Available",
+        "booked": "Booked",
+        "maintenance": "Maintenance"
+      },
       "add": "Add unit",
       "empty": "No units yet",
       "cols": {
@@ -553,8 +571,27 @@
       "descriptionPlaceholder": "Brief unit description...",
       "steps": {
         "info": "Unit info",
-        "pricing": "Pricing"
+        "pricing": "Pricing",
+        "details": "Specs & amenities",
+        "links": "Links & access"
       },
+      "amenitiesLabel": "Available amenities",
+      "accessInfoLabel": "Access info (shown after booking)",
+      "accessInfoPlaceholder": "Entry details, lockbox code, Wi-Fi, etc...",
+      "bookingLinksLabel": "External booking links",
+      "bookingLinksAdd": "+ Add new link",
+      "platformPlaceholder": "Platform",
+      "urlPlaceholder": "URL",
+      "discountsTitle": "Dynamic discounts (Last Minute)",
+      "discountsSubtitle": "Set discount tiers based on time remaining for the day.",
+      "discount16": "4:00 PM",
+      "discount16Tag": "Early discount",
+      "discount21": "9:00 PM",
+      "discount21Tag": "Evening discount",
+      "discount23": "11:00 PM",
+      "discount23Tag": "Late discount",
+      "afterDiscount": "After discount",
+      "currency": "SAR",
       "project": "Project",
       "noProjects": "No projects available — please add a project first",
       "unitName": "Unit name",

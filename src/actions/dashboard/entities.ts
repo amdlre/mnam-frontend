@@ -104,7 +104,28 @@ export async function createUnitAction(
     };
   }
   try {
-    const res = await dashboardApi.post<{ id: string }>(DASHBOARD_ENDPOINTS.units.create, parsed.data);
+    const base = parsed.data.base_weekday_price;
+    const markup = parsed.data.weekend_markup_percent;
+    const payload = {
+      project_id: parsed.data.project_id,
+      unit_name: parsed.data.unit_name,
+      unit_type: parsed.data.unit_type,
+      rooms: parsed.data.rooms,
+      floor_number: parsed.data.floor_number,
+      unit_area: parsed.data.unit_area,
+      status: parsed.data.status,
+      price_days_of_week: base,
+      price_in_weekends: Math.round(base * (1 + markup / 100) * 100) / 100,
+      amenities: parsed.data.amenities,
+      description: parsed.data.description || null,
+      permit_no: parsed.data.permit_no || null,
+      access_info: parsed.data.access_info || null,
+      booking_links: parsed.data.booking_links,
+      discount_16_percent: parsed.data.discount_16_percent,
+      discount_21_percent: parsed.data.discount_21_percent,
+      discount_23_percent: parsed.data.discount_23_percent,
+    };
+    const res = await dashboardApi.post<{ id: string }>(DASHBOARD_ENDPOINTS.units.create, payload);
     revalidatePath('/[locale]/dashboard/units', 'page');
     return { success: true, id: res?.id };
   } catch (error) {

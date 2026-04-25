@@ -394,6 +394,12 @@
       "subtitle": "قائمة ملاك العقارات وإدارة معلوماتهم.",
       "add": "إضافة مالك",
       "empty": "لا يوجد ملاك بعد",
+      "stats": {
+        "total": "إجمالي الملاك",
+        "projects": "إجمالي المشاريع",
+        "units": "إجمالي الوحدات",
+        "avgUnits": "متوسط الوحدات لكل مالك"
+      },
       "cols": {
         "name": "الاسم",
         "phone": "الجوال",
@@ -451,7 +457,13 @@
       "city": "المدينة",
       "district": "الحي",
       "units": "الوحدات",
-      "commission": "العمولة"
+      "commission": "العمولة",
+      "stats": {
+        "total": "إجمالي المشاريع",
+        "active": "العقود السارية",
+        "expired": "العقود المنتهية",
+        "totalUnits": "إجمالي الوحدات"
+      }
     },
     "projectForm": {
       "title": "مشروع جديد",
@@ -530,6 +542,12 @@
       "subtitle": "قائمة الوحدات وحالاتها وأسعارها.",
       "add": "إضافة وحدة",
       "empty": "لا يوجد وحدات بعد",
+      "stats": {
+        "total": "إجمالي الوحدات",
+        "available": "متاحة",
+        "booked": "محجوزة",
+        "maintenance": "صيانة"
+      },
       "cols": {
         "unit": "الوحدة",
         "project": "المشروع",
@@ -553,8 +571,27 @@
       "descriptionPlaceholder": "وصف مختصر للوحدة...",
       "steps": {
         "info": "بيانات الوحدة",
-        "pricing": "التسعير"
+        "pricing": "التسعير",
+        "details": "المواصفات والمرافق",
+        "links": "الروابط والدخول"
       },
+      "amenitiesLabel": "المرافق المتوفرة",
+      "accessInfoLabel": "معلومات الدخول (تظهر بعد الحجز)",
+      "accessInfoPlaceholder": "اكتب هنا تفاصيل الدخول، كلمة مرور الصندوق، الواي فاي، الخ...",
+      "bookingLinksLabel": "روابط الحجز الخارجية",
+      "bookingLinksAdd": "+ إضافة رابط جديد",
+      "platformPlaceholder": "المنصة",
+      "urlPlaceholder": "الرابط",
+      "discountsTitle": "الخصومات الديناميكية (Last Minute)",
+      "discountsSubtitle": "حدد نسب الخصم بناءً على وقت الحجز المتبقي لليوم.",
+      "discount16": "4:00 مساءً",
+      "discount16Tag": "خصم مبكر",
+      "discount21": "9:00 مساءً",
+      "discount21Tag": "خصم مسائي",
+      "discount23": "11:00 مساءً",
+      "discount23Tag": "خصم متأخر",
+      "afterDiscount": "السعر بعد الخصم",
+      "currency": "ر.س",
       "project": "المشروع",
       "noProjects": "لا يوجد مشاريع، يرجى إضافة مشروع أولاً",
       "unitName": "اسم الوحدة",
