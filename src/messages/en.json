@@ -376,9 +376,50 @@
       "editHint": "Profile editing will be available in the next release"
     },
     "account": {
-      "title": "Account Settings",
-      "subtitle": "Your personal preferences",
-      "comingSoon": "Coming soon..."
+      "title": "My Account",
+      "subtitle": "Your profile and account settings",
+      "active": "Active",
+      "inactive": "Inactive",
+      "tabs": {
+        "overview": "Overview",
+        "tasks": "Activities",
+        "stats": "Stats",
+        "settings": "Settings"
+      },
+      "stats": {
+        "todayActivities": "Today's activity",
+        "todayActivitiesSub": "Total activities today",
+        "totalActivities": "Total activities",
+        "totalActivitiesSub": "Since joining",
+        "todayBooked": "Bookings today",
+        "dailyTarget": "Daily target",
+        "targetProgress": "Progress",
+        "completedTasks": "Completed",
+        "pendingTasks": "Pending"
+      },
+      "personalInfo": "Personal information",
+      "fullName": "Full name",
+      "username": "Username",
+      "email": "Email",
+      "phone": "Phone",
+      "role": "Role",
+      "joinedAt": "Joined",
+      "noPhone": "—",
+      "recentActivities": "Recent activities",
+      "noActivities": "No activities yet",
+      "tasksList": "My activities",
+      "tasksEmpty": "No activities",
+      "settings": {
+        "passwordTitle": "Security & password",
+        "passwordHint": "Choose a strong password of at least 6 characters.",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm new password",
+        "submit": "Save changes",
+        "submitting": "Saving...",
+        "success": "Password updated successfully",
+        "fail": "Failed to update password"
+      }
     },
     "stub": {
       "subtitle": "This page is under construction",
