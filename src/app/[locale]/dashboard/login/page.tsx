@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+import { Card, CardContent, Typography } from '@amdlre/design-system';
 
 import { redirect } from '@/i18n/navigation';
 import { hasDashboardSession } from '@/lib/api/dashboard/auth';
@@ -34,21 +35,31 @@ export default async function DashboardLoginPage({ params }: Props) {
           />
         </div>
 
-        <div className="border-neutral-dashboard-border overflow-hidden rounded-lg border bg-white shadow-xl">
-          <div className="p-8">
-            <h1 className="text-neutral-dashboard-text mb-2 text-center text-2xl font-bold">
+        <Card className="border-neutral-dashboard-border overflow-hidden bg-white shadow-xl">
+          <CardContent className="p-8">
+            <Typography
+              as="h1"
+              variant="h2"
+              className="text-neutral-dashboard-text mb-2 text-center text-2xl font-bold"
+            >
               {t('title')}
-            </h1>
-            <p className="text-neutral-dashboard-muted mb-8 text-center text-sm">
+            </Typography>
+            <Typography
+              as="p"
+              variant="muted"
+              className="text-neutral-dashboard-muted mb-8 text-center text-sm"
+            >
               {t('subtitle')}
-            </p>
+            </Typography>
 
             <DashboardLoginForm />
-          </div>
-        </div>
+          </CardContent>
+        </Card>
 
         <div className="mt-8 text-center">
-          <p className="text-neutral-dashboard-muted text-xs">{t('copyright')}</p>
+          <Typography as="p" variant="muted" className="text-neutral-dashboard-muted text-xs">
+            {t('copyright')}
+          </Typography>
         </div>
       </div>
     </div>

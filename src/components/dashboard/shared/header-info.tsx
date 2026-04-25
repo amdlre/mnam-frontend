@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { ChevronRight } from 'lucide-react';
+import { Flex, Typography } from '@amdlre/design-system';
 
 import { Link } from '@/i18n/navigation';
 
@@ -39,8 +40,8 @@ export function HeaderInfo({
   actions,
 }: HeaderInfoProps) {
   return (
-    <header className="flex flex-wrap items-center justify-between gap-4">
-      <div className="flex items-center gap-3">
+    <Flex as="header" wrap="wrap" align="center" justify="between" gap={4}>
+      <Flex align="center" gap={3}>
         {backHref ? (
           <Link
             href={backHref}
@@ -51,13 +52,29 @@ export function HeaderInfo({
           </Link>
         ) : null}
         <div>
-          <h1 className={`text-neutral-dashboard-text ${TITLE_CLASSES[size]} font-bold`}>{title}</h1>
+          <Typography
+            as="h1"
+            variant="large"
+            className={`text-neutral-dashboard-text ${TITLE_CLASSES[size]} font-bold`}
+          >
+            {title}
+          </Typography>
           {subtitle ? (
-            <p className={`text-neutral-dashboard-muted ${SUBTITLE_CLASSES[size]}`}>{subtitle}</p>
+            <Typography
+              as="p"
+              variant="muted"
+              className={`text-neutral-dashboard-muted ${SUBTITLE_CLASSES[size]}`}
+            >
+              {subtitle}
+            </Typography>
           ) : null}
         </div>
-      </div>
-      {actions ? <div className="flex flex-wrap items-center gap-2">{actions}</div> : null}
-    </header>
+      </Flex>
+      {actions ? (
+        <Flex wrap="wrap" align="center" gap={2}>
+          {actions}
+        </Flex>
+      ) : null}
+    </Flex>
   );
 }

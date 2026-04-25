@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { LockKeyhole, UserCircle } from 'lucide-react';
+import { WizardForm, type WizardFormStep } from '@amdlre/design-system';
 
 import { useRouter } from '@/i18n/navigation';
-import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createUserAction } from '@/actions/dashboard/users';
 import {
@@ -23,6 +23,7 @@ interface Props {
 export function UserCreateForm({ roles }: Props) {
   const t = useTranslations('dashboard.userForm');
   const tErrors = useTranslations('dashboard.userForm.errors');
+  const tWiz = useTranslations('dashboard.wizard');
   const router = useRouter();
 
   const defaultRole = roles[0]?.value ?? 'customers_agent';
@@ -46,7 +47,7 @@ export function UserCreateForm({ roles }: Props) {
     formState: { errors },
   } = form;
 
-  const steps: WizardStepConfig<UserCreateFormData>[] = [
+  const steps: WizardFormStep<UserCreateFormData>[] = [
     {
       id: 'account',
       title: t('accountSection'),
@@ -61,16 +62,6 @@ export function UserCreateForm({ roles }: Props) {
     },
   ];
 
-  async function handleComplete(values: UserCreateFormData) {
-    const result = await createUserAction(values);
-    if (!result.success) {
-      return { success: false, message: result.message || t('createFailed') };
-    }
-    router.push('/dashboard/users');
-    router.refresh();
-    return { success: true };
-  }
-
   const err = (k?: string) => (k ? tErrors(k) : '');
 
   return (
@@ -83,50 +74,56 @@ export function UserCreateForm({ roles }: Props) {
         backLabel={t('back')}
       />
 
-      <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('createSubmit')}>
-        <WizardStep id="account">
-          <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
-            <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
-              {t('accountSection')}
-            </h2>
-            <Field label={t('username')} required hint={t('usernameHint')} error={err(errors.username?.message)}>
-              <input type="text" {...register('username')} className="input text-left" dir="ltr" placeholder="username" />
-            </Field>
-            <Field label={t('email')} required error={err(errors.email?.message)}>
-              <input type="email" {...register('email')} className="input text-left" dir="ltr" placeholder="email@example.com" />
-            </Field>
-            <Field label={t('password')} required error={err(errors.password?.message)}>
-              <input type="password" {...register('password')} className="input text-left" dir="ltr" placeholder="••••••••" />
-            </Field>
-            <Field label={t('role')} required error={err(errors.role?.message)}>
-              <select {...register('role')} className="input">
-                {roles.map((r) => (
-                  <option key={r.value} value={r.value}>
-                    {r.label}
-                  </option>
-                ))}
-              </select>
-            </Field>
-          </div>
-        </WizardStep>
+      <WizardForm
+        form={form}
+        steps={steps}
+        labels={{ back: tWiz('back'), next: tWiz('next'), submit: t('createSubmit') }}
+        onComplete={async (values) => {
+          const result = await createUserAction(values);
+          if (!result.success) return { message: result.message || t('createFailed') };
+          router.push('/dashboard/users');
+          router.refresh();
+        }}
+      >
+        <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
+          <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
+            {t('accountSection')}
+          </h2>
+          <Field label={t('username')} required hint={t('usernameHint')} error={err(errors.username?.message)}>
+            <input type="text" {...register('username')} className="input text-left" dir="ltr" placeholder="username" />
+          </Field>
+          <Field label={t('email')} required error={err(errors.email?.message)}>
+            <input type="email" {...register('email')} className="input text-left" dir="ltr" placeholder="email@example.com" />
+          </Field>
+          <Field label={t('password')} required error={err(errors.password?.message)}>
+            <input type="password" {...register('password')} className="input text-left" dir="ltr" placeholder="••••••••" />
+          </Field>
+          <Field label={t('role')} required error={err(errors.role?.message)}>
+            <select {...register('role')} className="input">
+              {roles.map((r) => (
+                <option key={r.value} value={r.value}>
+                  {r.label}
+                </option>
+              ))}
+            </select>
+          </Field>
+        </div>
 
-        <WizardStep id="personal">
-          <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
-            <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
-              {t('personalSection')}
-            </h2>
-            <Field label={t('firstName')} required error={err(errors.first_name?.message)}>
-              <input type="text" {...register('first_name')} className="input" placeholder={t('firstNamePlaceholder')} />
-            </Field>
-            <Field label={t('lastName')} error={err(errors.last_name?.message)}>
-              <input type="text" {...register('last_name')} className="input" placeholder={t('lastNamePlaceholder')} />
-            </Field>
-            <Field label={t('phone')} error={err(errors.phone?.message)}>
-              <input type="tel" {...register('phone')} className="input" placeholder="05xxxxxxxx" dir="ltr" />
-            </Field>
-          </div>
-        </WizardStep>
-      </Wizard>
+        <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
+          <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
+            {t('personalSection')}
+          </h2>
+          <Field label={t('firstName')} required error={err(errors.first_name?.message)}>
+            <input type="text" {...register('first_name')} className="input" placeholder={t('firstNamePlaceholder')} />
+          </Field>
+          <Field label={t('lastName')} error={err(errors.last_name?.message)}>
+            <input type="text" {...register('last_name')} className="input" placeholder={t('lastNamePlaceholder')} />
+          </Field>
+          <Field label={t('phone')} error={err(errors.phone?.message)}>
+            <input type="tel" {...register('phone')} className="input" placeholder="05xxxxxxxx" dir="ltr" />
+          </Field>
+        </div>
+      </WizardForm>
 
       <style>{`
         .input {

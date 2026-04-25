@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { CalendarDays, ClipboardList } from 'lucide-react';
+import { WizardForm, type WizardFormStep } from '@amdlre/design-system';
 
 import { useRouter } from '@/i18n/navigation';
-import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
 import { FormCard, FormField, FormInputs } from '@/components/dashboard/features/forms/form-primitives';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createBookingAction } from '@/actions/dashboard/entities';
@@ -29,6 +29,7 @@ const CHANNELS = ['direct', 'airbnb', 'booking.com', 'expedia', 'agoda', 'gather
 export function BookingCreateForm({ projects, units }: Props) {
   const t = useTranslations('dashboard.bookingForm');
   const tErrors = useTranslations('dashboard.bookingForm.errors');
+  const tWiz = useTranslations('dashboard.wizard');
   const router = useRouter();
 
   const form = useForm<BookingCreateFormData>({
@@ -61,7 +62,7 @@ export function BookingCreateForm({ projects, units }: Props) {
     [projectId, units],
   );
 
-  const steps: WizardStepConfig<BookingCreateFormData>[] = [
+  const steps: WizardFormStep<BookingCreateFormData>[] = [
     {
       id: 'selection',
       title: t('steps.selection'),
@@ -76,14 +77,6 @@ export function BookingCreateForm({ projects, units }: Props) {
     },
   ];
 
-  async function handleComplete(values: BookingCreateFormData) {
-    const result = await createBookingAction(values);
-    if (!result.success) return { success: false, message: result.message || t('createFailed') };
-    router.push('/dashboard/bookings');
-    router.refresh();
-    return { success: true };
-  }
-
   const err = (k?: string) => (k ? tErrors(k) : '');
 
   return (
@@ -95,95 +88,101 @@ export function BookingCreateForm({ projects, units }: Props) {
         backHref="/dashboard/bookings"
       />
 
-      <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('submit')}>
-        <WizardStep id="selection">
-          <FormCard title={t('steps.selection')}>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <FormField label={t('project')} required error={err(errors.project_id?.message)}>
-                <select
-                  {...register('project_id')}
-                  onChange={(e) => {
-                    register('project_id').onChange(e);
-                    setValue('unit_id', '');
-                  }}
-                  className="input"
-                >
-                  {projects.length === 0 ? <option value="">{t('noProjects')}</option> : null}
-                  {projects.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {p.name}
-                    </option>
-                  ))}
-                </select>
-              </FormField>
-              <FormField label={t('unit')} required error={err(errors.unit_id?.message)}>
-                <select {...register('unit_id')} className="input">
-                  <option value="">{t('unitPlaceholder')}</option>
-                  {availableUnits.map((u) => (
-                    <option key={u.id} value={u.id}>
-                      {u.unitName}
-                    </option>
-                  ))}
-                </select>
-              </FormField>
-              <FormField label={t('guestName')} required error={err(errors.guest_name?.message)}>
-                <input type="text" {...register('guest_name')} className="input" />
-              </FormField>
-              <FormField label={t('guestPhone')} error={err(errors.guest_phone?.message)}>
-                <input type="tel" {...register('guest_phone')} className="input" dir="ltr" />
-              </FormField>
-            </div>
-          </FormCard>
-        </WizardStep>
-
-        <WizardStep id="dates">
-          <FormCard title={t('steps.dates')}>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <FormField label={t('checkIn')} required error={err(errors.check_in_date?.message)}>
-                <input type="date" {...register('check_in_date')} className="input" />
-              </FormField>
-              <FormField label={t('checkOut')} required error={err(errors.check_out_date?.message)}>
-                <input type="date" {...register('check_out_date')} className="input" />
-              </FormField>
-              <FormField
-                label={t('price')}
-                hint={t('priceHint')}
-                error={err(errors.total_price?.message)}
+      <WizardForm
+        form={form}
+        steps={steps}
+        labels={{ back: tWiz('back'), next: tWiz('next'), submit: t('submit') }}
+        onComplete={async (values) => {
+          const result = await createBookingAction(values);
+          if (!result.success) return { message: result.message || t('createFailed') };
+          router.push('/dashboard/bookings');
+          router.refresh();
+        }}
+      >
+        <FormCard title={t('steps.selection')}>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <FormField label={t('project')} required error={err(errors.project_id?.message)}>
+              <select
+                {...register('project_id')}
+                onChange={(e) => {
+                  register('project_id').onChange(e);
+                  setValue('unit_id', '');
+                }}
+                className="input"
               >
-                <input
-                  type="number"
-                  step="0.01"
-                  {...register('total_price', { valueAsNumber: true })}
-                  className="input"
-                />
+                {projects.length === 0 ? <option value="">{t('noProjects')}</option> : null}
+                {projects.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+            <FormField label={t('unit')} required error={err(errors.unit_id?.message)}>
+              <select {...register('unit_id')} className="input">
+                <option value="">{t('unitPlaceholder')}</option>
+                {availableUnits.map((u) => (
+                  <option key={u.id} value={u.id}>
+                    {u.unitName}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+            <FormField label={t('guestName')} required error={err(errors.guest_name?.message)}>
+              <input type="text" {...register('guest_name')} className="input" />
+            </FormField>
+            <FormField label={t('guestPhone')} error={err(errors.guest_phone?.message)}>
+              <input type="tel" {...register('guest_phone')} className="input" dir="ltr" />
+            </FormField>
+          </div>
+        </FormCard>
+
+        <FormCard title={t('steps.dates')}>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <FormField label={t('checkIn')} required error={err(errors.check_in_date?.message)}>
+              <input type="date" {...register('check_in_date')} className="input" />
+            </FormField>
+            <FormField label={t('checkOut')} required error={err(errors.check_out_date?.message)}>
+              <input type="date" {...register('check_out_date')} className="input" />
+            </FormField>
+            <FormField
+              label={t('price')}
+              hint={t('priceHint')}
+              error={err(errors.total_price?.message)}
+            >
+              <input
+                type="number"
+                step="0.01"
+                {...register('total_price', { valueAsNumber: true })}
+                className="input"
+              />
+            </FormField>
+            <FormField label={t('status')} required error={err(errors.status?.message)}>
+              <select {...register('status')} className="input">
+                {BOOKING_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+            <FormField label={t('channel')} error={err(errors.channel_source?.message)}>
+              <select {...register('channel_source')} className="input">
+                {CHANNELS.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+            <div className="md:col-span-2">
+              <FormField label={t('notes')} error={err(errors.notes?.message)}>
+                <textarea {...register('notes')} className="input" />
               </FormField>
-              <FormField label={t('status')} required error={err(errors.status?.message)}>
-                <select {...register('status')} className="input">
-                  {BOOKING_STATUSES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-              </FormField>
-              <FormField label={t('channel')} error={err(errors.channel_source?.message)}>
-                <select {...register('channel_source')} className="input">
-                  {CHANNELS.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
-                    </option>
-                  ))}
-                </select>
-              </FormField>
-              <div className="md:col-span-2">
-                <FormField label={t('notes')} error={err(errors.notes?.message)}>
-                  <textarea {...register('notes')} className="input" />
-                </FormField>
-              </div>
             </div>
-          </FormCard>
-        </WizardStep>
-      </Wizard>
+          </div>
+        </FormCard>
+      </WizardForm>
 
       <FormInputs />
     </div>

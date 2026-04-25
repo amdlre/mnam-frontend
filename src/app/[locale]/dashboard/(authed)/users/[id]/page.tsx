@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { Mail, Pencil, Phone, ShieldCheck, User } from 'lucide-react';
+import { Button } from '@amdlre/design-system';
 
-import { Link } from '@/i18n/navigation';
 import { fetchEmployeesStatus, fetchUserById } from '@/lib/api/dashboard/users';
 import { USER_ROLE_BADGE_STYLES } from '@/components/dashboard/features/users/role-badge';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
@@ -50,13 +50,13 @@ export default async function DashboardUserDetailPage({ params }: Props) {
         backLabel={t('back')}
         actions={
           !user.isSystemOwner ? (
-            <Link
+            <Button
               href={`/dashboard/users/${user.id}/edit`}
-              className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-all hover:shadow-md"
+              locale={locale}
+              leftIcon={<Pencil className="h-4 w-4" />}
             >
-              <Pencil className="h-4 w-4" />
-              <span>{t('edit')}</span>
-            </Link>
+              {t('edit')}
+            </Button>
           ) : undefined
         }
       />

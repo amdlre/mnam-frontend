@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { UserPlus, Users as UsersIcon } from 'lucide-react';
+import { Button } from '@amdlre/design-system';
 
 import { Link } from '@/i18n/navigation';
 import { fetchEmployeesStatus, fetchSystemUsers } from '@/lib/api/dashboard/users';
 import { UserCard } from '@/components/dashboard/features/users/user-card';
 import { UsersFilters } from '@/components/dashboard/features/users/filters';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
+import { StatCard } from '@/components/dashboard/shared/stat-card';
 
 import type { SystemUser } from '@/types/dashboard';
 
@@ -37,7 +39,7 @@ function applyFilters(
 }
 
 export default async function DashboardUsersPage({ params, searchParams }: Props) {
-  const [, sp] = await Promise.all([params, searchParams]);
+  const [{ locale }, sp] = await Promise.all([params, searchParams]);
   const [t, tRoles, users, statuses] = await Promise.all([
     getTranslations('dashboard.users'),
     getTranslations('dashboard.roles'),
@@ -62,24 +64,24 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
         title={t('title')}
         subtitle={t('subtitle')}
         actions={
-          <Link
-            href="/dashboard/users/new"
-            className="bg-dashboard-primary-600 hover:bg-dashboard-primary-700 inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
-          >
-            <UserPlus className="h-4 w-4" />
-            <span>{t('addMember')}</span>
-          </Link>
+          <Button href="/dashboard/users/new" locale={locale} leftIcon={<UserPlus className="h-4 w-4" />}>
+            {t('addMember')}
+          </Button>
         }
       />
 
       <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <StatCard label={t('stats.total')} value={totalMembers} />
-        <StatCard label={t('stats.active')} value={activeMembers} />
+        <StatCard label={t('stats.active')} value={activeMembers} valueTone="success" />
         <StatCard
           label={t('stats.onlineNow')}
           value={onlineNow}
           subtitle={t('stats.onlineNowSub')}
-          pulse
+          icon={
+            <div className="hidden rounded-md bg-slate-50 p-1.5 sm:block md:p-2">
+              <div className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
+            </div>
+          }
         />
         <StatCard
           label={t('stats.todayHours')}
@@ -131,14 +133,12 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div
-                          className={`h-2 w-2 rounded-full ${
-                            user.isActive ? 'bg-emerald-500' : 'bg-slate-400'
-                          }`}
+                          className={`h-2 w-2 rounded-full ${user.isActive ? 'bg-emerald-500' : 'bg-slate-400'
+                            }`}
                         />
                         <span
-                          className={`text-xs ${
-                            user.isActive ? 'text-emerald-700' : 'text-slate-500'
-                          }`}
+                          className={`text-xs ${user.isActive ? 'text-emerald-700' : 'text-slate-500'
+                            }`}
                         >
                           {user.isActive ? t('active') : t('inactive')}
                         </span>
@@ -173,31 +173,3 @@ export default async function DashboardUsersPage({ params, searchParams }: Props
   );
 }
 
-function StatCard({
-  label,
-  value,
-  subtitle,
-  pulse,
-}: {
-  label: string;
-  value: number | string;
-  subtitle?: string;
-  pulse?: boolean;
-}) {
-  return (
-    <div className="bg-neutral-dashboard-card border-neutral-dashboard-border flex min-h-[80px] items-start justify-between rounded-md border p-3 shadow-sm md:p-4">
-      <div>
-        <p className="text-neutral-dashboard-muted text-xs font-medium md:text-sm">{label}</p>
-        <p className="text-neutral-dashboard-text mt-1 text-lg font-bold md:text-2xl">{value}</p>
-        {subtitle ? (
-          <p className="text-neutral-dashboard-muted mt-1 text-[10px] md:text-xs">{subtitle}</p>
-        ) : null}
-      </div>
-      {pulse ? (
-        <div className="hidden rounded-md bg-slate-50 p-1.5 sm:block md:p-2">
-          <div className="h-3 w-3 animate-pulse rounded-full bg-green-500" />
-        </div>
-      ) : null}
-    </div>
-  );
-}

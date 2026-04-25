@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import { Card, CardContent, Typography } from '@amdlre/design-system';
 
 interface KpiCardProps {
   label: string;
@@ -17,19 +18,33 @@ const toneClasses: Record<NonNullable<KpiCardProps['tone']>, string> = {
 
 export function KpiCard({ label, value, sublabel, icon: Icon, tone = 'primary' }: KpiCardProps) {
   return (
-    <div className="bg-neutral-dashboard-card border-neutral-dashboard-border rounded-lg border p-6 shadow-sm transition-shadow hover:shadow-md">
-      <div className="flex items-start justify-between gap-4">
-        <div className="min-w-0">
-          <p className="text-neutral-dashboard-muted text-sm font-medium">{label}</p>
-          <p className="text-neutral-dashboard-text mt-2 text-2xl font-bold">{value}</p>
-          {sublabel ? (
-            <p className="text-neutral-dashboard-muted mt-1 text-xs">{sublabel}</p>
-          ) : null}
+    <Card className="border-neutral-dashboard-border transition-shadow hover:shadow-md">
+      <CardContent className="p-6">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <Typography as="p" variant="muted" className="text-sm font-medium">
+              {label}
+            </Typography>
+            <Typography
+              as="p"
+              variant="large"
+              className="text-neutral-dashboard-text mt-2 text-2xl font-bold"
+            >
+              {value}
+            </Typography>
+            {sublabel ? (
+              <Typography as="p" variant="muted" className="mt-1 text-xs">
+                {sublabel}
+              </Typography>
+            ) : null}
+          </div>
+          <div
+            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${toneClasses[tone]}`}
+          >
+            <Icon className="h-5 w-5" />
+          </div>
         </div>
-        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${toneClasses[tone]}`}>
-          <Icon className="h-5 w-5" />
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
 import { Building2, DollarSign } from 'lucide-react';
+import { WizardForm, type WizardFormStep } from '@amdlre/design-system';
 
 import { useRouter } from '@/i18n/navigation';
-import { Wizard, WizardStep, type WizardStepConfig } from '@/components/shared/wizard';
 import { FormCard, FormField, FormInputs } from '@/components/dashboard/features/forms/form-primitives';
 import { HeaderInfo } from '@/components/dashboard/shared/header-info';
 import { createUnitAction } from '@/actions/dashboard/entities';
@@ -27,6 +27,7 @@ const UNIT_STATUSES = ['متاحة', 'محجوزة', 'تحتاج تنظيف', '�
 export function UnitCreateForm({ projects }: Props) {
   const t = useTranslations('dashboard.unitForm');
   const tErrors = useTranslations('dashboard.unitForm.errors');
+  const tWiz = useTranslations('dashboard.wizard');
   const router = useRouter();
 
   const form = useForm<UnitCreateFormData>({
@@ -52,7 +53,7 @@ export function UnitCreateForm({ projects }: Props) {
     formState: { errors },
   } = form;
 
-  const steps: WizardStepConfig<UnitCreateFormData>[] = [
+  const steps: WizardFormStep<UnitCreateFormData>[] = [
     {
       id: 'info',
       title: t('steps.info'),
@@ -67,14 +68,6 @@ export function UnitCreateForm({ projects }: Props) {
     },
   ];
 
-  async function handleComplete(values: UnitCreateFormData) {
-    const result = await createUnitAction(values);
-    if (!result.success) return { success: false, message: result.message || t('createFailed') };
-    router.push('/dashboard/units');
-    router.refresh();
-    return { success: true };
-  }
-
   const err = (k?: string) => (k ? tErrors(k) : '');
 
   return (
@@ -86,108 +79,114 @@ export function UnitCreateForm({ projects }: Props) {
         backHref="/dashboard/units"
       />
 
-      <Wizard form={form} steps={steps} onComplete={handleComplete} submitLabel={t('submit')}>
-        <WizardStep id="info">
-          <FormCard title={t('steps.info')}>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="md:col-span-2">
-                <FormField label={t('project')} required error={err(errors.project_id?.message)}>
-                  <select {...register('project_id')} className="input">
-                    {projects.length === 0 ? <option value="">{t('noProjects')}</option> : null}
-                    {projects.map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.name}
-                      </option>
-                    ))}
-                  </select>
-                </FormField>
-              </div>
-              <FormField label={t('unitName')} required error={err(errors.unit_name?.message)}>
-                <input type="text" {...register('unit_name')} className="input" />
-              </FormField>
-              <FormField label={t('unitType')} required error={err(errors.unit_type?.message)}>
-                <select {...register('unit_type')} className="input">
-                  {UNIT_TYPES.map((u) => (
-                    <option key={u} value={u}>
-                      {u}
+      <WizardForm
+        form={form}
+        steps={steps}
+        labels={{ back: tWiz('back'), next: tWiz('next'), submit: t('submit') }}
+        onComplete={async (values) => {
+          const result = await createUnitAction(values);
+          if (!result.success) return { message: result.message || t('createFailed') };
+          router.push('/dashboard/units');
+          router.refresh();
+        }}
+      >
+        <FormCard title={t('steps.info')}>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="md:col-span-2">
+              <FormField label={t('project')} required error={err(errors.project_id?.message)}>
+                <select {...register('project_id')} className="input">
+                  {projects.length === 0 ? <option value="">{t('noProjects')}</option> : null}
+                  {projects.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name}
                     </option>
                   ))}
                 </select>
-              </FormField>
-              <FormField label={t('rooms')} required error={err(errors.rooms?.message)}>
-                <input
-                  type="number"
-                  {...register('rooms', { valueAsNumber: true })}
-                  className="input"
-                />
-              </FormField>
-              <FormField label={t('status')} required error={err(errors.status?.message)}>
-                <select {...register('status')} className="input">
-                  {UNIT_STATUSES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </select>
-              </FormField>
-              <FormField label={t('floor')} error={err(errors.floor_number?.message)}>
-                <input
-                  type="number"
-                  {...register('floor_number', { valueAsNumber: true })}
-                  className="input"
-                />
-              </FormField>
-              <FormField label={t('area')} error={err(errors.unit_area?.message)}>
-                <input
-                  type="number"
-                  step="0.1"
-                  {...register('unit_area', { valueAsNumber: true })}
-                  className="input"
-                />
-              </FormField>
-              <div className="md:col-span-2">
-                <FormField label={t('description')} error={err(errors.description?.message)}>
-                  <textarea {...register('description')} className="input" />
-                </FormField>
-              </div>
-              <FormField label={t('permitNo')} error={err(errors.permit_no?.message)}>
-                <input type="text" {...register('permit_no')} className="input" />
               </FormField>
             </div>
-          </FormCard>
-        </WizardStep>
+            <FormField label={t('unitName')} required error={err(errors.unit_name?.message)}>
+              <input type="text" {...register('unit_name')} className="input" />
+            </FormField>
+            <FormField label={t('unitType')} required error={err(errors.unit_type?.message)}>
+              <select {...register('unit_type')} className="input">
+                {UNIT_TYPES.map((u) => (
+                  <option key={u} value={u}>
+                    {u}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+            <FormField label={t('rooms')} required error={err(errors.rooms?.message)}>
+              <input
+                type="number"
+                {...register('rooms', { valueAsNumber: true })}
+                className="input"
+              />
+            </FormField>
+            <FormField label={t('status')} required error={err(errors.status?.message)}>
+              <select {...register('status')} className="input">
+                {UNIT_STATUSES.map((s) => (
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
+                ))}
+              </select>
+            </FormField>
+            <FormField label={t('floor')} error={err(errors.floor_number?.message)}>
+              <input
+                type="number"
+                {...register('floor_number', { valueAsNumber: true })}
+                className="input"
+              />
+            </FormField>
+            <FormField label={t('area')} error={err(errors.unit_area?.message)}>
+              <input
+                type="number"
+                step="0.1"
+                {...register('unit_area', { valueAsNumber: true })}
+                className="input"
+              />
+            </FormField>
+            <div className="md:col-span-2">
+              <FormField label={t('description')} error={err(errors.description?.message)}>
+                <textarea {...register('description')} className="input" />
+              </FormField>
+            </div>
+            <FormField label={t('permitNo')} error={err(errors.permit_no?.message)}>
+              <input type="text" {...register('permit_no')} className="input" />
+            </FormField>
+          </div>
+        </FormCard>
 
-        <WizardStep id="pricing">
-          <FormCard title={t('steps.pricing')}>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <FormField
-                label={t('weekdayPrice')}
-                required
-                error={err(errors.base_weekday_price?.message)}
-              >
-                <input
-                  type="number"
-                  step="0.01"
-                  {...register('base_weekday_price', { valueAsNumber: true })}
-                  className="input"
-                />
-              </FormField>
-              <FormField
-                label={t('weekendMarkup')}
-                hint={t('weekendMarkupHint')}
-                error={err(errors.weekend_markup_percent?.message)}
-              >
-                <input
-                  type="number"
-                  step="0.01"
-                  {...register('weekend_markup_percent', { valueAsNumber: true })}
-                  className="input"
-                />
-              </FormField>
-            </div>
-          </FormCard>
-        </WizardStep>
-      </Wizard>
+        <FormCard title={t('steps.pricing')}>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <FormField
+              label={t('weekdayPrice')}
+              required
+              error={err(errors.base_weekday_price?.message)}
+            >
+              <input
+                type="number"
+                step="0.01"
+                {...register('base_weekday_price', { valueAsNumber: true })}
+                className="input"
+              />
+            </FormField>
+            <FormField
+              label={t('weekendMarkup')}
+              hint={t('weekendMarkupHint')}
+              error={err(errors.weekend_markup_percent?.message)}
+            >
+              <input
+                type="number"
+                step="0.01"
+                {...register('weekend_markup_percent', { valueAsNumber: true })}
+                className="input"
+              />
+            </FormField>
+          </div>
+        </FormCard>
+      </WizardForm>
 
       <FormInputs />
     </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { Card, CardContent, Label, Typography } from '@amdlre/design-system';
 
 export function FormField({
   label,
@@ -17,27 +18,41 @@ export function FormField({
 }) {
   return (
     <div>
-      <label className="text-neutral-dashboard-text mb-1 block text-sm font-medium">
+      <Label className="text-neutral-dashboard-text mb-1 block text-sm font-medium">
         {label}
         {required ? <span className="ms-1 text-red-500">*</span> : null}
-      </label>
+      </Label>
       {children}
-      {hint && !error ? <p className="text-neutral-dashboard-muted mt-1 text-xs">{hint}</p> : null}
-      {error ? <p className="mt-1 text-xs text-red-600">{error}</p> : null}
+      {hint && !error ? (
+        <Typography as="p" variant="muted" className="mt-1 text-xs">
+          {hint}
+        </Typography>
+      ) : null}
+      {error ? (
+        <Typography as="p" variant="muted" className="mt-1 text-xs text-red-600">
+          {error}
+        </Typography>
+      ) : null}
     </div>
   );
 }
 
 export function FormCard({ title, children }: { title?: string; children: ReactNode }) {
   return (
-    <div className="bg-neutral-dashboard-card border-neutral-dashboard-border space-y-6 rounded-xl border p-6 shadow-sm">
-      {title ? (
-        <h2 className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold">
-          {title}
-        </h2>
-      ) : null}
-      {children}
-    </div>
+    <Card className="border-neutral-dashboard-border">
+      <CardContent className="space-y-6 p-6">
+        {title ? (
+          <Typography
+            as="h2"
+            variant="h4"
+            className="border-neutral-dashboard-border text-neutral-dashboard-text border-b pb-3 text-base font-bold"
+          >
+            {title}
+          </Typography>
+        ) : null}
+        {children}
+      </CardContent>
+    </Card>
   );
 }
 
